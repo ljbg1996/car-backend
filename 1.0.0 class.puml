@@ -1,0 +1,62 @@
+@startuml
+@startuml
+class Car {
+    - VIN: string
+    + getVIN(): string
+    + setVIN(vin: string): void
+}
+
+class Customer {
+    - Id: string
+    - Name: string
+    - List<Car> car
+    + getCustomerId(): string
+    + setCustomerId(number: string): void
+    + getCustomerName(): string
+    + setCustomerName(name: string): void
+    + getCar(): List<Car> car
+    + setCar(List<Car> car): void
+}
+
+
+
+class Product {
+    - number: string
+    - duration: int
+    - List<Service> service
+    + getNumber(): string
+    + setNumber(number: string): void
+    + getService(): List<Service> service
+    + setService(List<Service> service): void
+}
+
+abstract class Service {
+    - name: string
+    - description: string
+    + getName(): string
+    + setName(name: string): void
+    + getDescription(): string
+    + setDescription(description: string): void
+}
+
+class ProductUsage {
+    - start: date
+    - end: date
+    - Product: product
+    + getStart(): date
+    + setStart(start: date): void
+    + getEnd(): date
+    + setEnd(end: date): void
+    + getProduct(): Product
+    + setProduct(product: Product): void
+}
+
+Customer "1" --> "0..*" Car
+Car "1" --> "0..*" Product
+Car "1" --> "0..*" ProductUsage
+ProductUsage "1"--> "1"Product
+Product "1" --> "0..*" Service
+
+@enduml
+
+@enduml
