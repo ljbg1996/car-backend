@@ -1,22 +1,33 @@
 @startuml
-'https://plantuml.com/use-case-diagram
+left to right direction
 
-:Main Admin: as Admin
-(Use the application) as (Use)
+actor "Auto" as at
+rectangle System{
 
-User -> (Start)
-User --> (Use)
 
-Admin ---> (Use)
 
-note right of Admin : This is an example.
-
-note right of (Use)
-A note can also
-be on several lines
+(View compatible Product) -> (Select compatible Product with Services): <<include>>
+(Select compatible Product with Services) -> (View runtime prices3/6/9/12): <<include>>
+(Buy Product) --> (extend License) : <<extend>>
+(Buy Product) --> (create License) : <<extend>>
+note right of (create License) : if not licensed
+note right of (extend License)
+if already licensed
 end note
 
-note "This note is connected\nto several objects." as N2
-(Start) .. N2
-N2 .. (Use)
+(View runtime prices3/6/9/12) --> (Buy Product) : << include>>
+(View compatible Product) -> (View runtime prices3/6/9/12) : <<include>>
+(View runtime prices3/6/9/12) --> (View compatible Product) : <<include>>
+
+(View active Licenses) --> (View Vehicle List): <<include>>
+(View active Licenses) --> (View Product List): <<include>>
+(View Vehicle List) <--> (View Product List): <<extend>>
+(View Product List) --> (View Service List): <<include>>
+(View Service List) <- (Use Service): <<extend>>
+}
+
+at --> (View compatible Product)
+at --> (Buy Product)
+at -> (View active Licenses)
+at -> (Use Service)
 @enduml
