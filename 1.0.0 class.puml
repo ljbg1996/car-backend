@@ -1,9 +1,11 @@
-
 @startuml
 class Car {
     - VIN: string
+    - -List<Product> product
     + getVIN(): string
     + setVIN(vin: string): void
+    + getProduct(): List<Product>
+    + setProduct(List<Product> product): void
 }
 
 class Customer {
@@ -14,19 +16,19 @@ class Customer {
     + setCustomerId(number: string): void
     + getCustomerName(): string
     + setCustomerName(name: string): void
-    + getCar(): List<Car> car
+    + getCar(): List<Car>
     + setCar(List<Car> car): void
+    + purchaseProduct(product: Product, car: Car): void
 }
-
-
 
 class Product {
     - number: string
     - duration: int
     - List<Service> service
+
     + getNumber(): string
     + setNumber(number: string): void
-    + getService(): List<Service> service
+    + getService(): List<Service>
     + setService(List<Service> service): void
 }
 
@@ -43,18 +45,45 @@ class ProductUsage {
     - start: date
     - end: date
     - Product: product
+    - Car: car
     + getStart(): date
     + setStart(start: date): void
     + getEnd(): date
     + setEnd(end: date): void
     + getProduct(): Product
     + setProduct(product: Product): void
+    + getCar(): Car
+    + setCar(car: Car): void
+    + extendProductUsage(usage: ProductUsage, duration: int): void
+}
+
+Interface PaymentSystem {
+    + handlePayment(): boolean
+}
+
+Interface Purchase {
+    - paymentSystem: PaymentSystem
+    + createProductUsage(product: Product, car: Car): ProductUsage
+}
+
+Interface MoTaCoCaInterface {
+    + receivePayment(product: Product, car: Car): void
 }
 
 Customer "1" --> "0..*" Car
 Car "1" --> "0..*" Product
-Car "1" --> "0..*" ProductUsage
-ProductUsage "1"--> "1"Product
+Car "1" <-- "0..*" ProductUsage
+ProductUsage "1"-- "1"Product
 Product "1" --> "0..*" Service
 
+Customer --> Purchase
+Purchase --> PaymentSystem
+Purchase --> ProductUsage
+MoTaCoCaInterface <|-down- PaymentSystem
+PaymentSystem ..> MoTaCoCaInterface : notifies
 @enduml
+
+
+
+
+

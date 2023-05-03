@@ -29,7 +29,7 @@ class ExternalSystem {
     + makePayment(product: Product, vehicle: Vehicle): boolean
 }
 
-class MoTaCoCaInterface {
+Interface MoTaCoCaInterface {
     + receivePayment(product: Product, vehicle: Vehicle): void
 }
 
