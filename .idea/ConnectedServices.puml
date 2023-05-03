@@ -1,0 +1,8 @@
+@startuml
+title Connected Services\n\n
+
+Kunde-> Cellector: Authentication Request
+Collector-> DB: Authentication Request
+DB--> Collector: Authentication Response
+Collector--> Kunde: Authentication Response
+@enduml
