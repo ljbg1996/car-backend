@@ -1,0 +1,54 @@
+@startuml
+class Vehicle {
+    - vin: String
+    + Vehicle(vin: String)
+}
+
+class Product {
+    - productId: String
+    - services: List<Service>
+    - duration: int
+    + Product(productId: String, services: List<Service>, duration: int)
+}
+
+abstract class Service {
+    - serviceId: String
+    + Service(serviceId: String)
+}
+
+class UsageRight {
+    - product: Product
+    - startDate: Date
+    - endDate: Date
+    + UsageRight(product: Product, startDate: Date, endDate: Date)
+}
+
+class ExternalSystem {
+    - url: String
+    - token: String
+    + makePayment(product: Product, vehicle: Vehicle): boolean
+}
+
+class MoTaCoCaInterface {
+    + receivePayment(product: Product, vehicle: Vehicle): void
+}
+
+class ServiceListController {
+    - vehicle: Vehicle
+    - usageRights: List<UsageRight>
+    + ServiceListController(vehicle: Vehicle)
+    + getUsageRights(): List<UsageRight>
+    + purchaseProduct(productId: String): boolean
+}
+
+Vehicle *-- UsageRight
+Product *-- Service
+Product *-- UsageRight
+ExternalSystem ..> MoTaCoCaInterface : notifies
+ServiceListController *-- Vehicle
+ServiceListController o-- UsageRight
+ServiceListController o-- Product
+ServiceListController ..> ExternalSystem : uses
+MoTaCoCaInterface <|-down- ExternalSystem
+
+@enduml
