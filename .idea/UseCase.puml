@@ -1,0 +1,17 @@
+@startuml
+left to right direction
+actor User
+rectangle "Choose Product" as CP {
+  rectangle "Choose Product" as CS
+  rectangle "Choose Runtime" as CR
+}
+rectangle "Complete Purchase" as CP2
+rectangle "Create Licenses" as CL
+
+User --> CP
+CP --> CS
+CS --> CR
+CR --> CP2
+CP2 --> CL
+
+@enduml
