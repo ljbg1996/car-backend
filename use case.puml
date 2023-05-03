@@ -6,28 +6,27 @@ rectangle System{
 
 
 
-(View compatible Product) -> (Select compatible Product with Services): <<include>>
-(Select compatible Product with Services) -> (View runtime prices3/6/9/12): <<include>>
-(Buy Product) --> (extend License) : <<extend>>
-(Buy Product) --> (create License) : <<extend>>
+(View compatible Product) ---> (Select compatible Product with Services): <<include>>
+(Select compatible Product with Services) ----> (View runtime prices3/6/9/12): <<include>>
+(Buy Product) ---> (extend License) : <<extend>>
+(Buy Product) ---> (create License) : <<extend>>
 note right of (create License) : if not licensed
 note right of (extend License)
 if already licensed
 end note
 
-(View runtime prices3/6/9/12) --> (Buy Product) : << include>>
-(View compatible Product) -> (View runtime prices3/6/9/12) : <<include>>
-(View runtime prices3/6/9/12) --> (View compatible Product) : <<include>>
+(View runtime prices3/6/9/12) ---> (Buy Product) : << include>>
+(View runtime prices3/6/9/12) -----> (View compatible Product) : <<include>>
 
-(View active Licenses) --> (View Vehicle List): <<include>>
-(View active Licenses) --> (View Product List): <<include>>
-(View Vehicle List) <--> (View Product List): <<extend>>
-(View Product List) --> (View Service List): <<include>>
+(View active Licenses) ---> (View Vehicle List): <<include>>
+(View active Licenses) -> (View Product List): <<include>>
+(View Vehicle List) <-> (View Product List): <<extend>>
+(View Product List) -------> (View Service List): <<include>>
 (View Service List) <- (Use Service): <<extend>>
 }
 
 at --> (View compatible Product)
 at --> (Buy Product)
 at -> (View active Licenses)
-at -> (Use Service)
+at ----------> (Use Service)
 @enduml
