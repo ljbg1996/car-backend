@@ -1,12 +1,29 @@
 @startuml
 'https://plantuml.com/sequence-diagram
 
-autonumber
+actor Customer
+entity ProductSelection
+control ServiceSelection
+entity ProductPurchase
+control PaymentTypeControler
+entity ServiceRights
+database Database
+control DatabaseControler
 
-Customer-> Purchase: Authentication Request
-Purchase-> PaymentSystem: Authentication Response
 
-PaymentSystem-> MoTarCoInterface: Authentication Request
+Customer -> ProductSelection:Select Product
+ProductSelection -> ServiceSelection: Select Service
+ServiceSelection -> ServiceSelection:3/6/9/12
+ServiceSelection -> ProductPurchase: Buy Product
+ProductPurchase -> PaymentTypeControler: Select Payment Method
+PaymentTypeControler -> Database: Process Payment & Product
+Database -> DatabaseControler: Check to see if its valid
+DatabaseControler --> Database: Store Order
+Database --> ServiceRights: Confirmation of purchase
+ServiceRights ->Customer: Licence is created
+
+
+
+
 @enduml
 
-#testtest
