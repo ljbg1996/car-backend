@@ -71,9 +71,10 @@ Interface MoTaCoCaInterface {
 }
 
 Customer "1" --> "0..*" Car
-Car "1" --> "0..*" Product
-Car "1" <-- "0..*" ProductUsage
+Car "1" --> "0..*" ProductUsage
 ProductUsage "1"-- "1"Product
+Purchase "1"..>"1" Product : use
+Purchase "1"..>"1" Car : use
 Product "1" --> "0..*" Service
 
 Customer --> Purchase
