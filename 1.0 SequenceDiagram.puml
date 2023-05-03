@@ -1,0 +1,12 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+Customer-> Purchase: Authentication Request
+Purchase-> PaymentSystem: Authentication Response
+
+PaymentSystem-> MoTarCoInterface: Authentication Request
+@enduml
+
+#testtest
