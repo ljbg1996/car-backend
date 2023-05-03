@@ -1,36 +1,32 @@
 @startuml
-'https://plantuml.com/use-case-diagram
-
-
 left to right direction
-skinparam packageStyle rectangle
 
-actor Customer
-
-
-package {
-
-
-    Customer --> (Buy Product)
-    (Buy Product) --> (Select Compatible Product with Services)
-    (Select Compatible Product with Services)---> (Select Runtime 3/6/9/12)
-    (Select Runtime 3/6/9/12)---> (Purchase)
+actor "Auto" as at
+rectangle System{
 
 
 
+(View compatible Product) ---> (Select compatible Product with Services): <<include>>
+(Select compatible Product with Services) ----> (View runtime prices3/6/9/12): <<include>>
+(Buy Product) ---> (extend License) : <<extend>>
+(Buy Product) ---> (create License) : <<extend>>
+note right of (create License) : if not licensed
+note right of (extend License)
+if already licensed
+end note
 
-    Customer --> (View Product)
-    (View Product) --> (Select Vehicle & check Vehicle compatiblity)
-    (Select Vehicle & check Vehicle compatiblity)---> (view RunTime prices 3/6/9/12)
+(View runtime prices3/6/9/12) ---> (Buy Product) : << include>>
+(View runtime prices3/6/9/12) -----> (View compatible Product) : <<include>>
 
-
-
-
-    Customer --> (View Active Licence)
-    (View Active Licence) -> (View Vehicle Licence List)
-
-
-
-
+(View active Licenses) ---> (View Vehicle List): <<include>>
+(View active Licenses) -> (View Product List): <<include>>
+(View Vehicle List) <-> (View Product List): <<extend>>
+(View Product List) -------> (View Service List): <<include>>
+(View Service List) <- (Use Service): <<extend>>
 }
+
+at --> (View compatible Product)
+at --> (Buy Product)
+at -> (View active Licenses)
+at ----------> (Use Service)
 @enduml
