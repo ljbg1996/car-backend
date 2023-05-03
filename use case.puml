@@ -9,28 +9,28 @@ actor Customer
 
 
 package {
-rectangle UseCase-1 {
+
+
     Customer --> (Buy Product)
     (Buy Product) --> (Select Compatible Product with Services)
     (Select Compatible Product with Services)---> (Select Runtime 3/6/9/12)
     (Select Runtime 3/6/9/12)---> (Purchase)
 
-}
 
-rectangle UseCase-2 {
+
+
     Customer --> (View Product)
     (View Product) --> (Select Vehicle & check Vehicle compatiblity)
     (Select Vehicle & check Vehicle compatiblity)---> (view RunTime prices 3/6/9/12)
-    (view RunTime prices 3/6/9/12)---> (PurchaseProduct)
 
-}
 
-rectangle UseCase-3 {
+
+
     Customer --> (View Active Licence)
     (View Active Licence) -> (View Vehicle Licence List)
 
 
 
-}
+
 }
 @enduml
