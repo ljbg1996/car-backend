@@ -1,28 +1,25 @@
 @startuml
 left to right direction
 
-actor "Auto" as at
+actor "Customer" as at
 rectangle System{
 
 
 
-(View compatible Product) ---> (Select compatible Product with Services): <<include>>
-(Select compatible Product with Services) ----> (View runtime prices3/6/9/12): <<include>>
+(Buy Product) ---> (Select compatible Product with Services): <<include>>
+(Select compatible Product with Services) ----> (Select Runtime 3/6/9/12): <<include>>
+(Select Runtime 3/6/9/12) ->(Purchase)
 
 
 
-(View runtime prices3/6/9/12) ---> (Buy Product) : << include>>
-(View runtime prices3/6/9/12) -----> (View compatible Product) : <<include>>
+(View Compatible Products)---> (View runtime 3/6/9/12): << include>>
 
-(View active Licenses) ---> (View Vehicle List): <<include>>
-(View active Licenses) -> (View Product List): <<include>>
-(View Vehicle List) <-> (View Product List): <<extend>>
-(View Product List) -------> (View Service List): <<include>>
-(View Service List) <- (Use Service): <<extend>>
+
+(View active Licenses)->(View Vehicle License List)
 }
 
-at --> (View compatible Product)
+at --> (View Compatible Products)
 at --> (Buy Product)
 at -> (View active Licenses)
-at ----------> (Use Service)
+
 @enduml
