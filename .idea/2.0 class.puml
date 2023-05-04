@@ -5,6 +5,15 @@ class Car {
     - serviceList: List<Service>
     - licenseList: List<License>
 
+    + setLicenseList(List<License> licenseList): void
+    + setserviceList(List<Service> serviceList): void
+    + setOwner(Customer c): void
+
+}
+
+class CarRepository{
+
+
 }
 
 class Customer {
@@ -12,12 +21,31 @@ class Customer {
     - name: string
     - car: List<Car>
 
+    + addCar(String vin): void
+
+
 }
+
+class CustomerRepository{
+
+
+}
+
+
 
 class Product {
     - productId: long
     - name: string
-    - service: List<Service>
+    - serviceList: List<Service>
+    - price: double
+
+    + setPrice(double price): void
+    + getServiceList(): List<Service>
+
+}
+
+class ProductRepository{
+
 
 }
 
@@ -26,6 +54,12 @@ class Service {
     - name: string
     - description: string
     - duration: int
+
+    + setDuration(int duration): void
+}
+
+class ServiceRepository{
+
 
 }
 
@@ -37,18 +71,65 @@ class License {
     - service: Service
     - Car: car
 
+   '+ extendLicense(license: License, duration: int): void
+
 }
 
-class LicenseController {
+class LicenseRepository{
+
+
+}
+
+class ViewLicenseController {
+
+
+    + getLicense(): List<License>
+
+}
+
+class BuyController {
 
     + buy(vin, customerId, productId): boolean
+
+}
+
+class ViewProductController {
+
+
+}
+
+class ViewLicenseService{
+
     + createLicense(ProductId, CustomerId): License
-    + getLicense(): List<License>
-    + extendProductUsage(license: License, duration: int): void
+
+}
+
+class BuyService {
+
+
+}
+
+class ViewProductService {
+
+
 }
 
 
 
+
+
+
+
+LicenseRepository-- License
+ViewLicenseController -- ViewLicenseService
+LicenseRepository -- ViewLicenseService
+ProductRepository -- Product
+ProductRepository -- ViewProductService
+ViewProductController -- ViewProductService
+BuyService -- BuyController
+CarRepository -- Car
+CustomerRepository -- Customer
+ServiceRepository -- Service
 Customer "1" --> "0..*" Car
 Car "1" --> "0..*" License
 Car "1" --> "0..*" Service
