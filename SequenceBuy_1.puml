@@ -3,16 +3,23 @@
 
 actor Client as c
 participant BuyController as co
-participant Car as ca
-participant Products as p
 participant BuyService as s
 participant LicenseController as lc
 participant License as l
+participant Car as ca
+participant Products as p
 database Database as db
 
-c -> co:
-co-> s:CustomerID, ProductId, Duration
-s->  l: BuyMethod()
+c -> co: getMapping(): CustomerID, ProductID, Duration, Vin
+co-> s: buy(CustomerID, ProductID, Duration, Vin): void
+'s -> ca: setProduct(ProductId, Vin)
+ca -> ls: setService(ServiceID)
+
+s-> ls: Duration, ProductID
+ls->  l: createLicense(ProductID, Duration)
+l->p: getServices(ProductID)
+p->l: returnServices(List<Services>)
+l->ls: returnLicense(List<License>)
 
 
 

@@ -1,0 +1,18 @@
+@startuml
+actor User
+participant Controller
+participant Service
+participant Repository
+participant PaymentSystem
+participant Car
+
+Database --> Repository : Save purchase record
+User -> Controller : Purchase Product for Car
+Controller -> Service : Create License for Car
+Service -> Repository : Save Purchase
+Service -> PaymentSystem : Charge Payment
+PaymentSystem --> Service : Payment Result
+Service --> Controller : License Details
+Controller -> Car : Associate License
+Controller --> User : Display License Details
+@enduml
