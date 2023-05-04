@@ -1,0 +1,25 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+actor Client as c
+participant Products as p
+participant Service as s
+participant Vehicle as v
+participant License as l
+participant LicenseController as lc
+database Database as db
+
+c->p: views products
+p->p: selectRuntime()
+c->p: buys product
+p->s: getServices()
+p->lc: buyProduct()
+lc->l: createLicense()
+lc->db: saveLicense()
+c->v: startsCar()
+v->lc:getLicense()
+lc->db:getLicense()
+
+
+
+@enduml
