@@ -1,11 +1,21 @@
 @startuml
 'https://plantuml.com/sequence-diagram
 
-autonumber
+actor Client as c
+participant BuyController as co
+participant Car as ca
+participant Products as p
+participant BuyService as s
+participant LicenseController as lc
+participant License as l
+database Database as db
 
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
+c -> co:
+co-> s:CustomerID, ProductId, Duration
+s->  l: BuyMethod()
 
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
+
+
+
+
 @enduml
