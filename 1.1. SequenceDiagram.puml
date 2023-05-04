@@ -10,14 +10,13 @@ participant LicenseController as lc
 database Database as db
 
 c->p: views products
-p->p: selectRuntime()
 c->p: buys product
 p->s: getServices()
+p->p: selectRuntime()
 p->lc: buyProduct()
-lc->l: createLicense()
 lc->db: saveLicense()
 c->v: startsCar()
-v->lc:getLicense()
+v->db:saveVin()
 lc->db:getLicense()
 
 
