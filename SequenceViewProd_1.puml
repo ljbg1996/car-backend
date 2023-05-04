@@ -3,9 +3,15 @@
 
 autonumber
 
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
+Actor Customer as c
+Participant ViewControler as vc
+database Database as db
 
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
+c -> vc:getProductId()
+activate vc
+vc -> db:getProductId
+activate db
+db -> vc: getProductInfo
+activate vc
+vc -> c: getProductInfo
 @enduml
