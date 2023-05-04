@@ -3,16 +3,32 @@ actor User
 participant Controller
 participant Service
 participant Repository
-participant PaymentSystem
-participant Car
+participant PaymentGateway
 
-Database --> Repository : Save purchase record
-User -> Controller : Purchase Product for Car
-Controller -> Service : Create License for Car
-Service -> Repository : Save Purchase
-Service -> PaymentSystem : Charge Payment
-PaymentSystem --> Service : Payment Result
-Service --> Controller : License Details
-Controller -> Car : Associate License
-Controller --> User : Display License Details
+
+participant License
+database Database
+
+User -> Controller : Place Order (Vin, ProductId)
+Controller -> Service : Process Order (Vin, ProductId)
+Service -> Repository : Save Order (Vin, ProductId)
+Service -> PaymentGateway : Send Payment Request
+PaymentGateway --> Service : Payment Result : boolean
+Service -> Service : quit(PaymentResult)
+Service --> User : endBuy()
+Service -> Repository : EntityFind(Vin, ProductId)
+Repository -> Database : Create oder Read Car Instance (Vin)
+Database--> Repository : Object: Car
+Repository -> Database : Create oder Read Product Instance (ProductId)
+Database --> Repository: Object: Product
+Service -> Repository : Create License (Product, Car)
+Repository -> License : Create License Instance (License)
+License --> Repository : Object : License
+Repository -> Database : Save License(License)
+Repository -> Database : Update License Car(License, Car)
+Service -> Repository : Assign License to Product (License, Product)
+Repository -> Database : Update License Product(License, Product)
+Service -> Controller : Return License (License)
+Controller -> User : Display License (License)
 @enduml
+
