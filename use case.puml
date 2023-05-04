@@ -8,12 +8,8 @@ rectangle System{
 
 (View compatible Product) ---> (Select compatible Product with Services): <<include>>
 (Select compatible Product with Services) ----> (View runtime prices3/6/9/12): <<include>>
-(Buy Product) ---> (extend License) : <<extend>>
-(Buy Product) ---> (create License) : <<extend>>
-note right of (create License) : if not licensed
-note right of (extend License)
-if already licensed
-end note
+
+
 
 (View runtime prices3/6/9/12) ---> (Buy Product) : << include>>
 (View runtime prices3/6/9/12) -----> (View compatible Product) : <<include>>
