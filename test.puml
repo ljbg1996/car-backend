@@ -31,4 +31,3 @@ Repository -> Database : Update License Product(License, Product)
 Service -> Controller : Return License (License)
 Controller -> User : Display License (License)
 @enduml
-
