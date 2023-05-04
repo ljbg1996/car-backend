@@ -1,0 +1,61 @@
+@startuml
+class Car {
+    - vin: string
+    - owner: Customer
+    - serviceList: List<Service>
+    - licenseList: List<License>
+
+}
+
+class Customer {
+    - customerId: long
+    - name: string
+    - car: List<Car>
+
+}
+
+class Product {
+    - productId: long
+    - name: string
+    - service: List<Service>
+
+}
+
+class Service {
+    - serviceId: long
+    - name: string
+    - description: string
+    - duration: int
+
+}
+
+class License {
+    - licenseId: long
+    - start: date
+    - end: date
+    - product: Product
+    - service: Service
+    - Car: car
+
+}
+
+class LicenseController {
+
+    + buy(vin, customerId, productId): boolean
+    + createLicense(ProductId, CustomerId): License
+    + getLicense(): List<License>
+    + extendProductUsage(license: License, duration: int): void
+}
+
+
+
+Customer "1" --> "0..*" Car
+Car "1" --> "0..*" License
+Car "1" --> "0..*" Service
+License "0..*"--> "1"Product
+Product "0..*" --> "0..*" Service
+
+@enduml
+
+
+
