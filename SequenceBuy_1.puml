@@ -1,6 +1,6 @@
 @startuml
 'https://plantuml.com/sequence-diagram
-
+autonumber
 actor Client as c
 participant PurchaseSystem as ps
 participant BuyController as co
@@ -37,12 +37,13 @@ l-->ls: returnLicense(List<License>)
 
 ls-> lr: writeLicense(List<Services>, Duration)
 lr->db: update Licenses
-db-->lr: return List<License>
-lr-->  ls: return Updated Licenses: List<Services>
-ls->s: returnLicense(List<License>)
+db-->lr: returnLicenseSuccess
+lr-->  ls: return Updated Licenses: boolean
+ls-->s: returnLicenseSuccess:boolean
 deactivate ls
-
+s-->co: returnLicenseSuccess:boolean
 deactivate s
+co->c: returnLicenseSuccess:boolean
 
 
 
