@@ -98,7 +98,7 @@ class ViewProductController {
 
 }
 
-class ViewLicenseService{
+class LicenseService{
 
     + createLicense(ProductId, CustomerId): License
 
@@ -121,8 +121,8 @@ class ViewProductService {
 
 
 LicenseRepository-- License
-ViewLicenseController -- ViewLicenseService
-LicenseRepository -- ViewLicenseService
+ViewLicenseController -- LicenseService
+LicenseRepository -- LicenseService
 ProductRepository -- Product
 ProductRepository -- ViewProductService
 ViewProductController -- ViewProductService
