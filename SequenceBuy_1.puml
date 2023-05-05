@@ -2,8 +2,9 @@
 'https://plantuml.com/sequence-diagram
 autonumber
 actor Client as c
-participant PurchaseSystem as ps
+
 participant BuyController as co
+participant PurchaseSystem as ps
 participant BuyService as s
 'participant LicenseController as lc
 participant LicenseService as ls
@@ -14,6 +15,7 @@ participant LicenseRepository as lr
 database Database as db
 
 c->ps : doPurchase()
+'TODO add details Purchase
 activate ps
 ps->c : returnCompleted(): boolean
 deactivate ps
