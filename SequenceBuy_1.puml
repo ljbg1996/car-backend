@@ -2,6 +2,7 @@
 'https://plantuml.com/sequence-diagram
 
 actor Client as c
+participant ThrirdParty as tp
 participant BuyController as co
 participant BuyService as s
 'participant LicenseController as lc
@@ -11,17 +12,26 @@ participant Car as ca
 participant Products as p
 database Database as db
 
+c->tp : doPurchase()
+tp->c : returnCompleted(): boolean
+
 c -> co: getMapping(): CustomerID, ProductID, Duration, Vin
+
 co-> s: buy(CustomerID, ProductID, Duration, Vin): void
+activate s
 's -> ca: setProduct(ProductId, Vin)
-ca -> ls: setService(ServiceID)
+'ca -> ls: setService(ServiceID)
 
-s-> ls: Duration, ProductID
-ls->  l: createLicense(ProductID, Duration)
-l->p: getServices(ProductID)
-p->l: returnServices(List<Services>)
+s-> ls: createLicenses(Duration, ProductID)
+activate ls
+ls->p: getServices(ProductID)
+p->ls: returnServices(List<Services>)
+
+ls->  l: createLicense(Liste<Services>, Duration)
+
 l->ls: returnLicense(List<License>)
-
+deactivate ls
+deactivate s
 
 
 
