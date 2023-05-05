@@ -27,7 +27,10 @@ activate s
 s-> ls: createLicenses(Duration, ProductID)
 activate ls
 ls->p: getServices(ProductID)
+p->db: getProductFromDB
+db->p: returnProduct
 p-->ls: returnServices(List<Services>)
+
 
 ls->  l: createLicense(List<Services>, Duration)
 
