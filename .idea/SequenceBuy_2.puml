@@ -1,0 +1,74 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+autonumber
+
+actor Client as c
+
+participant BuyController as co
+participant PurchaseSystem as ps
+participant Order as o
+participant Products as pr
+participant Services as s
+participant BuyService as bs
+'participant LicenseController as lc
+participant LicenseService as ls
+participant License as l
+participant CarRepository as ca
+participant ProductsRepository as p
+participant LicenseRepository as lr
+database Database as db
+
+c->ps : doPurchase()
+'TODO add details Purchase
+activate ps
+ps->o: placeOrder()
+o->pr:getProduct()
+pr->s:addService(ServiceId, price)
+s->pr:returnServiceId
+loop addMoreServices()
+    s -> pr:addServiceToProductId()
+end
+pr->o:returnProductId
+loop addAnotherProcct()
+    pr -> o:addProductId(ServiceId,Price)
+end
+o ->ps:returnOrder(ProductId,totalPrice)
+
+
+ps->c : returnCompleted(): boolean
+deactivate ps
+c -> co: getMapping(): CustomerID, ProductID, Duration, Vin
+
+co-> s: buy(CustomerID, ProductID, Duration, Vin): void
+activate bs
+'s -> ca: setProduct(ProductId, Vin)
+'ca -> ls: setService(ServiceID)
+
+bs-> ls: createLicenses(Duration, ProductID)
+activate ls
+ls->p: getServices(ProductID)
+p->db: getProductFromDB
+db->p: returnProduct
+p-->ls: returnServices(List<Services>)
+
+
+ls->  l: createLicense(List<Services>, Duration)
+
+l-->ls: returnLicense(List<License>)
+
+
+
+ls-> lr: writeLicense(List<Services>, Duration)
+lr->db: update Licenses
+db-->lr: returnLicenseSuccess
+lr-->  ls: return Updated Licenses: boolean
+ls-->s: returnLicenseSuccess:boolean
+deactivate ls
+bs-->co: returnLicenseSuccess:boolean
+deactivate s
+co->c: returnLicenseSuccess:boolean
+
+
+
+
+@enduml
