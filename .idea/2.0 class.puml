@@ -60,11 +60,11 @@ class Service {
 
 }
 
-class ServiceRepository{
+'class ServiceRepository{
 
-    +getServiceFromDb(serviceId): Service
+ '   +getServiceFromDb(serviceId): Service
 
-}
+'}
 
 class License {
     - licenseId: long
@@ -133,7 +133,7 @@ ViewProductController -- ViewProductService
 BuyService -- BuyController
 CarRepository -- Car
 'CustomerRepository -- Customer
-ServiceRepository -- Service
+'ServiceRepository -- Service
 Customer "1" --> "0..*" Car
 Car "1" --> "0..*" License
 Car "1" --> "0..*" Service
