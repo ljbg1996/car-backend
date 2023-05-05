@@ -8,10 +8,13 @@ class Car {
     + setLicenseList(List<License> licenseList): void
     + setserviceList(List<Service> serviceList): void
     + setOwner(Customer c): void
+    + getServiceList(): List<Service>
 
 }
 
 class CarRepository{
+
+    + getCarFromDb((String vin): Car
 
 
 }
@@ -26,11 +29,9 @@ class Customer {
 
 }
 
-class CustomerRepository{
+'class CustomerRepository{}
 
-
-}
-
+'class ProductRepository{}
 
 
 class Product {
@@ -44,22 +45,24 @@ class Product {
 
 }
 
-class ProductRepository{
 
-
-}
 
 class Service {
     - serviceId: long
     - name: string
     - description: string
     - duration: int
+    - productList: List<Product>
 
     + setDuration(int duration): void
+    + getProductList(): List<Product>
+
+
 }
 
 class ServiceRepository{
 
+    +getServiceFromDb(serviceId): Service
 
 }
 
@@ -75,15 +78,12 @@ class License {
 
 }
 
-class LicenseRepository{
-
-
-}
+'class LicenseRepository{}
 
 class ViewLicenseController {
 
 
-    + getLicense(): List<License>
+    + getLicense(String vin): List<License>
 
 }
 
@@ -95,12 +95,14 @@ class BuyController {
 
 class ViewProductController {
 
+    + getProductList(String vin): List<Product>
 
 }
 
 class LicenseService{
 
-    + createLicense(ProductId, CustomerId): License
+    + createLicense(ProductId, vin, duration): License
+    + getLicenseFromCar(String vin)): Car
 
 }
 
@@ -111,7 +113,8 @@ class BuyService {
 
 class ViewProductService {
 
-
+    + getCar(String vin): Car
+    + addProductsToNewProductList(List<Product>):List<Product>
 }
 
 
@@ -120,15 +123,16 @@ class ViewProductService {
 
 
 
-LicenseRepository-- License
+'LicenseRepository-- License
 ViewLicenseController -- LicenseService
-LicenseRepository -- LicenseService
-ProductRepository -- Product
-ProductRepository -- ViewProductService
+CarRepository -- LicenseService
+'ProductRepository -- Product
+CarRepository -- ViewProductService
+
 ViewProductController -- ViewProductService
 BuyService -- BuyController
 CarRepository -- Car
-CustomerRepository -- Customer
+'CustomerRepository -- Customer
 ServiceRepository -- Service
 Customer "1" --> "0..*" Car
 Car "1" --> "0..*" License

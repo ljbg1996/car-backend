@@ -13,9 +13,9 @@ c --->vlc:View Licenses (String VIN)
 activate vlc
 vlc -> ls:getLicenses(String VIN): List<Licenses>
 activate ls
-ls -> cr: vinQuery(String VIN): List<Licenses>
+ls -> cr: getLicensesFromCar(String VIN): Car
 activate cr
-cr->db: VIN DatabaseQuery
+cr->db: getCarFromDb(vin)
 activate db
 db-->cr: Return Car from Query
 deactivate db

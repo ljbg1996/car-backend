@@ -1,0 +1,32 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+Actor Customer as c
+Participant ViewProductControler as vc
+Participant ViewProductService as vs
+Participant CarRepository as cr
+
+database Database as db
+
+c -> vc:View comp.Products (vin)
+activate vc
+vc -> vs:getCar(vin)
+activate vs
+vs -> cr:getCar(vin)
+activate cr
+cr -> db:getCarFromDb(vin)
+db --> cr:return Car
+cr --> vs:return Car
+deactivate cr
+loop serviceList.size()
+    vs -> vs:car.getServiceList().get(index).getProductList()
+    vs -> vs:addProductsToNewProductList()
+end
+vs --> vc:return ProductList
+deactivate vs
+vc --> c:return ProductList
+deactivate vc
+
+@enduml
