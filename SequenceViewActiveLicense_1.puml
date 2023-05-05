@@ -3,9 +3,27 @@
 
 autonumber
 
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
+Actor Customer as c
+Participant ViewLicenseControler as vlc
+Participant LicenseService as ls
+Participant LicenseRepository as lr
+database Database as db
 
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
+c --->vlc:View Licenses (String VIN)
+activate vlc
+vlc -> ls:getLicenses(String VIN): List<Licenses>
+activate ls
+ls -> lr: vinQuery(String VIN): List<Licenses>
+activate lr
+lr->db: VIN DatabaseQuery
+activate db
+db-->lr: Return Licenses from Query
+deactivate db
+lr-->ls: return List<Licenses>
+deactivate lr
+ls-->vlc: return List<Licenses>
+deactivate ls
+vlc-->c: View Licenses List<Licenses>
+deactivate vlc
+
 @enduml
