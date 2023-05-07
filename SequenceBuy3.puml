@@ -1,0 +1,33 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor Customer as c
+participant PurchaseRepository as pre
+participant PurchaseSystem as ps
+participant ProductRepository as pr
+participant Product as p
+participant Services as s
+
+c->pre:PlaceOrder(OrderId,CustomerId,VIN)
+pre->pr:PlaceOrder(CustomerId)
+pr->p:getProductId()
+p->s:getServiceId()
+
+loop addMoreServices()
+    s -> s:addServiceToProductId() if true
+else boolean is false
+end
+s->p:returnServiceId
+loop addAnotherProduct()
+    p -> p:addProductId(ServiceId,Price) if true
+else boolean is false
+end
+p->pr:returnProductId
+pr->pre:returnOrder(OrderId, ProductId, TotalPrice)
+ps->pre:getOrderId(ProductId,TotalPrice)
+ps->c: TotalPrice(orderId,ProductId)
+c->ps:returnPaid()
+
+@enduml
