@@ -39,10 +39,10 @@ class Product {
     - productId: long
     - name: string
     - serviceList: List<Service>
-    - price: double
+    '- price: double
     - duration: int
 
-    + setPrice(double price): void
+    '+ setPrice(double price): void
     + getServiceList(): List<Service>
 
 }
@@ -98,6 +98,18 @@ class BuyController {
 
     + buy(vin, customerId, productId): boolean
     + doPurchase(sum): boolean
+    'Kaufdatum?
+}
+class Order{
+-OrderId: int
+-vin:String
+-customerId: Int
+-date: String
+-Products: List<Product>
+}
+class OrderRepository{
++writeOrder(Order)
++getOrder(id)
 }
 
 'class ViewProductController {
@@ -108,14 +120,14 @@ class BuyController {
 
 class LicenseService{
 
-    + createLicense(ProductId, vin): License
+    + createLicense(ProductId, vin)
     + getLicense(String vin)): List<License>
 
 }
 
 class BuyService {
 
-    +createLicenses(List<Product>, vin): List<License>
+    +createLicenses(List<Product>, vin)
 }
 
 'class ViewProductService {
@@ -134,6 +146,8 @@ LicenseRepository-- License
 LicenseRepository -- LicenseService
 BuyService -- LicenseService
 ViewLicenseController -- LicenseService
+BuyController -- Order
+Order -- OrderRepository
 'CarRepository -- LicenseService
 'ProductRepository -- Product
 'CarRepository -- ViewProductService

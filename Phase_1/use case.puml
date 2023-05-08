@@ -6,9 +6,7 @@ rectangle System{
 
 
 
-(Buy Product) ---> (Select compatible Product with Services): <<include>>
-(Select compatible Product with Services) ----> (Select Runtime 3/6/9/12): <<include>>
-(Select Runtime 3/6/9/12) ->(Purchase)
+(Buy Product)  ->(Purchase)
 
 
 'auskommentiert, weil aktuell nicht benötigt
