@@ -1,23 +1,24 @@
 @startuml
 class Car {
     - vin: string
-    - owner: Customer
-    - serviceList: List<Service>
-    - licenseList: List<License>
+    '- owner: Customer
+    '- serviceList: List<Service>
+    '- licenseList: List<License>
 
-    + setLicenseList(List<License> licenseList): void
-    + setserviceList(List<Service> serviceList): void
-    + setOwner(Customer c): void
-    + getServiceList(): List<Service>
-
-}
-
-class CarRepository{
-
-    + getCarFromDb((String vin): Car
-
+    '+ setLicenseList(List<License> licenseList): void
+    '+ setserviceList(List<Service> serviceList): void
+    '+ setOwner(Customer c): void
+    '+ getServiceList(): List<Service>
+    + getVin(): String
 
 }
+
+'class CarRepository{
+
+  '  + getCarFromDb((String vin): Car
+
+
+'}
 
 class Customer {
     - customerId: long
@@ -39,6 +40,7 @@ class Product {
     - name: string
     - serviceList: List<Service>
     - price: double
+    - duration: int
 
     + setPrice(double price): void
     + getServiceList(): List<Service>
@@ -72,13 +74,18 @@ class License {
     - end: date
     - product: Product
     - service: Service
-    - Car: car
+    - vin: String
 
    '+ extendLicense(license: License, duration: int): void
 
 }
 
-'class LicenseRepository{}
+class LicenseRepository{
+
+    +getLicensesFromDb(vin): List<License>
+    +writeLicenses(List<License>, vin): boolean
+
+}
 
 class ViewLicenseController {
 
@@ -90,32 +97,32 @@ class ViewLicenseController {
 class BuyController {
 
     + buy(vin, customerId, productId): boolean
-
+    + doPurchase(sum): boolean
 }
 
-class ViewProductController {
+'class ViewProductController {
 
-    + getProductList(String vin): List<Product>
+ '   + getProductList(String vin): List<Product>
 
-}
+'}
 
 class LicenseService{
 
-    + createLicense(ProductId, vin, duration): License
-    + getLicenseFromCar(String vin)): Car
+    + createLicense(ProductId, vin): License
+    + getLicense(String vin)): List<License>
 
 }
 
 class BuyService {
 
-
+    +createLicenses(List<Product>, vin): List<License>
 }
 
-class ViewProductService {
+'class ViewProductService {
 
-    + getCar(String vin): Car
-    + addProductsToNewProductList(List<Product>):List<Product>
-}
+ '   + getCar(String vin): Car
+  '  + addProductsToNewProductList(List<Product>):List<Product>
+'}
 
 
 
@@ -127,18 +134,18 @@ LicenseRepository-- License
 LicenseRepository -- LicenseService
 BuyService -- LicenseService
 ViewLicenseController -- LicenseService
-CarRepository -- LicenseService
+'CarRepository -- LicenseService
 'ProductRepository -- Product
-CarRepository -- ViewProductService
+'CarRepository -- ViewProductService
 
-ViewProductController -- ViewProductService
+'ViewProductController -- ViewProductService
 BuyService -- BuyController
-CarRepository -- Car
+'CarRepository -- Car
 'CustomerRepository -- Customer
 'ServiceRepository -- Service
 Customer "1" --> "0..*" Car
 Car "1" --> "0..*" License
-Car "1" --> "0..*" Service
+'Car "1" --> "0..*" Service
 License "0..*"--> "1"Product
 Product "0..*" --> "0..*" Service
 

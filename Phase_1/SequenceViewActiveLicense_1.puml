@@ -6,22 +6,22 @@ autonumber
 Actor Customer as c
 Participant ViewLicenseControler as vlc
 Participant LicenseService as ls
-Participant CarRepository as cr
+Participant LicenseRepository as cr
 database Database as db
 
 c --->vlc:View Services (String VIN)
 activate vlc
 vlc -> ls:getLicenses(String VIN): List<Licenses>
 activate ls
-ls -> cr: getLicensesFromCar(String VIN): Car
+ls -> cr: getLicenses(String VIN): List<Licenses>
 activate cr
-cr->db: getCarFromDb(vin)
+cr->db: getLicensesFromDb(vin): List<Licenses>
 activate db
-db-->cr: Return Car from Query
+db-->cr: Return List<Licenses> from Query
 deactivate db
-cr-->ls: return Car
+cr-->ls: return List<Licenses>
 deactivate cr
-loop for(License l : Car.getLicenseList())
+loop for(License l : LicenseList())
     ls->ls: addServiceToServiceList()
     end
 
