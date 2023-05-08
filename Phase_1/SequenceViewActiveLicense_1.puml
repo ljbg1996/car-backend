@@ -20,10 +20,11 @@ activate db
 db-->cr: Return Car from Query
 deactivate db
 cr-->ls: return Car
+deactivate cr
 loop for(License l : Car.getLicenseList())
     ls->ls: addServiceToServiceList()
     end
-deactivate cr
+
 ls-->vlc: return List<Services>
 deactivate ls
 vlc-->c: View Services List<Services>
