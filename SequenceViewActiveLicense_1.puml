@@ -9,7 +9,7 @@ Participant LicenseService as ls
 Participant CarRepository as cr
 database Database as db
 
-c --->vlc:View Licenses (String VIN)
+c --->vlc:View Services (String VIN)
 activate vlc
 vlc -> ls:getLicenses(String VIN): List<Licenses>
 activate ls
@@ -20,10 +20,13 @@ activate db
 db-->cr: Return Car from Query
 deactivate db
 cr-->ls: return Car
+loop for(License l : Car.getLicenseList())
+    ls->ls: addServiceToServiceList()
+    end
 deactivate cr
-ls-->vlc: return List<Licenses>
+ls-->vlc: return List<Services>
 deactivate ls
-vlc-->c: View Licenses List<Licenses>
+vlc-->c: View Services List<Services>
 deactivate vlc
 
 @enduml
