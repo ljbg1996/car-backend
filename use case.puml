@@ -11,7 +11,7 @@ rectangle System{
 (Select Runtime 3/6/9/12) ->(Purchase)
 
 
-
+'auskommentiert, weil aktuell nicht benötigt
 '(View Compatible Products)---> (View runtime 3/6/9/12): << include>>
 
 
