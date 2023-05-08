@@ -1,0 +1,43 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+autonumber
+actor Customer as c
+
+participant BuyController as co
+participant PurchaseSystem as ps
+participant BuyService as s
+
+participant LicenseService as ls
+
+
+
+participant LicenseRepository as lr
+database Database as db
+
+c-> co : doPurchase(List<Product>, sum, vin)
+co -> ps: doPurchase(sum)
+activate ps
+ps-->co : returnCompleted(): boolean
+deactivate ps
+co-> s: buy(List<Product>, vin)
+activate s
+loop for(Product p : List<Product>)
+    s-> ls: createLicenses(ProductID)
+    activate ls
+    loop for(Service s : List<Service>)
+        ls -> ls : new License()
+        end
+        ls -> lr: writeLicense(List<License>, vin)
+        lr -> db:writeLicense(List<License>, vin)
+        db -> lr: return successful
+        lr --> ls: return successful
+        ls-->s: return List<License>
+        deactivate ls
+    end
+s --> co: return successful
+co --> c: return successful
+
+
+
+
+@enduml
