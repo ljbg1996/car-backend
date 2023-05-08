@@ -12,13 +12,13 @@ rectangle System{
 
 
 
-(View Compatible Products)---> (View runtime 3/6/9/12): << include>>
+'(View Compatible Products)---> (View runtime 3/6/9/12): << include>>
 
 
-(View active Licenses)->(View Vehicle License List)
+(View active Licenses)-->(View Vehicle License List)
 }
 
-at --> (View Compatible Products)
+'at --> (View Compatible Products)
 at --> (Buy Product)
 at -> (View active Licenses)
 
