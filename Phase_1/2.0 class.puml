@@ -151,7 +151,7 @@ BuyService -- LicenseService
 ViewLicenseController -- LicenseService
 BuyController -- OrderRepository
 Order -- OrderRepository
-'CarRepository -- LicenseService
+'CarRepository -- Lice  nseService
 'ProductRepository -- Product
 'CarRepository -- ViewProductService
 
