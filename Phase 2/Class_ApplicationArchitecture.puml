@@ -1,0 +1,59 @@
+@startuml
+
+class Customer {
+id: long
+paymentInfo
+vehicles: List<Vehicle>
+orders: List<Order>
+}
+
+class Vehicle {
+  vin: Vin
+  services: List<VehicleService>
+}
+
+class Product {
+  id: long
+  articleNumber: ArticleNumber
+  price: Price
+  includedServices: List<Service>
+}
+
+class Order{
+id: long
+isPayed: boolean
+vehicle: Vehicle
+totalPrice:Price
+products: List<Pair<Product,Duration>>
+date: Date
+}
+
+class VehicleService {
+id: long
+implementedService: Service
+usageRights:List<UsageRight>
+}
+
+class Service{
+id:long
+name:String
+}
+
+
+class UsageRight {
+  id: long
+  startDate: Date
+  endDate: Date
+  product: Product
+}
+
+Customer --> Vehicle
+Customer --> Order
+Vehicle --> VehicleService
+VehicleService --> Service
+Order --> Product
+UsageRight <-- VehicleService
+UsageRight --> Product
+Product --* Service
+
+@enduml

@@ -1,0 +1,27 @@
+@startuml
+
+actor Customer
+
+Customer -> ActiveServiceRESTController : getActiveServices(vin, customerId)
+activate ActiveServiceRESTController
+
+ActiveServiceRESTController -> ActiveServicService : getActiveServices(vin, customerId)
+activate ActiveServicService
+
+ActiveServicService -> CustomerRepository : getCustomer(customerId)
+activate CustomerRepository
+CustomerRepository --> ActiveServicService : customer
+deactivate CustomerRepository
+
+ActiveServicService -> ActiveServicService  : extractActiveServices(customer,vin)
+activate ActiveServicService
+ActiveServicService --> ActiveServicService : List<Service>
+deactivate ActiveServicService
+
+ActiveServicService --> ActiveServiceRESTController : List<Service>
+deactivate ActiveServicService
+
+ActiveServiceRESTController --> Customer : List<Service>
+deactivate ActiveServiceRESTController
+
+@enduml

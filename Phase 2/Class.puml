@@ -1,0 +1,114 @@
+@startuml
+
+class Customer {
+id: long
+paymentInfo
+vehicles: List<Vehicle>
+orders: List<Order>
+}
+
+class Vehicle {
+  vin: Vin
+  services: List<VehicleService>
+}
+
+class Product {
+  id: long
+  articleNumber: ArticleNumber
+  price: Price
+  duration: Duration
+  includedServices: List<Service>
+}
+
+class Order{
+id: long
+isPayed: boolean
+vehicle: Vehicle
+products: List<Product>
+date: Date
+}
+
+class VehicleService {
+id: long
+implementedService: Service
+usageRights:List<UsageRight>
+}
+
+class Service{
+id:long
+name:String
+}
+
+
+class UsageRight {
+  id: long
+  startDate: Date
+  endDate: Date
+  product: Product
+}
+
+Customer --> Vehicle
+Customer --> Order
+Vehicle --> VehicleService
+VehicleService --> Service
+Order --> Product
+UsageRight <-- VehicleService
+UsageRight --> Product
+Product --* Service
+
+@enduml
+
+Application Architecture
+
+@startuml
+
+'''''' Order
+class OrderRESTController{
+    buy(articleNumber, vin, customerId, duration):orderId
+}
+class OrderService {
+    buy(articleNumber, vin, customerId, duration):orderId
+}
+class CustomerRepository {
+    getCustomer(customerId))
+}
+
+class OrderRepository{
+    insertOrder(order):id
+    setOrderAsPayed(orderId):id
+    getOrder(orderId)):Order
+}
+class ExternalPaymentServiceRestController <<external>> {
+    processPayment(orderId, paymentInfo, amount)
+}
+
+OrderService --> ExternalPaymentServiceRestController : <<API call>>
+OrderService -- CustomerRepository : uses
+OrderRESTController -- OrderService : uses
+OrderService -- OrderRepository: uses
+
+'''''' FinaliseOrder
+class ExternalPaymentService <<external>>
+class FinaliseOrderRESTController{
+    approvePayementOfOrder(orderId)
+}
+class FinaliseOrderService {
+    approvePayementOfOrderAndAssignUsageRights(orderId)
+    -createUsageRights(order)
+}
+ExternalPaymentService--> FinaliseOrderRESTController: <<API call>>
+FinaliseOrderRESTController -- FinaliseOrderService : uses
+FinaliseOrderService -- OrderRepository: uses
+FinaliseOrderService -- CustomerRepository: uses
+
+'''''' ActiveServices
+class ActiveServiceRESTController{
+    getActiveServices(vin, customerId):List<Service>
+}
+class ActiveServiceService{
+    getActiveServices(vin, customerId):List<Service>
+}
+ActiveServiceService -- CustomerRepository: uses
+ActiveServiceRESTController -- ActiveServiceService : uses
+
+@enduml
