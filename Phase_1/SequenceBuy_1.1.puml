@@ -18,10 +18,8 @@ database Database as db
 
 c-> co : doPurchase(Order)
 activate co
-co -> eps: doPurchase(Order)
-activate eps
-eps --> co: request received
-deactivate eps
+
+
 
 co -> ps: writeOrder(Order)
 
@@ -31,8 +29,13 @@ os -> db:writeOrder(Order)
 db --> os:return boolean
 os --> ps:return boolean
 ps --> co:return boolean
-deactivate co
 deactivate ps
+co -> eps: doPurchase(Order)
+activate eps
+eps --> co: request received
+deactivate eps
+deactivate co
+
 eps -> ps: paymentCompleted(OrderId)
 activate eps
 activate ps
@@ -62,8 +65,10 @@ loop for(Product p : List<Product>)
         lr --> ls: return boolean
         ls-->s: return boolean
         deactivate ls
+
     end
 s --> co: return boolean
+deactivate
 co --> c: return boolean
 
 
