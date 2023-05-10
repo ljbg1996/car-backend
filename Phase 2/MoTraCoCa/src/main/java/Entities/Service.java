@@ -1,4 +1,5 @@
 package Entities;
 
-public class Service {
+
+public record Service(long ID, String name) {
 }
