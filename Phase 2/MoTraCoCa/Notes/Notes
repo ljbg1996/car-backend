@@ -2,6 +2,8 @@ Fragen für Team 1:
 
 Brauchen wir eine Artikelnummer für das Produkt oder ist die ID ausreichend?
 
-Der Preis in Product richtet sich nach der Duration in der Order.
+Der Preis in Product richtet sich nach der Duration in der Order. Vorschlag: Price bei Product streichen? Extra Klasse OrderItem (Product, Duration, Price)?
 
-UsageRightListe in VehicleService aktuell keine Anforderung.
+UsageRightListe in VehicleService aktuell keine Anforderung.  Vorschlag: usageRights:List<UsageRight> to UsageRight?
+
+paymentInfo bei Customer notwendig? Streichen?

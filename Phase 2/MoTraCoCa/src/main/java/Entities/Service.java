@@ -1,5 +1,8 @@
 package Entities;
 
+import javax.persistence.Entity;
 
-public record Service(long ID, String name) {
+@Entity
+public record Service (Long id, String name) {
+
 }
