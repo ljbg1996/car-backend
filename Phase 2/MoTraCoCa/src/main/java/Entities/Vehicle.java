@@ -7,5 +7,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class Vehicle {
 
-    private final record vin
+
 }
+
+
+record Vin(){}
