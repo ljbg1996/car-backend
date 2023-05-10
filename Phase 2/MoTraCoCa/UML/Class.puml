@@ -16,7 +16,6 @@ class Product {
   id: long
   articleNumber: ArticleNumber
   price: Price
-  duration: Duration
   includedServices: List<Service>
 }
 
@@ -24,7 +23,8 @@ class Order{
 id: long
 isPayed: boolean
 vehicle: Vehicle
-products: List<Product>
+totalPrice:Price
+products: List<Pair<Product,Duration>>
 date: Date
 }
 
@@ -57,4 +57,3 @@ UsageRight --> Product
 Product --* Service
 
 @enduml
-

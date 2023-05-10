@@ -1,59 +1,52 @@
 @startuml
-'test
-class Customer {
-id: long
-paymentInfo
-vehicles: List<Vehicle>
-orders: List<Order>
+
+'''''' Order
+class OrderRESTController{
+    buy(articleNumber, vin, customerId, duration):orderId
+}
+class OrderService {
+    buy(articleNumber, vin, customerId, duration):orderId
+}
+class CustomerRepository {
+    getCustomer(customerId))
 }
 
-class Vehicle {
-  vin: Vin
-  services: List<VehicleService>
+class OrderRepository{
+    insertOrder(order):id
+    setOrderAsPayed(orderId):id
+    getOrder(orderId)):Order
+}
+class ExternalPaymentServiceRestController <<external>> {
+    processPayment(orderId, paymentInfo, amount)
 }
 
-class Product {
-  id: long
-  articleNumber: ArticleNumber
-  price: Price
-  includedServices: List<Service>
+OrderService --> ExternalPaymentServiceRestController : <<API call>>
+OrderService -- CustomerRepository : uses
+OrderRESTController -- OrderService : uses
+OrderService -- OrderRepository: uses
+
+'''''' FinaliseOrder
+class ExternalPaymentService <<external>>
+class FinaliseOrderRESTController{
+    approvePayementOfOrder(orderId)
 }
-
-class Order{
-id: long
-isPayed: boolean
-vehicle: Vehicle
-totalPrice:Price
-products: List<Pair<Product,Duration>>
-date: Date
+class FinaliseOrderService {
+    approvePayementOfOrderAndAssignUsageRights(orderId)
+    -createUsageRights(order)
 }
+ExternalPaymentService--> FinaliseOrderRESTController: <<API call>>
+FinaliseOrderRESTController -- FinaliseOrderService : uses
+FinaliseOrderService -- OrderRepository: uses
+FinaliseOrderService -- CustomerRepository: uses
 
-class VehicleService {
-id: long
-implementedService: Service
-usageRights:List<UsageRight>
+'''''' ActiveServices
+class ActiveServiceRESTController{
+    getActiveServices(vin, customerId):List<Service>
 }
-
-class Service{
-id:long
-name:String
+class ActiveServiceService{
+    getActiveServices(vin, customerId):List<Service>
 }
-
-
-class UsageRight {
-  id: long
-  startDate: Date
-  endDate: Date
-  product: Product
-}
-
-Customer --> Vehicle
-Customer --> Order
-Vehicle --> VehicleService
-VehicleService --> Service
-Order --> Product
-UsageRight <-- VehicleService
-UsageRight --> Product
-Product --* Service
+ActiveServiceService -- CustomerRepository: uses
+ActiveServiceRESTController -- ActiveServiceService : uses
 
 @enduml
