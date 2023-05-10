@@ -25,3 +25,5 @@ public class Order {
 
 
 }
+
+record Price(int price){}

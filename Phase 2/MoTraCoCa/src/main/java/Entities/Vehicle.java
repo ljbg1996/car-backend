@@ -16,4 +16,4 @@ public class Vehicle {
 }
 
 
-record Vin(){}
+record Vin(String vin){}
