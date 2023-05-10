@@ -1,4 +1,9 @@
 package Entities;
 
-public class Product {
+//todo
+public record Product (long id) {
 }
+
+
+
+
