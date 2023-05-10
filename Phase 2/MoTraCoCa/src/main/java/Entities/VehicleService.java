@@ -11,10 +11,17 @@ import java.util.List;
 
 @Getter
 @RequiredArgsConstructor
+@Entity
 public class VehicleService {
 
-    private final long id;
-    private final Service implementedService;
-    private final List<UsageRight> usageRightList;
+    @Id
+    private Long id;
+    @ManyToOne
+    private Service implementedService;
+    @OneToMany(mappedBy = "vehicleService")
+    private List<UsageRight> usageRights; // entspricht aktuell nicht den Anforderungen
+    @ManyToOne
+    private Vehicle vehicle;  // ? is not in class diagramm
+    // constructor, getters and setters
 
 }
