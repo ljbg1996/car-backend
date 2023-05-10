@@ -23,7 +23,7 @@ public class Order {
     private final Date startDate;
     //ProductOrder als eigene Klasse
 
-
+    //@Embedded Product/Duration?
 }
 
 record Price(int price){}
