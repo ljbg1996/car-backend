@@ -26,7 +26,7 @@ public class Vehicle {
     //Durch List<Service> ersetzen?
 
     @OneToMany
-    private  f
+    private final List<UsageRight> usageRights = new ArrayList<>();
 
 
 }

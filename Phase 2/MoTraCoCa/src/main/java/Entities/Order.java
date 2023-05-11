@@ -26,6 +26,7 @@ public class Order {
     @Embedded
     private Price totalPrice;
 
+    @Temporal(TemporalType.TIMESTAMP)
     private final Date date;
 
     @OneToMany
