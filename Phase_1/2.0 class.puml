@@ -1,6 +1,6 @@
 @startuml
-class Car {
-    - vin: string
+'class Car {
+    '- vin: string
     '- owner: Customer
     '- serviceList: List<Service>
     '- licenseList: List<License>
@@ -9,9 +9,9 @@ class Car {
     '+ setserviceList(List<Service> serviceList): void
     '+ setOwner(Customer c): void
     '+ getServiceList(): List<Service>
-    + getVin(): String
+    '+ getVin(): String
 
-}
+'}
 
 'class CarRepository{
 
@@ -20,18 +20,17 @@ class Car {
 
 '}
 
-class Customer {
-    - customerId: long
-    - name: string
-    - car: List<Car>
+'class Customer {
+    '- customerId: long
+    '- name: string
+    '- car: List<Car>
 
-    + addCar(String vin): void
+    '+ addCar(String vin): void
 
 
-}
+'}
 
 'class CustomerRepository{}
-
 'class ProductRepository{}
 
 
@@ -41,7 +40,6 @@ class Product {
     - serviceList: List<Service>
     '- price: double
     - duration: int
-
     '+ setPrice(double price): void
     + getServiceList(): List<Service>
 
@@ -52,12 +50,9 @@ class Product {
 class Service {
     - serviceId: long
     - name: string
-    - description: string
-    - duration: int
-    - productList: List<Product>
+    '- description: string
+    '- duration: int
 
-    + setDuration(int duration): void
-    + getProductList(): List<Product>
 
 
 }
@@ -114,6 +109,14 @@ class Order{
 
 }
 
+class OrderService{
+    -Order
+    writeOrder(Order)
+    getOrder((OrderId)
+}
+
+
+
 
 'class ViewProductController {
 
@@ -160,8 +163,8 @@ BuyService -- BuyController
 'CarRepository -- Car
 'CustomerRepository -- Customer
 'ServiceRepository -- Service
-Customer "1" --> "0..*" Car
-Car "1" --> "0..*" License
+'Customer "1" --> "0..*" Car
+'Car "1" --> "0..*" License
 'Car "1" --> "0..*" Service
 License "0..*"--> "1"Product
 Product "0..*" --> "0..*" Service
