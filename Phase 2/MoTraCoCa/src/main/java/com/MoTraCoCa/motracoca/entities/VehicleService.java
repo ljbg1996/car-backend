@@ -1,12 +1,9 @@
-package Entities;
+package com.motracoca.motracoca.entities;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import jakarta.persistence.*;
 import java.util.List;
 
 @Getter

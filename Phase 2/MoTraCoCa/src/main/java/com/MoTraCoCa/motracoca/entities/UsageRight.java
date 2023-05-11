@@ -1,9 +1,9 @@
-package Entities;
+package com.motracoca.motracoca.entities;
 
-import javax.persistence.Entity;
+import jakarta.persistence.*;
 import java.util.Date;
 
-@Entity
+
 
 public record UsageRight(long id, Date startDate,Date endDate,Product product ) {
     //todo

@@ -1,4 +1,4 @@
-package Controller;
+package com.motracoca.motracoca.controller;
 
 public class ActiveServiceRESTController {
 }

@@ -1,10 +1,8 @@
-package Entities;
+package com.motracoca.motracoca.entities;
 
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import jakarta.persistence.*;
 import java.util.List;
 
 //todo
