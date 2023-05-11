@@ -1,5 +1,6 @@
 @startuml
 'test
+autonumber
 actor ExternalPaymentService
 
 ExternalPaymentService -> FinaliseOrderRESTController : approvePaymentOfOrder(orderId)

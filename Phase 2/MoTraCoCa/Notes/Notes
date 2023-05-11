@@ -1,9 +1,11 @@
 Fragen für Team 1:
 
-Brauchen wir eine Artikelnummer für das Produkt oder ist die ID ausreichend?
+Brauchen wir eine Artikelnummer für das Produkt oder ist die ID ausreichend? Woher bekommen wir die Produkte? (Product Repository?)
 
 Der Preis in Product richtet sich nach der Duration in der Order. Vorschlag: Price bei Product streichen? Extra Klasse OrderItem (Product, Duration, Price)?
 
 UsageRightListe in VehicleService aktuell keine Anforderung.  Vorschlag: usageRights:List<UsageRight> to UsageRight?
 
-paymentInfo bei Customer notwendig? Streichen?
+paymentInfo bei Customer notwendig? Streichen? Brauchen wir allgemein einen Customer?
+
+Punkt 10 Sequence_FinaliseOrder orderid->customer->createUsageRights(order)?
