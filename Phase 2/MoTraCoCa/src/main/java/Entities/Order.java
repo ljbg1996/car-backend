@@ -17,7 +17,9 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private final long id;
+
     private boolean isPayed;
+
     @OneToOne
     private final Vehicle vehicle;
 
@@ -31,4 +33,9 @@ public class Order {
 
 }
 
-record Price(int price){}
+@Embeddable
+record Price(int price){
+    public Price() {
+        this(0);
+    }
+}

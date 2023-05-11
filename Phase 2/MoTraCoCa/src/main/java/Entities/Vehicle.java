@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -21,8 +22,10 @@ public class Vehicle {
     private final Vin vin;
 
     @OneToMany
-    private List<VehicleService> vehicleServiceList;
+    private List<VehicleService> vehicleServiceList = new ArrayList<>();
     //Durch List<Service> ersetzen?
+
+    @o
 
 
 }
