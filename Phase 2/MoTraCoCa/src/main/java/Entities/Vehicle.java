@@ -22,10 +22,11 @@ public class Vehicle {
     private final Vin vin;
 
     @OneToMany
-    private List<VehicleService> vehicleServiceList = new ArrayList<>();
+    private final List<VehicleService> vehicleServiceList = new ArrayList<>();
     //Durch List<Service> ersetzen?
 
-    @o
+    @OneToMany
+    private  f
 
 
 }
