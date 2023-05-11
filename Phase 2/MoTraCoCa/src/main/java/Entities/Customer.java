@@ -15,7 +15,8 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private final long id;
-    //paymentInfo
+    @Column(name = "Payment information")
+    String PaymentInfo;
     @OneToMany
     private List<Vehicle> vehicleList;
     @OneToMany
