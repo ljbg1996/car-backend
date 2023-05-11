@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 
 @Getter
@@ -19,11 +20,15 @@ public class Order {
     private boolean isPayed;
     @OneToOne
     private final Vehicle vehicle;
-    private Price totalPrice;
-    private final Date startDate;
-    //OrderItem als eigene Klasse
 
-    //@Embedded Product/Duration?
+    @Embedded
+    private Price totalPrice;
+
+    private final Date date;
+
+    @OneToMany
+    private final List<ProductConfiguration> products;
+
 }
 
 record Price(int price){}

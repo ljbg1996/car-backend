@@ -1,6 +1,7 @@
 package Entities;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
@@ -11,14 +12,17 @@ import java.util.List;
 @Entity
 public class Vehicle {
 
-    // id? (einzige Klasse ohne id)
     @Id
-    // @GeneratedValue(strategy = GenerationType.AUTO) // Autogeneration nicht möglich bei vin
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false)
+    private final long id;
+
     @Column(name = "vin", nullable = false)
     private final Vin vin;
 
     @OneToMany
     private List<VehicleService> vehicleServiceList;
+    //Durch List<Service> ersetzen?
 
 
 }
