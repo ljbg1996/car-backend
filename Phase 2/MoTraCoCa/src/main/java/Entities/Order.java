@@ -21,7 +21,7 @@ public class Order {
     private final Vehicle vehicle;
     private Price totalPrice;
     private final Date startDate;
-    //ProductOrder als eigene Klasse
+    //OrderItem als eigene Klasse
 
     //@Embedded Product/Duration?
 }
