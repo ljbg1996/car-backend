@@ -17,11 +17,17 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private final long id;
+
     //paymentInfo
     @OneToMany( cascade= CascadeType.ALL )
     private List<Vehicle> vehicleList = new ArrayList<>();
     @OneToMany( cascade= CascadeType.ALL )
     private List<Order> orderList;
+
+
+    @Column(name = "Payment information")
+    String PaymentInfo;
+
 
 
 }

@@ -1,15 +1,17 @@
 @startuml
-'test
+
 class Customer {
 id: long
-paymentInfo
+paymentInfo: String
 vehicles: List<Vehicle>
 orders: List<Order>
 }
 
 class Vehicle {
+  id: long
   vin: Vin
-  services: List<VehicleService>
+  offeredServices: List<VehicleService>
+  usageRights:List<UsageRight
 }
 
 class Product {
@@ -19,19 +21,18 @@ class Product {
   includedServices: List<Service>
 }
 
+class ProductConfiguration{
+duration: months
+product: Product
+}
+
 class Order{
 id: long
 isPayed: boolean
 vehicle: Vehicle
-totalPrice:Price
-products: List<Pair<Product,Duration>>
+totalPrice: Price
+products: List<ProductConfiguration>
 date: Date
-}
-
-class VehicleService {
-id: long
-implementedService: Service
-usageRights:List<UsageRight>
 }
 
 class Service{
@@ -49,10 +50,10 @@ class UsageRight {
 
 Customer --> Vehicle
 Customer --> Order
-Vehicle --> VehicleService
-VehicleService --> Service
-Order --> Product
-UsageRight <-- VehicleService
+Vehicle --> Service
+Vehicle --> UsageRight
+Order --> ProductConfiguration
+ProductConfiguration --> Product
 UsageRight --> Product
 Product --* Service
 

@@ -1,12 +1,12 @@
 @startuml
-'test
+
 actor Customer
 
-Customer -> OrderRESTController : buy(articleNumber, vin, customerId, durations)
+Customer -> OrderRESTController : buy(articleNumberList, vin, customerId, durations)
 activate OrderRESTController
 
 
-OrderRESTController -> OrderService : buy(articleNumber, vin, customerId, durations)
+OrderRESTController -> OrderService : buy(articleNumberList, vin, customerId, durations)
 activate OrderService
 
 
@@ -38,7 +38,7 @@ activate CustomerRepository
 CustomerRepository --> OrderService
 deactivate CustomerRepository
 
-OrderService -> ExternalPaymentServiceRestController : processPayment(orderId, customer.paymentInfo, order.price)
+OrderService -> ExternalPaymentServiceRestController : processPayment(orderId, customer.paymentInfo, order.totalPrice)
 activate ExternalPaymentServiceRestController
 
 ExternalPaymentServiceRestController --> OrderService : paymentStatus
@@ -51,6 +51,5 @@ OrderRESTController --> Customer : orderId
 deactivate OrderRESTController
 
 @enduml
-
 
 
