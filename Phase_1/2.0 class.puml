@@ -93,12 +93,13 @@ class BuyController {
 
     + doPurchase(vin, customerId, productId): boolean
     + purchaseConfirmed(OrderId): boolean
+    + writeOrder(Order
     'Kaufdatum?
 }
 
 class OrderRepository{
 +writeOrder(Order)
-+getOrder(id)
++getOrder(Id)
 }
 
 class Order{
@@ -111,8 +112,9 @@ class Order{
 
 class OrderService{
     -Order
-    writeOrder(Order)
-    getOrder((OrderId)
+    +writeOrder(Order)
+    +getOrder((OrderId)
+    +buyConfirmed(Order)
 }
 
 
@@ -152,8 +154,8 @@ LicenseRepository-- License
 LicenseRepository -- LicenseService
 BuyService -- LicenseService
 ViewLicenseController -- LicenseService
-BuyController -- OrderRepository
-Order -- OrderRepository
+BuyController --> OrderService
+
 'CarRepository -- Lice  nseService
 'ProductRepository -- Product
 'CarRepository -- ViewProductService
@@ -168,7 +170,8 @@ BuyService -- BuyController
 'Car "1" --> "0..*" Service
 License "0..*"--> "1"Product
 Product "0..*" --> "0..*" Service
-
+OrderService --> OrderRepository
+Order --> OrderService
 @enduml
 
 
