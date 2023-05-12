@@ -1,9 +1,9 @@
-package com.motracoca.motracoca.entities;
+package com.motracoca.motracoca.model;
 
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import jakarta.persistence.*;
 import java.util.Date;
 import java.util.List;
 

@@ -1,0 +1,37 @@
+package com.motracoca.motracoca.entities;
+
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+import jakarta.persistence.*;
+import java.util.Date;
+import java.util.List;
+
+
+@Getter
+@RequiredArgsConstructor
+@Entity
+public class OrderEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false)
+    private final long id;
+
+    private boolean isPayed;
+
+    @OneToOne
+    private final Vehicle vehicle;
+
+    @Embedded
+    private Price totalPrice;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private final Date date;
+
+    @OneToMany
+    private final List<ProductConfiguration> products;
+
+}
+
+
