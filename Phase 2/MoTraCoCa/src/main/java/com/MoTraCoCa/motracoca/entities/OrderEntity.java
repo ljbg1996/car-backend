@@ -4,11 +4,14 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import jakarta.persistence.*;
+import lombok.Setter;
+
 import java.util.Date;
 import java.util.List;
 
 
 @Getter
+@Setter
 @RequiredArgsConstructor
 @Entity
 public class OrderEntity {
@@ -21,16 +24,16 @@ public class OrderEntity {
     private boolean isPayed;
 
     @OneToOne
-    private final Vehicle vehicle;
+    private final VehicleEntity vehicleEntity;
 
-    @Embedded
-    private Price totalPrice;
+    //@Embedded
+    // private Price totalPrice;
 
     @Temporal(TemporalType.TIMESTAMP)
     private final Date date;
 
     @OneToMany
-    private final List<ProductConfiguration> products;
+    private final List<ProductConfigurationEntity> products;
 
 }
 

@@ -3,12 +3,14 @@ package com.motracoca.motracoca.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
+@Setter
 @RequiredArgsConstructor
 @Entity
 public class CustomerEntity {
@@ -16,14 +18,12 @@ public class CustomerEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
-    private final long id;
+    private long id;
 
-    //paymentInfo
     @OneToMany( cascade= CascadeType.ALL )
-    private List<Vehicle> vehicleList = new ArrayList<>();
+    private List<VehicleEntity> vehicleEntityList = new ArrayList<>();
     @OneToMany( cascade= CascadeType.ALL )
     private List<OrderEntity> orderEntityList;
-
 
     @Column(name = "Payment information")
     String PaymentInfo;
