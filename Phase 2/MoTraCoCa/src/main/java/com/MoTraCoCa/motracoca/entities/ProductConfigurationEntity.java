@@ -2,12 +2,13 @@ package com.motracoca.motracoca.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import lombok.Setter;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
+@NoArgsConstructor
 @Entity
 public class ProductConfigurationEntity {
 
@@ -16,6 +17,7 @@ public class ProductConfigurationEntity {
      @Column(name = "id", nullable = false)
      private long id;
 
+     @ManyToOne
      private ProductEntity product;
 
      private int duration;

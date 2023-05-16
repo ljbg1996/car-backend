@@ -1,14 +1,15 @@
 package com.motracoca.motracoca.entities;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import jakarta.persistence.*;
 import lombok.Setter;
 import java.util.List;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
+@NoArgsConstructor
 @Entity
 public class VehicleEntity {
 
@@ -18,12 +19,12 @@ public class VehicleEntity {
     @Column(name = "id", nullable = false)
     private long id;
 
-    @OneToOne
     private String vin;
 
     @OneToMany
     private List<ServiceEntity> serviceEntityList;
 
+    @OneToMany
     private List<UsageRightEntity> usageRightEntityList;
 
 

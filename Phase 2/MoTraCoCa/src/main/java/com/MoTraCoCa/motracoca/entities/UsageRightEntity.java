@@ -3,13 +3,14 @@ package com.motracoca.motracoca.entities;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import lombok.Setter;
 
 
 @Getter
 @Setter
-@RequiredArgsConstructor
+@NoArgsConstructor
 @Entity
 public class UsageRightEntity {
 
@@ -19,13 +20,13 @@ public class UsageRightEntity {
     private long id;
 
 
-    @Temporal(TemporalType.TIMESTAMP)
+    //@Temporal(TemporalType.TIMESTAMP)
     private LocalDate startDate;
 
-    @Temporal(TemporalType.TIMESTAMP)
+    //@Temporal(TemporalType.TIMESTAMP)
     private LocalDate endDate;
 
-    @OneToOne
+    @ManyToOne
     private ProductEntity product;
 
 

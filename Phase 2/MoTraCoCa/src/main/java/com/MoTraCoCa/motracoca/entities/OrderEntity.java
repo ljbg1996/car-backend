@@ -1,7 +1,8 @@
 package com.motracoca.motracoca.entities;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
+
 
 import jakarta.persistence.*;
 import lombok.Setter;
@@ -13,7 +14,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
+@NoArgsConstructor
 @Entity
 public class OrderEntity {
 
@@ -24,17 +25,17 @@ public class OrderEntity {
 
     private boolean isPayed;
 
-    @OneToOne
+    @ManyToOne
     private VehicleEntity vehicleEntity;
 
     //@Embedded
-    //private double totalPrice;
+    private double totalPrice;
 
     //@Temporal(TemporalType.TIMESTAMP)
-    private final LocalDate date;
+    private LocalDate date;
 
     @OneToMany
-    private final List<ProductConfigurationEntity> products;
+    private List<ProductConfigurationEntity> products;
 
 }
 
