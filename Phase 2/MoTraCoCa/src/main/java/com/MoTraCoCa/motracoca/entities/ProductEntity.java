@@ -2,14 +2,15 @@ package com.motracoca.motracoca.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import lombok.Setter;
 
 import java.util.List;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
+@NoArgsConstructor
 @Entity
 public class ProductEntity {
 
