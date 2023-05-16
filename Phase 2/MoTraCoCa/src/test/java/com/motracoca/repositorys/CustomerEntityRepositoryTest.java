@@ -1,4 +1,4 @@
-package com.motracoca;
+package com.motracoca.repositorys;
 
 
 import com.motracoca.entities.CustomerEntity;
