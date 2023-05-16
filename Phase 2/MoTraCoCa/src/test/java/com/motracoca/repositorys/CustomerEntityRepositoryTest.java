@@ -13,7 +13,7 @@ public class CustomerEntityRepositoryTest {
 
     @Autowired
     private CustomerRepository cr;
-
+   //Something that is there
 
     @Test
     void storeCustomerTest() {
