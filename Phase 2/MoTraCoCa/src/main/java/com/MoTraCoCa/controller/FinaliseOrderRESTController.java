@@ -1,4 +1,4 @@
-package com.motracoca.controller;
+package com.MoTraCoCa.controller;
 
 public class FinaliseOrderRESTController {
 }

@@ -1,4 +1,4 @@
-package com.motracoca.entities;
+package com.MoTraCoCa.entities;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

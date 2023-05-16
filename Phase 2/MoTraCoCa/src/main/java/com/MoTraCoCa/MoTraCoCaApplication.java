@@ -1,4 +1,4 @@
-package com.motracoca;
+package com.MoTraCoCa;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

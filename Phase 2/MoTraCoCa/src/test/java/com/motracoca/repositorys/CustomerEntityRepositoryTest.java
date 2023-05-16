@@ -1,7 +1,9 @@
 package com.motracoca.repositorys;
 
-import com.motracoca.entities.CustomerEntity;
-import com.motracoca.entities.VehicleEntity;
+
+import com.MoTraCoCa.entities.CustomerEntity;
+import com.MoTraCoCa.entities.VehicleEntity;
+import com.MoTraCoCa.repositorys.CustomerRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

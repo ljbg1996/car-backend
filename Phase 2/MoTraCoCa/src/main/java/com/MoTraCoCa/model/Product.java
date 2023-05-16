@@ -1,4 +1,4 @@
-package com.motracoca.model;
+package com.MoTraCoCa.model;
 
 
 import lombok.RequiredArgsConstructor;
