@@ -11,11 +11,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 public class CustomerEntityRepositoryTest {
 
-
-
     @Autowired
     private CustomerRepository cr;
-
 
 
     @Test
