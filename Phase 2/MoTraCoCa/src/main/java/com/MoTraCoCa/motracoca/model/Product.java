@@ -1,8 +1,8 @@
 package com.motracoca.motracoca.model;
 
-import jakarta.persistence.*;
+
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+
 
 import java.util.List;
 

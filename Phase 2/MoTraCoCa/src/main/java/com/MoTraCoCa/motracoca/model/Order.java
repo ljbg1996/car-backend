@@ -1,11 +1,8 @@
 package com.motracoca.motracoca.model;
 
-import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
+import lombok.RequiredArgsConstructor;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @RequiredArgsConstructor

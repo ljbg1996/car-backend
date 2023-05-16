@@ -6,7 +6,8 @@ import lombok.RequiredArgsConstructor;
 import jakarta.persistence.*;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDate;
+
 import java.util.List;
 
 
@@ -27,10 +28,10 @@ public class OrderEntity {
     private VehicleEntity vehicleEntity;
 
     //@Embedded
-    // private Price totalPrice;
+    //private double totalPrice;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private final Date date;
+    //@Temporal(TemporalType.TIMESTAMP)
+    private final LocalDate date;
 
     @OneToMany
     private final List<ProductConfigurationEntity> products;
