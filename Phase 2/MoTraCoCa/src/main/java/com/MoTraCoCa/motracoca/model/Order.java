@@ -13,13 +13,13 @@ public class Order {
 
     private final boolean isPayed;
 
-    private final Vehicle vehicle;
+    private final com.motracoca.motracoca.model.Vehicle vehicle;
 
-    private final Price totalPrice;
+    private final com.motracoca.motracoca.model.Price totalPrice;
 
     private final LocalDate date;
 
-    private final List<ProductConfiguration> products;
+    private final List<com.motracoca.motracoca.model.ProductConfiguration> products;
 
 }
 
