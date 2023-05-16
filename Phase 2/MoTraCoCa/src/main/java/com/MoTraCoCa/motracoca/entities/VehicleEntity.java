@@ -22,7 +22,9 @@ public class VehicleEntity {
     private String vin;
 
     @OneToMany
-    private List<VehicleServiceEntity> vehicleServiceEntityList;
+    private List<ServiceEntity> serviceEntityList;
+
+    private List<UsageRightEntity> usageRightEntityList;
 
 
 }

@@ -16,15 +16,15 @@ public class ProductEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
-    final long id;
+    private long id;
 
     @Column(name = "Article number")
-    final long articleNumber;
+    private long articleNumber;
 
     @Column(name = "Price per month")
-    double price;
+    private double price;
 
     @ManyToMany
-    final List<ServiceEntity> includedServices;
+    private List<ServiceEntity> includedServices;
 
 }

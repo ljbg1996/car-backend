@@ -4,39 +4,26 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
-
-@Getter
 @RequiredArgsConstructor
-@Entity
 public class Order {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
+
     private final long id;
 
-    private boolean isPayed;
+    private final boolean isPayed;
 
-    @OneToOne
     private final Vehicle vehicle;
 
-    @Embedded
-    private Price totalPrice;
+    private final Price totalPrice;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private final Date date;
+    private final LocalDate date;
 
-    @OneToMany
     private final List<ProductConfiguration> products;
 
 }
 
-@Embeddable
-record Price(int price){
-    public Price() {
-        this(0);
-    }
-}
+

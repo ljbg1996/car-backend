@@ -2,40 +2,22 @@ package com.motracoca.motracoca.model;
 
 
 import jakarta.persistence.*;
+import lombok.RequiredArgsConstructor;
 import lombok.Value;
 
 import java.time.LocalDate;
 
 
 
-@Value
-@Entity
+@RequiredArgsConstructor
 public class UsageRight {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+
+    private final long id;
+    private final LocalDate startDate;
+    private final LocalDate endDate;
+    private final Product product;
 
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private LocalDate startDate;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private LocalDate endDate;
 
-    @OneToOne
-    private Product product;
-
-    public UsageRight() {
-        this.id = 0L;
-        this.startDate = null;
-        this.endDate = null;
-        this.product = null;
-    }
-
-    public UsageRight(LocalDate startDate, LocalDate endDate, Product product) {
-        this.id = 0L;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.product = product;
-    }
 }

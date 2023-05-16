@@ -22,6 +22,7 @@ public class CustomerEntity {
 
     @OneToMany( cascade= CascadeType.ALL )
     private List<VehicleEntity> vehicleEntityList = new ArrayList<>();
+
     @OneToMany( cascade= CascadeType.ALL )
     private List<OrderEntity> orderEntityList;
 

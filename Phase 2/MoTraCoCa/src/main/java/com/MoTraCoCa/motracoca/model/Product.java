@@ -1,36 +1,25 @@
 package com.motracoca.motracoca.model;
 
 import jakarta.persistence.*;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
 
-//todo
-@Entity
-@Setter
+@RequiredArgsConstructor
 public class  Product {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    final long id;
 
-    @Column(name = "Article number")
-    final ArticleNumber articleNumber;
+    private final long id;
 
-    @Column(name = "Price per month")
-    double price;
+    private final ArticleNumber articleNumber;
 
-    @ManyToMany
-    final List<Service> includedServices;
-    public Product(long id, ArticleNumber articleNumber, List<Service> includedServices){
+    private final Price price;
 
-        this.id = id;
-        this.articleNumber = articleNumber;
-        this.includedServices = includedServices;
-    }
+    private final List<Service> includedServices;
 
 
-}
-record ArticleNumber(long articleNumber) {
+
+
 }
 
 
