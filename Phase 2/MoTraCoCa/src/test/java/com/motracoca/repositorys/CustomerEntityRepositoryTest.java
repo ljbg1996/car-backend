@@ -1,4 +1,4 @@
-package com.mogitracoca.repositorys;
+package com.motracoca.repositorys;
 
 import com.motracoca.entities.CustomerEntity;
 import com.motracoca.entities.VehicleEntity;
