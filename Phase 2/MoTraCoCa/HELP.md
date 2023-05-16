@@ -1,7 +1,7 @@
 # Read Me First
 The following was discovered as part of building this project:
 
-* The original package name 'com.MoTraCoCa.motracoca ' is invalid and this project uses 'com.MoTraCoCa.motracoca' instead.
+* The original package name 'com.motracoca.motracoca ' is invalid and this project uses 'com.motracoca.motracoca' instead.
 
 # Getting Started
 
