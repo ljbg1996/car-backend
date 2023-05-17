@@ -2,12 +2,16 @@ package com.motracoca.repositorys;
 
 
 import com.motracoca.entities.CustomerEntity;
+import com.motracoca.entities.OrderEntity;
+import com.motracoca.entities.ProductConfigurationEntity;
 import com.motracoca.entities.VehicleEntity;
 import com.motracoca.repositorys.CustomerRepository;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -19,6 +23,7 @@ public class CustomerEntityRepositoryTest {
     private CustomerRepository cr;
    //Something that is there
 
+    @DisplayName("should store a customer with vehicleList")
     @Test
     void storeCustomerTest() {
 

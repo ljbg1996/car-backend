@@ -25,7 +25,7 @@ public class OrderEntity {
 
     private boolean isPayed;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private VehicleEntity vehicleEntity;
 
     //@Embedded
@@ -34,8 +34,9 @@ public class OrderEntity {
     //@Temporal(TemporalType.TIMESTAMP)
     private LocalDate date;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ProductConfigurationEntity> products;
+
 
 }
 
