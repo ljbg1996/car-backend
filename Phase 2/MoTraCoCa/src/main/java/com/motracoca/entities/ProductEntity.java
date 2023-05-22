@@ -25,7 +25,7 @@ public class ProductEntity {
     @Column(name = "Price per month")
     private double price;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<ServiceEntity> includedServices;
 
 }
