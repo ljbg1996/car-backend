@@ -21,7 +21,7 @@ public class CustomerEntityRepositoryTest {
 
     @Autowired
     private CustomerRepository cr;
-   //Something that is there
+
 
     @DisplayName("should store a customer with vehicleList")
     @Test

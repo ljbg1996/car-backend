@@ -6,14 +6,13 @@ import com.motracoca.entities.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@DataJpaTest
+@SpringBootTest
 public class OrderEntityRepositoryTest {
 
 
@@ -23,7 +22,7 @@ public class OrderEntityRepositoryTest {
 
     @DisplayName("should store a order")
     @Test
-    void storeOrderTest() {
+    public void storeOrderTest() {
 
         ServiceEntity se1 = new ServiceEntity();
         ServiceEntity se2 = new ServiceEntity();
