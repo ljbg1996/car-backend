@@ -6,6 +6,7 @@ autonumber
 actor Customer as c
 participant CancellationController as cc
 participant LicenseService as ls
+participant OrderService as os
 participant LicenseRepository as lr
 participant OrderRepository as or
 database Database as db
@@ -25,24 +26,28 @@ deactivate db
 
 lr --> ls: return boolean
 deactivate lr
-ls -> or: getOrderById(orderId)
+ls -> os: getOrderById(orderId)
+activate os
+os -> or: getOrderById(orderId)
 activate or
 or -> db: getOrderById(orderId)
 activate db
 db --> or: return Order
 deactivate db
 
-or --> ls: return Order
+or --> os: return Order
 deactivate or
-ls -> ls: order.setIsCanceled(true)
-ls -> or: updateOrder(Order)
+os -> os: order.setIsCanceled(true)
+os -> or: updateOrder(Order)
 activate or
 or -> db: updateOrder(Order)
 activate db
 db --> or: return boolean
 deactivate db
-or --> ls: return boolean
+or --> os: return boolean
 deactivate or
+os -->ls: return boolean
+deactivate os
 ls --> cc: return boolean
 deactivate ls
 cc --> c: return cancellation successful
