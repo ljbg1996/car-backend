@@ -9,13 +9,13 @@ import java.util.List;
 public class Order {
 
 
-    private final long id;
+    private long id;
 
     private final boolean isPayed;
 
     private final Vehicle vehicle;
 
-    private final Price totalPrice;
+    private final double totalPrice;
 
     private final LocalDate date;
 
