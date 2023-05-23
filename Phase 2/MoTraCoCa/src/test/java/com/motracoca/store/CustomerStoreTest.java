@@ -1,125 +1,123 @@
 package com.motracoca.store;
 
 import com.motracoca.entities.CustomerEntity;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.EntityTransaction;
+import com.motracoca.repositorys.CustomerRepository;
+import com.motracoca.store.CustomerStore;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-
-@ExtendWith(MockitoExtension.class)
-public class CustomerStoreTest {
+class CustomerStoreTest {
 
     @Mock
-    private EntityManagerFactory entityManagerFactory;
-
-    @Mock
-    private EntityManager entityManager;
-
-    @Mock
-    private EntityTransaction transaction;
+    private CustomerRepository customerRepository;
 
     private CustomerStore customerStore;
 
     @BeforeEach
-    void setup() {
+    void init() {
         MockitoAnnotations.openMocks(this);
-        when(entityManagerFactory.createEntityManager()).thenReturn(entityManager);
-        when(entityManager.getTransaction()).thenReturn(transaction);
-        customerStore = new CustomerStore(entityManagerFactory);
     }
 
+
     @Test
-    @DisplayName("Test Create Customer")
-    void testCreateCustomer() {
-        // Create a new customer
+    void saveCustomer_ShouldReturnSavedCustomer() {
+        // Arrange
         CustomerEntity customer = new CustomerEntity();
-        // Set customer properties
-        // ...
+        customer.setId(1L);
+        when(customerRepository.save(customer)).thenReturn(customer);
 
-        // Mock the transaction begin and commit
-        doNothing().when(transaction).begin();
-        doNothing().when(transaction).commit();
+        // Act
+        CustomerEntity savedCustomer = customerStore.saveCustomer(customer);
 
-        // Invoke the createCustomer method
-        customerStore.createCustomer(customer);
-
-        // Verify that persist was called on the entityManager
-        verify(entityManager).persist(customer);
+        // Assert
+        assertThat(savedCustomer).isEqualTo(customer);
+        verify(customerRepository, times(1)).save(customer);
     }
 
     @Test
-    @DisplayName("Test Get Customer by ID")
-    void testGetCustomerById() {
-        // Create a mock customer
-        CustomerEntity customer = mock(CustomerEntity.class);
+    void getAllCustomers_ShouldReturnAllCustomers() {
+        // Arrange
+        List<CustomerEntity> customers = new ArrayList<>();
+        CustomerEntity customer1 = new CustomerEntity();
+        customer1.setId(1L);
+        CustomerEntity customer2 = new CustomerEntity();
+        customer2.setId(2L);
+        customers.add(customer1);
+        customers.add(customer2);
+        when(customerRepository.findAll()).thenReturn(customers);
 
-        // Mock the find method to return the mock customer
-        when(entityManager.find(CustomerEntity.class, 1L)).thenReturn(customer);
+        // Act
+        List<CustomerEntity> result = customerStore.getAllCustomers();
 
-        // Invoke the getCustomerById method
-        CustomerEntity retrievedCustomer = customerStore.getCustomerById(1L);
-
-        // Assertions
-        assertThat(retrievedCustomer).isNotNull();
-        assertThat(retrievedCustomer).isEqualTo(customer);
-
-        // Verify that find was called on the entityManager
-        verify(entityManager).find(CustomerEntity.class, 1L);
+        // Assert
+        assertThat(result).isEqualTo(customers);
+        verify(customerRepository, times(1)).findAll();
     }
 
     @Test
-    @DisplayName("Test Update Customer")
-    void testUpdateCustomer() {
-        // Create a new customer
+    void getCustomerById_ExistingCustomerId_ShouldReturnCustomer() {
+        // Arrange
+        long customerId = 1L;
         CustomerEntity customer = new CustomerEntity();
-        // Set customer properties
-        // ...
+        customer.setId(customerId);
+        when(customerRepository.findById(customerId)).thenReturn(Optional.of(customer));
 
-        // Mock the transaction begin and commit
-        doNothing().when(transaction).begin();
-        doNothing().when(transaction).commit();
+        // Act
+        Optional<CustomerEntity> result = customerStore.getCustomerById(customerId);
 
-        // Invoke the updateCustomer method
-        customerStore.updateCustomer(customer);
-
-        // Verify that merge was called on the entityManager
-        verify(entityManager).merge(customer);
+        // Assert
+        assertThat(result).isPresent().contains(customer);
+        verify(customerRepository, times(1)).findById(customerId);
     }
 
     @Test
-    @DisplayName("Test Delete Customer")
-    void testDeleteCustomer() {
-        // Create a new customer
+    void getCustomerById_NonExistingCustomerId_ShouldReturnEmptyOptional() {
+        // Arrange
+        long nonExistingCustomerId = 100L;
+        when(customerRepository.findById(nonExistingCustomerId)).thenReturn(Optional.empty());
+
+        // Act
+        Optional<CustomerEntity> result = customerStore.getCustomerById(nonExistingCustomerId);
+
+        // Assert
+        assertThat(result).isEmpty();
+        verify(customerRepository, times(1)).findById(nonExistingCustomerId);
+    }
+
+    @Test
+    void deleteCustomer_ShouldDeleteCustomer() {
+        // Arrange
         CustomerEntity customer = new CustomerEntity();
-        // Set customer properties
-        // ...
+        customer.setId(1L);
 
-        // Mock the transaction begin and commit
-        doNothing().when(transaction).begin();
-        doNothing().when(transaction).commit();
-
-        // Mock the find method to return the customer
-        when(entityManager.find(CustomerEntity.class, customer.getId())).thenReturn(customer);
-
-        // Invoke the deleteCustomer method
+        // Act
         customerStore.deleteCustomer(customer);
 
-        // Verify that find and remove were called on the entityManager
-        verify(entityManager).find(CustomerEntity.class, customer.getId());
-        verify(entityManager).remove(customer);
+        // Assert
+        verify(customerRepository, times(1)).delete(customer);
     }
 
-    // Add additional test cases as needed
+    @Test
+    void updateCustomer_ShouldUpdateCustomer() {
+        // Arrange
+        CustomerEntity customer = new CustomerEntity();
+        customer.setId(1L);
+
+        // Act
+        customerStore.updateCustomer(customer);
+
+        // Assert
+        verify(customerRepository, times(1)).save(customer);
+    }
+
+
 }
