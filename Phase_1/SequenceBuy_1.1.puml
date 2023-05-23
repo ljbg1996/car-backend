@@ -67,7 +67,15 @@ loop for(Product p : List<Product>)
 
     bs-> ls: manageLicenses(ProductID)
     activate ls
+            ls->lr: checkActiveLicenses((ProductID)
+            activate lr
+            lr->ls: return List<License>
+            deactivate lr
     loop for(Service s : List<Service>)
+        alt Active Licenses for all Services exist
+
+        ls->ls: appendLicenses()
+        else No active Licenses for all Services
         ls -> ls : new License()
         end
         ls -> lr: writeLicense(List<License>, vin)
