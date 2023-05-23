@@ -1,0 +1,53 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor Customer as c
+participant CancellationController as cc
+participant LicenseService as ls
+participant LicenseRepository as lr
+participant OrderRepository as or
+database Database as db
+
+c -> cc: cancelOrder(orderId)
+activate cc
+cc -> ls: cancelOrder(orderId)
+
+activate ls
+ls -> lr: deleteLicensesWithOrderId(orderId)
+activate lr
+lr -> db: deleteLicensesWithOrderId(orderId)
+activate db
+
+db --> lr: return boolean
+deactivate db
+
+lr --> ls: return boolean
+deactivate lr
+ls -> or: getOrderById(orderId)
+activate or
+or -> db: getOrderById(orderId)
+activate db
+db --> or: return Order
+deactivate db
+
+or --> ls: return Order
+deactivate or
+ls -> ls: order.setIsCanceled(true)
+ls -> or: updateOrder(Order)
+activate or
+or -> db: updateOrder(Order)
+activate db
+db --> or: return boolean
+deactivate db
+or --> ls: return boolean
+deactivate or
+ls --> cc: return boolean
+deactivate ls
+cc --> c: return cancellation successful
+deactivate cc
+
+
+
+@enduml
