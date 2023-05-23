@@ -38,6 +38,10 @@ class ViewLicenseController {
     + getLicense(String vin): List<License>
 }
 
+class ViewOrderController{
+    +getOrder(String orderID):Order
+}
+ViewOrderController--OrderService
 class BuyController {
 
     + doPurchase(vin, customerId, productId): boolean
@@ -53,7 +57,7 @@ LicenseService--OrderService
 
 class OrderRepository{
 +writeOrder(Order)
-+getOrder(Id):Order
++getOrder(orderId):Order
 +updateOrder(Order):boolean
 }
 
@@ -69,7 +73,7 @@ class Order{
 class OrderService{
     -Order
     +writeOrder(Order)
-    +getOrder(OrderId):Order
+    +getOrder(orderId):Order
     +buyConfirmed(Order)
     +updateOrder(Order):boolean
 }

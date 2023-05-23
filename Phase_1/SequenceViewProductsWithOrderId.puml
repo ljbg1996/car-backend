@@ -10,7 +10,7 @@ Participant OrderRepository as or
 
 database Database as db
 
-c --->voc:viewOrderStatus(String orderID)
+c --->voc:getOrder(String orderID)
 activate voc
 voc -> os:getOrder(String orderID): Order
 activate os
@@ -26,7 +26,7 @@ deactivate or
 
 os-->voc: return Order
 deactivate os
-voc-->c: return Order
+voc-->c: show Order Details
 deactivate voc
 
 @enduml
