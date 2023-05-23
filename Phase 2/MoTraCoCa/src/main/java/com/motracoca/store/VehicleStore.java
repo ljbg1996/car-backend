@@ -45,4 +45,7 @@ public class VehicleStore {
     }
 
 
+    public Vehicle getVehicleByVin(String vin) {
+        return null;
+    }
 }
