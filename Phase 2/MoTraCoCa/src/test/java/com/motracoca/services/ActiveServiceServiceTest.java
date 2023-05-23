@@ -18,7 +18,7 @@ public class ActiveServiceServiceTest {
     @Autowired
     private CustomerRepository customerRepository;
 
-    private final String VIN = "VIN1234567890";
+    private final Vin VIN = new Vin("VIN1234567890");
     private final long VEHICLEID = 23456789;
     private final long CUSTOMERID = 12345678;
     private final long SERVICEID1 = 45678901;
@@ -39,13 +39,8 @@ public class ActiveServiceServiceTest {
         CustomerEntity c1 = new CustomerEntity();
         c1.setId(CUSTOMERID);
 
-        Service s1 = new Service(SERVICEID1,SERVICENAME1);
-        Service s2 = new Service(SERVICEID2,SERVICENAME2);
 
-        Product product = new Product(PRODUCTID1,new ArticleNumber(12345678),new Price(5),List.of(s1,s2));
 
-        UsageRight usageRight1 = new UsageRight(USAGERIGHTID,LocalDate.now(),LocalDate.now(),product);
-//        Vehicle v1 = new Vehicle(VEHICLEID,VIN,List.of(s1,s2),List.of(usageRight1));
 
 //        c1.setVehicleEntityList(List.of(v1));
         customerRepository.save(c1);
@@ -63,10 +58,23 @@ public class ActiveServiceServiceTest {
     }
         @Test
     public void extractServicesTest(){
+        //given
+        Service s1 = new Service(SERVICEID1,SERVICENAME1);
+        Service s2 = new Service(SERVICEID2,SERVICENAME2);
+
+        Product product = new Product(PRODUCTID1,new ArticleNumber(12345678),new Price(5),List.of(s1,s2));
+
+        UsageRight usageRight1 = new UsageRight(USAGERIGHTID,LocalDate.now(),LocalDate.now(),product);
+
+        Vehicle v1 = new Vehicle(VEHICLEID,VIN,List.of(s1,s2),List.of(usageRight1));
+
         ActiveServiceService activeServiceService = new ActiveServiceService();
-//        List<Service> activeServices = activeServiceService.extractServices(v1,CUSTOMERID);
 
+        //when
+        List<Service> activeServices = activeServiceService.extractServices(v1,CUSTOMERID);
 
+        //then
+            Assertions.assertThat(activeServices).size().isEqualTo(2);
         }
 
 }
