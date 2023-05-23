@@ -20,6 +20,7 @@ public class OrderService {
     private final VehicleStore vs;
 
 
+    //TODO Rückgabewert
     public void buy(List<String> articleNumberList, String vin, long customerId, int duration) {
 
         Customer c = cs.getCustomerById(customerId);
