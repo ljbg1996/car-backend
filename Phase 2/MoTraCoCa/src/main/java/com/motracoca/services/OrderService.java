@@ -46,6 +46,7 @@ public class OrderService {
         Vehicle v1 = vs.getVehicleByVin(vin);
         LocalDate date = LocalDate.now();
 
+        // TODO id im order model nicht mehr final, da ich sie sonst hier im konstruktor setzen müsste
         Order actualOrder = new Order(false, v1, totalPrice, date, productConfigurationList);
 
 
