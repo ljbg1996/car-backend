@@ -1,5 +1,6 @@
 package com.motracoca.store;
 
+import com.motracoca.entities.ProductEntity;
 import com.motracoca.repositorys.ProductRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,20 +21,22 @@ public class ServiceStoreTest {
     @Mock
     private ProductRepository productRepository;
 
+    private ProductStore productStore;
     private ServiceStore serviceStore;
-//
-//    UserEntity userEntity;
-//
-//    @BeforeEach
-//    void init() {
-//        userEntity = new UserEntity();
-//        userEntity.setId("U12345789");
-//        userEntity.setFirstName("Max");
-//        userEntity.setLastName("Mustermann");
-//        userEntity.setVehicles(new ArrayList<>());
-//
-//        userStore = new UserStore(userEntityRepository);
-//    }
+
+    ProductEntity productEntity;
+
+    @BeforeEach
+    void init() {
+        productEntity = new ProductEntity();
+        productEntity.setId(12345789);
+        productEntity.setArticleNumber(12345666);
+        productEntity.setPrice(10);
+        productEntity.setIncludedServices(new ArrayList<>());
+
+//        productStore = new ProductStore(productRepository);
+
+    }
 //
 //    @Test
 //    void findUser() {

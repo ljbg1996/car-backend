@@ -1,8 +1,6 @@
 package com.motracoca.services;
 
 import com.motracoca.entities.CustomerEntity;
-import com.motracoca.entities.ServiceEntity;
-import com.motracoca.entities.VehicleEntity;
 import com.motracoca.model.*;
 import com.motracoca.repositorys.CustomerRepository;
 import org.assertj.core.api.Assertions;
@@ -62,7 +60,9 @@ public class ActiveServiceServiceTest {
         Service s1 = new Service(SERVICEID1,SERVICENAME1);
         Service s2 = new Service(SERVICEID2,SERVICENAME2);
 
-        Product product = new Product(PRODUCTID1,new ArticleNumber(12345678),new Price(5),List.of(s1,s2));
+        Product product = new ProductBuilder().setId(PRODUCTID1).setArticleNumber(new ArticleNumber(12345678)).setPrice(new Price(5)).setIncludedServices(List.of(s1, s2)).createProduct();
+        Price p1 = new Price(5);
+        p1.
 
         UsageRight usageRight1 = new UsageRight(USAGERIGHTID,LocalDate.now(),LocalDate.now(),product);
 
