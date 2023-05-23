@@ -30,10 +30,6 @@ public class ActiveServiceServiceTest {
 
         c1.setVehicleEntityList(List.of(v1));
 
-
-
         customerRepository.save(c1);
-
-
     }
 }

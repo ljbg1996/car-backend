@@ -1,5 +1,9 @@
 @startuml
 'https://plantuml.com/sequence-diagram
+
+autonumber
+@startuml
+'https://plantuml.com/sequence-diagram
 autonumber
 actor Customer as c
 
@@ -16,29 +20,7 @@ participant LicenseRepository as lr
 
 database Database as db
 
-c-> bc :
-activate bc
 
-
-
-bc -> ps: writeOrder(Order)
-activate ps
-ps -> os: writeOrder(Order)
-activate os
-os -> db:writeOrder(Order)
-db --> os:return boolean
-
-
-os --> ps:return boolean
-deactivate os
-ps --> bc:return boolean
-
-deactivate ps
-bc -> eps: doPurchase(Order)
-activate eps
-eps --> bc: request received
-deactivate eps
-deactivate bc
 
 eps -> ps: paymentCompleted(OrderId)
 activate eps
@@ -68,11 +50,16 @@ loop for(Product p : List<Product>)
     bs-> ls: manageLicenses(ProductID)
     activate ls
     loop for(Service s : List<Service>)
+        ls->lr: checkLicenses((ProductID)
+        lr->ls: return List<License>
+
+
         ls -> ls : new License()
-        end
-        ls -> lr: writeLicense(List<License>, vin)
+    end
+        ls -> lr: extendedLicense(List<License>, vin)
         activate lr
-        lr -> db:writeLicense(List<License>, vin)
+
+        lr -> db:extendedLicense(List<License>, vin)
         db -> lr: return boolean
         lr --> ls: return boolean
         deactivate lr
