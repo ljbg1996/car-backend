@@ -6,7 +6,7 @@ rectangle System{
 
 
 
-(Buy Product)  ->(Purchase)
+(Buy Product)  -->(Purchase)
 
 
 'auskommentiert, weil aktuell nicht benötigt
@@ -14,10 +14,14 @@ rectangle System{
 
 
 (View active Licenses)-->(View Vehicle License List)
+(Cancel product)-->(Delete usage rights)
+(Delete usage rights)-->(Safe cancellation)
+(View products with OrderId)-->(View details)
 }
 
 'at --> (View Compatible Products)
 at --> (Buy Product)
 at -> (View active Licenses)
-
+at -->(Cancel product)
+at -->(View products with OrderId)
 @enduml
