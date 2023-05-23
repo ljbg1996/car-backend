@@ -49,6 +49,10 @@ public class OrderService {
         // TODO id im order model nicht mehr final, da ich sie sonst hier im konstruktor setzen müsste
         Order actualOrder = new Order(false, v1, totalPrice, date, productConfigurationList);
 
+        c.getOrderList().add(actualOrder);
+
+        // TODO updateCustomer sollte ein customer Model entgegen nehmen
+        //cs.updateCustomer(c);
 
     }
 }

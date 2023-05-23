@@ -69,6 +69,7 @@ public class CustomerStore {
         customerRepository.delete(customer);
     }
 
+    // TODO updateCustomer sollte ein customer Model entgegen nehmen und in eine entität umgewandelt werden
     public void updateCustomer(CustomerEntity customer) {
         customerRepository.save(customer);
     }
