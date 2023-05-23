@@ -14,8 +14,8 @@ rectangle System{
 
 
 (View active Licenses)-->(View Vehicle License List)
-(Cancel product)-->(Delete usage rights)
-(Delete usage rights)-->(Safe cancellation)
+(Cancel product)-->(Delete licenses)
+(Delete licenses)-->(Safe cancellation)
 (View products with OrderId)-->(View details)
 }
 
