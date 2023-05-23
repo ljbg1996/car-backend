@@ -30,6 +30,7 @@ class LicenseRepository{
 
     +getLicensesFromDb(vin): List<License>
     +writeLicenses(List<License>, vin): boolean
+    +deleteLicenseWithOrderId(orderId): boolean
 
 }
 
@@ -41,37 +42,36 @@ class BuyController {
 
     + doPurchase(vin, customerId, productId): boolean
     + purchaseConfirmed(OrderId): boolean
-    + writeOrder(Order
+    + writeOrder(Order)
 }
 class CancellationController{
-+ cancelOrder(OrderId)
++ cancelOrder(orderId): boolean
 }
-CancellationController -- CancellationService
-class CancellationService{
-- Order
-+cancelOrder(Order)
-}
-CancellationService -- Order
+CancellationController -- LicenseService
+LicenseService--OrderService
+
+
 class OrderRepository{
 +writeOrder(Order)
-+getOrder(Id)
++getOrder(Id):Order
++updateOrder(Order):boolean
 }
 
 class Order{
 -OrderId: String
--vin:String
--date: String
+-vin: String
+-date: Date
 -Products: List<Product>
-    - isCancelled: Boolean
-
-
+- isCancelled: Boolean
+- CancellationDate: Date
 }
 
 class OrderService{
     -Order
     +writeOrder(Order)
-    +getOrder((OrderId)
+    +getOrder(OrderId):Order
     +buyConfirmed(Order)
+    +updateOrder(Order):boolean
 }
 
 class LicenseService{
@@ -93,7 +93,7 @@ ViewLicenseController -- LicenseService
 BuyController --> OrderService
 
 BuyService -- BuyController
-License -- Order
+License "0.*" --"1"  Order
 
 License "0.*" --> "1"Product
 Product "0..*" --> "0..*" Service
