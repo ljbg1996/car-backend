@@ -15,7 +15,7 @@ public class Order {
 
     private final Vehicle vehicle;
 
-    private final double totalPrice;
+    private final Price totalPrice;
 
     private final LocalDate date;
 

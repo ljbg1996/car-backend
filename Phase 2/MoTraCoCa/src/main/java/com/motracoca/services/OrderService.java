@@ -31,15 +31,17 @@ public class OrderService {
         }
 
         List<ProductConfiguration> productConfigurationList = new ArrayList<>();
-        double totalPrice = 0;
+        double sum = 0;
 
         for (Product p : products) {
 
             ProductConfiguration pc = new ProductConfiguration(p, duration);
             productConfigurationList.add(pc);
-            totalPrice = totalPrice + p.getPrice();
+            sum += p.getPrice().price();
 
         }
+
+        Price totalPrice = new Price(sum);
 
         Vehicle v1 = vs.getVehicleByVin(vin);
         LocalDate date = LocalDate.now();

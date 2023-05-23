@@ -15,7 +15,7 @@ public class  Product {
 
     private final ArticleNumber articleNumber;
 
-    private final double price;
+    private final Price price;
 
     private final List<Service> includedServices;
 
