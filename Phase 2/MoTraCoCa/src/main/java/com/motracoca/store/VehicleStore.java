@@ -2,6 +2,7 @@ package com.motracoca.store;
 
 import com.motracoca.entities.VehicleEntity;
 
+import com.motracoca.model.Vehicle;
 import com.motracoca.repositorys.VehicleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,4 +28,7 @@ public class VehicleStore {
     }
 
 
+    public Vehicle getVehicleByVin(String vin) {
+        return null;
+    }
 }
