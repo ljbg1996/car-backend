@@ -1,7 +1,7 @@
-Aldin: DataStores (Vehicle, UsageRight, Service, Product)
+Aldin: DataStores (Vehicle, UsageRight, Product)
 Bianca: OrderService Test & Logik
 Xinjie: DataStores (Customer, Order, ProductConfiguration)
-Martin: ActiveServiceService Test & Logik
+Martin: ActiveServiceService Test & Logik, DataStore (Service)
 
 Ausstehend:
 FinaliseOrderService Test & Logik

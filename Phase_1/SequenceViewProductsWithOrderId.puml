@@ -1,0 +1,32 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+Actor Customer as c
+Participant ViewOrderController as voc
+Participant OrderService as os
+Participant OrderRepository as or
+
+database Database as db
+
+c --->voc:getOrder(String orderID)
+activate voc
+voc -> os:getOrder(String orderID): Order
+activate os
+os -> or: getOrder(orderID): Order
+activate or
+or->db: getOrderFromDB(orderID)
+activate db
+db-->or: return Order from Query
+deactivate db
+
+or-->os: return Order
+deactivate or
+
+os-->voc: return Order
+deactivate os
+voc-->c: show Order Details
+deactivate voc
+
+@enduml

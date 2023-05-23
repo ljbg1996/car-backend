@@ -1,67 +1,20 @@
 @startuml
-'class Car {
-    '- vin: string
-    '- owner: Customer
-    '- serviceList: List<Service>
-    '- licenseList: List<License>
-
-    '+ setLicenseList(List<License> licenseList): void
-    '+ setserviceList(List<Service> serviceList): void
-    '+ setOwner(Customer c): void
-    '+ getServiceList(): List<Service>
-    '+ getVin(): String
-
-'}
-
-'class CarRepository{
-
-  '  + getCarFromDb((String vin): Car
-
-
-'}
-
-'class Customer {
-    '- customerId: long
-    '- name: string
-    '- car: List<Car>
-
-    '+ addCar(String vin): void
-
-
-'}
-
-'class CustomerRepository{}
-'class ProductRepository{}
-
 
 class Product {
     - productId: long
     - name: string
     - serviceList: List<Service>
-    '- price: double
     - duration: int
-    '+ setPrice(double price): void
     + getServiceList(): List<Service>
 
 }
 
-
-
 class Service {
     - serviceId: long
     - name: string
-    '- description: string
-    '- duration: int
-
-
 
 }
 
-'class ServiceRepository{
-
- '   +getServiceFromDb(serviceId): Service
-
-'}
 
 class License {
     - licenseId: long
@@ -70,61 +23,60 @@ class License {
     - product: Product
     - service: Service
     - vin: String
-
-   '+ extendLicense(license: License, duration: int): void
-
+    - Order: Order
 }
 
 class LicenseRepository{
 
     +getLicensesFromDb(vin): List<License>
     +writeLicenses(List<License>, vin): boolean
+    +deleteLicenseWithOrderId(orderId): boolean
 
 }
 
 class ViewLicenseController {
-
-
     + getLicense(String vin): List<License>
-
 }
 
+class ViewOrderController{
+    +getOrder(String orderID):Order
+}
+ViewOrderController--OrderService
 class BuyController {
 
     + doPurchase(vin, customerId, productId): boolean
     + purchaseConfirmed(OrderId): boolean
-    + writeOrder(Order
-    'Kaufdatum?
+    + writeOrder(Order)
 }
+class CancellationController{
++ cancelOrder(orderId): boolean
+}
+CancellationController -- LicenseService
+LicenseService--OrderService
+
 
 class OrderRepository{
 +writeOrder(Order)
-+getOrder(Id)
++getOrder(orderId):Order
++updateOrder(Order):boolean
 }
 
 class Order{
--OrderId: int
--vin:String
--date: String
+-OrderId: String
+-vin: String
+-date: Date
 -Products: List<Product>
-
+- isCancelled: Boolean
+- CancellationDate: Date
 }
 
 class OrderService{
     -Order
     +writeOrder(Order)
-    +getOrder((OrderId)
+    +getOrder(orderId):Order
     +buyConfirmed(Order)
+    +updateOrder(Order):boolean
 }
-
-
-
-
-'class ViewProductController {
-
- '   + getProductList(String vin): List<Product>
-
-'}
 
 class LicenseService{
 
@@ -138,37 +90,16 @@ class BuyService {
     +createLicenses(List<Product>, vin)
 }
 
-'class ViewProductService {
-
- '   + getCar(String vin): Car
-  '  + addProductsToNewProductList(List<Product>):List<Product>
-'}
-
-
-
-
-
-
-
 LicenseRepository-- License
 LicenseRepository -- LicenseService
 BuyService -- LicenseService
 ViewLicenseController -- LicenseService
 BuyController --> OrderService
 
-'CarRepository -- Lice  nseService
-'ProductRepository -- Product
-'CarRepository -- ViewProductService
-
-'ViewProductController -- ViewProductService
 BuyService -- BuyController
-'CarRepository -- Car
-'CustomerRepository -- Customer
-'ServiceRepository -- Service
-'Customer "1" --> "0..*" Car
-'Car "1" --> "0..*" License
-'Car "1" --> "0..*" Service
-License "0..*"--> "1"Product
+License "0.*" --"1"  Order
+
+License "0.*" --> "1"Product
 Product "0..*" --> "0..*" Service
 OrderService --> OrderRepository
 Order --> OrderService
