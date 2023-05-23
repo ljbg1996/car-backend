@@ -30,4 +30,5 @@ public class CustomerEntity {
     @Column(name = "Payment information")
     String PaymentInfo;
 
+
 }

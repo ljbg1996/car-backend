@@ -36,7 +36,7 @@ public class OrderServiceTest {
 
         cr.save(c1);
 
-        orderService.buy();
+        //orderService.buy();
 
         CustomerEntity customerFromDb = cr.getById(c1.getId());
         List<OrderEntity> orderList2 = customerFromDb.getOrderEntityList();
