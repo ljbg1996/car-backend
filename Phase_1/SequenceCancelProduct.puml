@@ -38,6 +38,7 @@ deactivate db
 or --> os: return Order
 deactivate or
 os -> os: order.setIsCanceled(true)
+os -> os: order.setCancellationDate(Date)
 os -> or: updateOrder(Order)
 activate or
 or -> db: updateOrder(Order)
