@@ -42,6 +42,10 @@ public class OrderEntity {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ProductConfigurationEntity> products;
 
+    private boolean isCanceled;
+
+    private LocalDate cancellationDate;
+
 
 
 }

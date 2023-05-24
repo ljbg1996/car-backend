@@ -16,7 +16,8 @@ public class UsageRight {
     private final Service coveredService;
     private final Vehicle coveredVehicle;
     private final Customer coveredCustomer;
-    private final Product product;
+    private final Product fromProduct;
+    private final Order fromOrder;
 
 
 

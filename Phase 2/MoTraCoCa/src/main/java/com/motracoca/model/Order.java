@@ -25,6 +25,10 @@ public class Order {
 
     private final List<ProductConfiguration> products;
 
+    private final boolean isCanceled;
+
+    private final LocalDate cancellationDate;
+
 }
 
 

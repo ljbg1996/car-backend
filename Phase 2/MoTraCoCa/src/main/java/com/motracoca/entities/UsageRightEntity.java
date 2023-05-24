@@ -37,7 +37,10 @@ public class UsageRightEntity {
     private CustomerEntity coveredCustomer;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    private ProductEntity product;
+    private ProductEntity fromProduct;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    private OrderEntity fromOrder;
 
 
 }
