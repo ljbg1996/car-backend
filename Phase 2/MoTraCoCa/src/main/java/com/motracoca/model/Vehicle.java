@@ -12,8 +12,9 @@ public class Vehicle {
 
     private final long id;
     private final Vin vin;
+    private final Customer owner;
     private final List<Service> serviceList;
-    private final List<UsageRight> usageRightList;
+
 
 
 }

@@ -2,5 +2,5 @@ package com.motracoca.model;
 
 
 
-public record ProductConfiguration(Product product, int duration) {
+public record ProductConfiguration(long id, Product product, int duration) {
 }

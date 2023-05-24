@@ -1,11 +1,13 @@
 package com.motracoca.model;
 
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import java.time.LocalDate;
 import java.util.List;
 
 @RequiredArgsConstructor
+@Getter
 public class Order {
 
 
@@ -14,6 +16,8 @@ public class Order {
     private final boolean isPayed;
 
     private final Vehicle vehicle;
+
+    private final Customer customer;
 
     private final Price totalPrice;
 
