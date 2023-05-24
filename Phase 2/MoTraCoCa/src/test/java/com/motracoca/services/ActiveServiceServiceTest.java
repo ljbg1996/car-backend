@@ -37,9 +37,6 @@ public class ActiveServiceServiceTest {
         CustomerEntity c1 = new CustomerEntity();
         c1.setId(CUSTOMERID);
 
-
-
-
 //        c1.setVehicleEntityList(List.of(v1));
         customerRepository.save(c1);
     }
@@ -49,8 +46,10 @@ public class ActiveServiceServiceTest {
     public void getActiveServicesTest() {
         ActiveServiceService activeServiceService = new ActiveServiceService();
 
-        List<Service> result = activeServiceService.getActiveServices(VIN, CUSTOMERID);
 
+
+        List<Service> result = activeServiceService.getActiveServices(VIN, CUSTOMERID);
+//        VIN+Customer->Active List<Services>
         Assertions.assertThat(result).isNotNull();
 //        customerRepository.save(c1);
     }
@@ -60,13 +59,13 @@ public class ActiveServiceServiceTest {
         Service s1 = new Service(SERVICEID1,SERVICENAME1);
         Service s2 = new Service(SERVICEID2,SERVICENAME2);
 
-        Product product = new ProductBuilder().setId(PRODUCTID1).setArticleNumber(new ArticleNumber(12345678)).setPrice(new Price(5)).setIncludedServices(List.of(s1, s2)).createProduct();
-        Price p1 = new Price(5);
-        p1.
+        Product product = new Product(PRODUCTID1, new ArticleNumber(12345678), new Price(5),List.of(s1, s2));
 
         UsageRight usageRight1 = new UsageRight(USAGERIGHTID,LocalDate.now(),LocalDate.now(),product);
 
         Vehicle v1 = new Vehicle(VEHICLEID,VIN,List.of(s1,s2),List.of(usageRight1));
+
+        Customer customer = new Customer()
 
         ActiveServiceService activeServiceService = new ActiveServiceService();
 
