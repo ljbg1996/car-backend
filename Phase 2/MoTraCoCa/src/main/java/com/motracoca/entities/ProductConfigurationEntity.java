@@ -21,4 +21,5 @@ public class ProductConfigurationEntity {
      private ProductEntity productEntity;
 
      private int duration;
+
 }

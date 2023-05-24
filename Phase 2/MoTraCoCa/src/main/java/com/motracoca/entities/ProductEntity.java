@@ -28,4 +28,5 @@ public class ProductEntity {
     @ManyToMany(cascade = CascadeType.ALL)
     private List<ServiceEntity> includedServices;
 
+
 }

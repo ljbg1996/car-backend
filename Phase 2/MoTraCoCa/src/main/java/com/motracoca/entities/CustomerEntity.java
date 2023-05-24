@@ -21,6 +21,12 @@ public class CustomerEntity {
     @Column(name = "id", nullable = false)
     private long id;
 
+    @OneToMany( cascade= CascadeType.ALL ,fetch = FetchType.EAGER)
+    private List<VehicleEntity> vehicleEntityList = new ArrayList<>();
+
+    @OneToMany( cascade= CascadeType.ALL,fetch = FetchType.EAGER)
+    private List<OrderEntity> orderEntityList;
+
     @Column(name = "Payment information")
     String PaymentInfo;
 

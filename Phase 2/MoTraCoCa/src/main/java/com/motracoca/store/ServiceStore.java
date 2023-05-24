@@ -7,4 +7,11 @@ public class ServiceStore {
     public static Service convertToService(ServiceEntity serviceEntity) {
         return new Service(serviceEntity.getId(), serviceEntity.getName());
     }
+
+    public static ServiceEntity convertToServiceEntity(Service service) {
+        ServiceEntity serviceEntity = new ServiceEntity();
+        serviceEntity.setId(service.id());
+        serviceEntity.setName(service.name());
+        return serviceEntity;
+    }
 }

@@ -1,15 +1,22 @@
 package com.motracoca.store;
 
+import com.motracoca.entities.ServiceEntity;
+import com.motracoca.entities.UsageRightEntity;
 import com.motracoca.entities.VehicleEntity;
 
-import com.motracoca.model.*;
+import com.motracoca.model.Service;
+import com.motracoca.model.UsageRight;
+import com.motracoca.model.Vehicle;
+import com.motracoca.model.Vin;
 import com.motracoca.repositorys.VehicleEntityRepository;
 import com.motracoca.repositorys.VehicleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -31,18 +38,40 @@ public class VehicleStore {
         return new Vehicle(vehicleEntity.getId(), new Vin(vehicleEntity.getVin()), serviceList, usageRightList);
     }
 
+    public static VehicleEntity convertToVehicleEntity(Vehicle vehicle) {
+        List<ServiceEntity> serviceEntities = vehicle.getServiceList().stream()
+                .map(ServiceStore::convertToServiceEntity)
+                .collect(Collectors.toList());
 
+        List<UsageRightEntity> usageRightEntities = vehicle.getServiceList().stream()
+                .map(UsageRightStore::convertToUsageRightEntity)
+                .collect(Collectors.toList());
 
-    public Vehicle getVehicle(long id) {
-        final Optional<VehicleEntity> vehicleEntityOptional = VehicleEntityRepository.findById(id);
-        if (vehicleEntityOptional.isPresent()) {
-            final VehicleEntity vehicleEntity = vehicleEntityOptional.get();
-            return convertToVehicle(vehicleEntity);
-        } else {
-            throw new IllegalArgumentException("Vehicle not found for id " + id);
-        }
+        return new VehicleEntity(vehicle.getId(), vehicle.getVin(), serviceEntities, usageRightEntities);
     }
 
+
+
+    private final Map<String, VehicleEntity> vehicleMap = new HashMap<>();
+
+
+
+
+    public void addVehicle(VehicleEntity vehicle) {
+        vehicleMap.put(vehicle.getVin(), vehicle);
+        log.info("Added vehicle with VIN {} and ID {}", vehicle.getVin(), vehicle.getId());
+    }
+
+    public Optional<Vehicle> getVehicleByVin(String vin) {
+        Vehicle vehicle = vehicleMap.get(vin);
+        if (vehicle != null) {
+            log.info("Retrieved vehicle with VIN {} and ID{}", vehicle.getVin(), vehicle.getId());
+            return Optional.of(vehicle);
+        } else {
+            log.warn("No vehicle found with VIN {}", vin);
+            return Optional.empty();
+        }
+    }
 
 
 }

@@ -1,5 +1,6 @@
 package com.motracoca.entities;
 
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,7 @@ import lombok.Setter;
 import java.time.LocalDate;
 
 import java.util.List;
+
 
 
 @Getter
@@ -39,6 +41,7 @@ public class OrderEntity {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ProductConfigurationEntity> products;
+
 
 
 }

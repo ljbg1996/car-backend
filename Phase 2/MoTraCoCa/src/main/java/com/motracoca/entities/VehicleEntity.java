@@ -1,11 +1,13 @@
 package com.motracoca.entities;
 
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import jakarta.persistence.*;
 import lombok.Setter;
 import java.util.List;
+
 
 @Getter
 @Setter

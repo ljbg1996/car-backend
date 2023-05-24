@@ -21,15 +21,6 @@ public class CustomerStore {
     @Autowired
     private final CustomerRepository customerRepository;
 
-
-    public CustomerEntity saveCustomer(CustomerEntity customer) {
-        return customerRepository.save(customer);
-    }
-
-    public List<CustomerEntity> getAllCustomers() {
-        return customerRepository.findAll();
-    }
-
     public static Customer convertToCustomer(CustomerEntity customerEntity){
         List<Vehicle> vehicleList = customerEntity.getVehicleEntityList().stream()
                 .map(VehicleStore::convertToVehicle)
@@ -41,6 +32,59 @@ public class CustomerStore {
 
         return new Customer(customerEntity.getId(), vehicleList, orderList, customerEntity.getPaymentInfo());
     }
+
+    public static CustomerEntity convertToCustomerEntity(Customer customer) {
+        List<VehicleEntity> vehicleEntityList = customer.getVehicleList().stream()
+                .map(VehicleStore::convertToVehicleEntity)
+                .collect(Collectors.toList());
+
+        List<OrderEntity> orderEntityList = customer.getOrderList().stream()
+                .map(OrderStore::convertToOrderEntity)
+                .collect(Collectors.toList());
+
+        CustomerEntity customerEntity = new CustomerEntity();
+        customerEntity.setId(customer.getId());
+        customerEntity.setVehicleEntityList(vehicleEntityList);
+        customerEntity.setOrderEntityList(orderEntityList);
+        customerEntity.setPaymentInfo(customer.getPaymentInfo());
+
+        return customerEntity;
+    }
+
+    public Customer saveCustomer(CustomerEntity customerEntity) {
+        CustomerEntity savedEntity = customerRepository.save(customerEntity);
+        return CustomerStore.convertToCustomer(savedEntity);
+    }
+
+    public void deleteCustomerById(long id) {
+        Optional<CustomerEntity> existingCustomerOptional = customerRepository.findById(id);
+        if (existingCustomerOptional.isPresent()) {
+            customerRepository.delete(existingCustomerOptional.get());
+        } else {
+            throw new IllegalArgumentException("No customer found for ID: " + id);
+        }
+    }
+
+
+    public List<CustomerEntity> getAllCustomers() {
+        return customerRepository.findAll();
+    }
+
+    public Customer updateCustomer(Customer customer) {
+        Optional<CustomerEntity> existingCustomerOptional = customerRepository.findById(customer.getId());
+        if (existingCustomerOptional.isPresent()) {
+            CustomerEntity existingCustomer = existingCustomerOptional.get();
+
+            // Update other properties as needed
+
+            CustomerEntity updatedEntity = customerRepository.save(existingCustomer);
+            return convertToCustomer(updatedEntity);
+        } else {
+            throw new IllegalArgumentException("No customer found for ID: " + customer.getId());
+        }
+    }
+
+
     public Customer getCustomerById(long id) {
         final Optional<CustomerEntity> customerEntityOptional = customerRepository.findById(id);
         if (customerEntityOptional.isPresent()) {

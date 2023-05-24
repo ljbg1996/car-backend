@@ -4,12 +4,19 @@ import com.motracoca.entities.ProductConfigurationEntity;
 import com.motracoca.model.ProductConfiguration;
 
 import static com.motracoca.store.ProductStore.convertToProduct;
+import static com.motracoca.store.ProductStore.convertToProductEntity;
 
 public class ProductConfigurationStore {
     public static ProductConfiguration convertToProductConfiguration(ProductConfigurationEntity productConfigurationEntity) {
         return new ProductConfiguration(
-                convertToProduct(productConfigurationEntity.getProduct()),
+                convertToProduct(productConfigurationEntity.getProductEntity()),
                 productConfigurationEntity.getDuration()
         );
+    }
+    public static ProductConfigurationEntity convertToProductConfigurationEntity(ProductConfiguration productConfiguration) {
+        ProductConfigurationEntity productConfigurationEntity = new ProductConfigurationEntity();
+        productConfigurationEntity.setProductEntity(convertToProductEntity(productConfiguration.product()));
+        productConfigurationEntity.setDuration(productConfiguration.duration());
+        return productConfigurationEntity;
     }
 }
