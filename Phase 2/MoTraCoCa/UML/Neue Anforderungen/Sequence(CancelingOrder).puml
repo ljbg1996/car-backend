@@ -1,0 +1,28 @@
+@startuml
+
+actor Customer
+
+Customer -> CancelOrderRESTController : cancelOrder(orderId)
+activate CancelOrderRESTController
+
+CancelOrderRESTController -> CancelOrderService : cancelOrder(orderId)
+activate CancelOrderService
+
+CancelOrderService -> OrderStore : markOrderAsCanceled(orderId)
+activate OrderStore
+OrderStore --> CancelOrderService : true
+deactivate OrderStore
+
+
+CancelOrderService -> OrderStore : deleteAllUsageRightsOfOrder(orderId))
+activate OrderStore
+OrderStore --> CancelOrderService : success
+deactivate OrderStore
+
+CancelOrderService --> CancelOrderRESTController : success
+deactivate CancelOrderService
+
+CancelOrderRESTController --> Customer : success
+deactivate CancelOrderRESTController
+
+@enduml

@@ -1,5 +1,18 @@
 @startuml
 
+class UsageRight {
+  startDate: Date
+  endDate: Date
+  fromProductWithArticleNumber: ArticleNumber
+  coveredVehicle:Vin
+  coveredCustomer:CustomerId
+
+}
+
+@enduml
+
+@startuml
+
 actor ExternalPaymentService
 
 ExternalPaymentService -> FinaliseOrderRESTController : approvePaymentOfOrder(orderId)
@@ -8,43 +21,46 @@ activate FinaliseOrderRESTController
 FinaliseOrderRESTController -> FinaliseOrderService : approvePaymentOfOrderAndAssignUsageRights(orderId)
 activate FinaliseOrderService
 
-FinaliseOrderService -> OrderRepository : getOrder(orderId)
-activate OrderRepository
-OrderRepository --> FinaliseOrderService : order
-deactivate OrderRepository
-
-FinaliseOrderService -> FinaliseOrderService : setOrderAsPayed(orderId)
-activate FinaliseOrderService
-FinaliseOrderService --> FinaliseOrderService
-deactivate FinaliseOrderService
-
-FinaliseOrderService -> OrderRepository : persistOrder(order)
-activate OrderRepository
-OrderRepository --> FinaliseOrderService
-deactivate OrderRepository
-
-FinaliseOrderService -> CustomerRepository : getCustomerThatHasOrder(orderId)
-activate CustomerRepository
-
-CustomerRepository --> FinaliseOrderService : customer
-deactivate CustomerRepository
-
-FinaliseOrderService -> FinaliseOrderService : createUsageRights(order)
-activate FinaliseOrderService
-
-FinaliseOrderService --> FinaliseOrderService
-deactivate FinaliseOrderService
-
-FinaliseOrderService -> CustomerRepository : updateCustomer(customer)
-activate CustomerRepository
-
-CustomerRepository --> FinaliseOrderService
-deactivate CustomerRepository
-
+FinaliseOrderService -> OrderStore : markAsPayed(orderId)
+activate OrderStore
+OrderStore --> FinaliseOrderService : true
+deactivate OrderStore
 FinaliseOrderService --> FinaliseOrderRESTController : success
-deactivate FinaliseOrderService
-
 FinaliseOrderRESTController --> ExternalPaymentService : success
-deactivate FinaliseOrderRESTController
+    deactivate FinaliseOrderRESTController
+
+FinaliseOrderService -> OrderStore : getOrder(orderId)
+activate OrderStore
+OrderStore --> FinaliseOrderService : order
+deactivate OrderStore
+
+alt order.canceled
+    FinaliseOrderService --> FinaliseOrderRESTController : return
+else
+    FinaliseOrderService -> VehicleStore : getActiveServices(order.vehicle.id, order.customer.id)
+    activate VehicleStore
+    VehicleStore --> FinaliseOrderService : serviceList
+    deactivate VehicleStore
+
+    loop foreach productConfig in order.productConfigs
+
+        FinaliseOrderService -> FinaliseOrderService : determineStartDate(pc.product.services, serviceList)
+        activate FinaliseOrderService
+        FinaliseOrderService --> FinaliseOrderService : startDate
+        deactivate FinaliseOrderService
+
+        FinaliseOrderService -> FinaliseOrderService : createUsageRights(startDate,pc.duration,pc.product.services)
+        activate FinaliseOrderService
+        FinaliseOrderService --> FinaliseOrderService : usageRights
+        deactivate FinaliseOrderService
+
+    end
+        FinaliseOrderService -> OrderStore : persistUsageRights(usageRights)
+        activate OrderStore
+        OrderStore --> FinaliseOrderService : success
+        deactivate OrderStore
+end
+
+deactivate FinaliseOrderService
 
 @enduml

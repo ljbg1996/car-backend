@@ -36,6 +36,7 @@ public class OrderService {
 
         for (Product p : products) {
 
+            //TODO ID Problem
             ProductConfiguration pc = new ProductConfiguration(p, duration);
             productConfigurationList.add(pc);
             sum += p.getPrice().price();
@@ -48,7 +49,7 @@ public class OrderService {
         LocalDate date = LocalDate.now();
 
         // TODO id im order model nicht mehr final, da ich sie sonst hier im konstruktor setzen müsste
-        Order actualOrder = new Order(false, v1, totalPrice, date, productConfigurationList);
+        Order actualOrder = new Order(false, v1, c, totalPrice, date, productConfigurationList);
 
         c.getOrderList().add(actualOrder);
 

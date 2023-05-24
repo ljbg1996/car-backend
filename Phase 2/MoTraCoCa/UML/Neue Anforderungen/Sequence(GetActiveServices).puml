@@ -1,25 +1,42 @@
 @startuml
 
+class Service{
+id:long
+name:String
+rightToUseFrom: Date
+rightToUseTo:Date
+}
+
+@enduml
+
+@startuml
+
 actor Customer
 
 Customer -> ActiveServiceRESTController : getActiveServices(vin, customerId)
 activate ActiveServiceRESTController
 
-ActiveServiceRESTController -> ActiveServicService : getActiveServices(vin, customerId)
-activate ActiveServicService
+ActiveServiceRESTController -> ActiveServiceService : getActiveServices(vin, customerId)
+activate ActiveServiceService
 
-ActiveServicService -> CustomerRepository : getCustomer(customerId)
-activate CustomerRepository
-CustomerRepository --> ActiveServicService : customer
-deactivate CustomerRepository
+ActiveServiceService -> VehicleStore : getActiveServices(vin,customerId)
+activate VehicleStore
 
-ActiveServicService -> ActiveServicService  : extractActiveServices(customer,vin)
-activate ActiveServicService
-ActiveServicService --> ActiveServicService : List<Service>
-deactivate ActiveServicService
+VehicleStore -> VehicleRepository: getUsageRights(vin, customerId)
+activate VehicleRepository
+VehicleRepository --> VehicleStore : usageRights
 
-ActiveServicService --> ActiveServiceRESTController : List<Service>
-deactivate ActiveServicService
+VehicleStore -> VehicleStore: convertToServices(usageRights)
+activate VehicleStore
+VehicleStore --> VehicleStore: List<Service>
+deactivate VehicleStore
+VehicleStore --> ActiveServiceService : List<Service>
+deactivate VehicleStore
+
+
+
+ActiveServiceService --> ActiveServiceRESTController : List<Service>
+deactivate ActiveServiceService
 
 ActiveServiceRESTController --> Customer : List<Service>
 deactivate ActiveServiceRESTController

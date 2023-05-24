@@ -1,44 +1,30 @@
 @startuml
+class PurchaseRequest{
+productsDurations: List<Pair<ArticleNumber,Duration>
+vin: Vin
+customerId: CustomerId
+}
+@enduml
+@startuml
 
 actor Customer
 
-Customer -> OrderRESTController : buy(articleNumberList, vin, customerId, durations)
+Customer -> OrderRESTController : buy(purchaseRequest)
 activate OrderRESTController
 
 
-OrderRESTController -> OrderService : buy(articleNumberList, vin, customerId, durations)
+OrderRESTController -> OrderService : buy(purchaseRequest)
 activate OrderService
 
 
 
-OrderService --> CustomerRepository : getCustomer(customerId)
-activate CustomerRepository
+OrderService --> OrderStore : createAndPersistOrder(purchaseRequest))
+activate OrderStore
+OrderStore --> OrderService : order
+deactivate OrderStore
 
-CustomerRepository --> OrderService : customer
-deactivate CustomerRepository
 
-OrderService --> ProductRepository : getProducts(articleNumberList)
-activate ProductRepository
-
-ProductRepository --> OrderService : products
-deactivate ProductRepository
-
-OrderService -> OrderService : createOrder(products, durations,vin)
-activate OrderService
-OrderService --> OrderService :order
-deactivate OrderService
-
-OrderService -> OrderService : appendOrder(order, customer)
-activate OrderService
-OrderService --> OrderService
-deactivate OrderService
-
-OrderService -> CustomerRepository : persistCustomer(customer)
-activate CustomerRepository
-CustomerRepository --> OrderService
-deactivate CustomerRepository
-
-OrderService -> ExternalPaymentServiceRestController : processPayment(orderId, customer.paymentInfo, order.totalPrice)
+OrderService -> ExternalPaymentServiceRestController : processPayment(order.id, order.customer.paymentInfo, order.totalPrice)
 activate ExternalPaymentServiceRestController
 
 ExternalPaymentServiceRestController --> OrderService : paymentStatus

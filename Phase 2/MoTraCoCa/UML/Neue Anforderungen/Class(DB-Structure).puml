@@ -25,7 +25,8 @@ class UsageRight {
   coveredService:Service
   coveredVehicle:Vehicle
   coveredCustomer:Customer
-  fromProductWithArticleNumber: ArticleNumber
+  fromProduct: Product
+  fromOrder: Order
 }
 
 class Product {
@@ -43,10 +44,13 @@ class ProductConfig {
 class Order{
 id: long
 isPayed: boolean
+paymentDate: Date
+canceled: boolean
+canceledOn: Date
 vehicle: Vehicle
 customer: Customer
 totalPrice: Price
-products: List<ProductConfig>
+productConfig: List<ProductConfig>
 date: Date
 }
 
@@ -55,6 +59,8 @@ Vehicle "0..*" --> "1..*" Service : offers
 UsageRight "1" --> "1" Service : covers
 UsageRight "1" --> "1" Vehicle : covers
 UsageRight "1" --> "1" Customer : covers
+UsageRight  -->  Order : from
+UsageRight  -->  Product : from
 Product "1" --> "1..*" Service : includes
 ProductConfig "1" --> "1" Product : configures
 Order "1" --> "1" Customer : placed by
