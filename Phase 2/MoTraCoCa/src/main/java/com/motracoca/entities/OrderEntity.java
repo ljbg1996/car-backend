@@ -28,6 +28,9 @@ public class OrderEntity {
     @ManyToOne(cascade = CascadeType.ALL)
     private VehicleEntity vehicleEntity;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    private CustomerEntity customerEntity;
+
     //@Embedded
     private double totalPrice;
 
