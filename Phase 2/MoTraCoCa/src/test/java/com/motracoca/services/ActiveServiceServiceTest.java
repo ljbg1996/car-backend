@@ -65,7 +65,7 @@ public class ActiveServiceServiceTest {
 
         Vehicle v1 = new Vehicle(VEHICLEID,VIN,List.of(s1,s2),List.of(usageRight1));
 
-        Customer customer = new Customer()
+//        Customer customer = new Customer()
 
         ActiveServiceService activeServiceService = new ActiveServiceService();
 
