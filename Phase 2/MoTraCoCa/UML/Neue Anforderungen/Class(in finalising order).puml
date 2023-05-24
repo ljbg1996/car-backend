@@ -1,0 +1,33 @@
+@startuml
+
+class Customer {
+id: long
+paymentInfo: String
+vehicles: List<Vehicle>
+}
+
+class Vehicle {
+  id: long
+  vin: Vin
+  offeredServices: List<VehicleService>
+}
+
+class Service{
+id:long
+name:String
+usageRights:List<UsageRight>
+}
+
+
+class UsageRight {
+  id: long
+  startDate: Date
+  endDate: Date
+  fromProductWithArticleNumber: ArticleNumber
+}
+
+Customer --> Vehicle
+Vehicle --> Service
+Service --> UsageRight
+
+@enduml

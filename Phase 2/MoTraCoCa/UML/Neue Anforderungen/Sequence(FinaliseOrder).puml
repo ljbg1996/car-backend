@@ -1,0 +1,50 @@
+@startuml
+
+actor ExternalPaymentService
+
+ExternalPaymentService -> FinaliseOrderRESTController : approvePaymentOfOrder(orderId)
+activate FinaliseOrderRESTController
+
+FinaliseOrderRESTController -> FinaliseOrderService : approvePaymentOfOrderAndAssignUsageRights(orderId)
+activate FinaliseOrderService
+
+FinaliseOrderService -> OrderRepository : getOrder(orderId)
+activate OrderRepository
+OrderRepository --> FinaliseOrderService : order
+deactivate OrderRepository
+
+FinaliseOrderService -> FinaliseOrderService : setOrderAsPayed(orderId)
+activate FinaliseOrderService
+FinaliseOrderService --> FinaliseOrderService
+deactivate FinaliseOrderService
+
+FinaliseOrderService -> OrderRepository : persistOrder(order)
+activate OrderRepository
+OrderRepository --> FinaliseOrderService
+deactivate OrderRepository
+
+FinaliseOrderService -> CustomerRepository : getCustomerThatHasOrder(orderId)
+activate CustomerRepository
+
+CustomerRepository --> FinaliseOrderService : customer
+deactivate CustomerRepository
+
+FinaliseOrderService -> FinaliseOrderService : createUsageRights(order)
+activate FinaliseOrderService
+
+FinaliseOrderService --> FinaliseOrderService
+deactivate FinaliseOrderService
+
+FinaliseOrderService -> CustomerRepository : updateCustomer(customer)
+activate CustomerRepository
+
+CustomerRepository --> FinaliseOrderService
+deactivate CustomerRepository
+
+FinaliseOrderService --> FinaliseOrderRESTController : success
+deactivate FinaliseOrderService
+
+FinaliseOrderRESTController --> ExternalPaymentService : success
+deactivate FinaliseOrderRESTController
+
+@enduml
