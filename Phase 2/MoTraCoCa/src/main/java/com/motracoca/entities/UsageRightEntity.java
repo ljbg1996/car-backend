@@ -1,5 +1,6 @@
 package com.motracoca.entities;
 
+import com.motracoca.model.Vehicle;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import lombok.Getter;
@@ -26,7 +27,16 @@ public class UsageRightEntity {
     //@Temporal(TemporalType.TIMESTAMP)
     private LocalDate endDate;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
+    private ServiceEntity coveredService;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    private VehicleEntity coveredVehicle;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    private CustomerEntity coveredCustomer;
+
+    @ManyToOne(cascade = CascadeType.ALL)
     private ProductEntity product;
 
 

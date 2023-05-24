@@ -24,8 +24,8 @@ public class VehicleEntity {
     @OneToMany
     private List<ServiceEntity> serviceEntityList;
 
-    @OneToMany
-    private List<UsageRightEntity> usageRightEntityList;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private CustomerEntity owner;
 
 
 }

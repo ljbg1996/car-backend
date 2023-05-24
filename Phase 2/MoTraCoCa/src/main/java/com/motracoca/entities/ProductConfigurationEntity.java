@@ -18,7 +18,7 @@ public class ProductConfigurationEntity {
      private long id;
 
      @ManyToOne(cascade = CascadeType.ALL)
-     private ProductEntity product;
+     private ProductEntity productEntity;
 
      private int duration;
 }
