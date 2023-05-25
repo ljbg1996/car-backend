@@ -19,4 +19,7 @@ public class ProductConfigurationStore {
         productConfigurationEntity.setDuration(productConfiguration.duration());
         return productConfigurationEntity;
     }
+
+    public void saveProductConfiguration(ProductConfiguration pc) {
+    }
 }

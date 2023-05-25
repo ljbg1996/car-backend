@@ -62,6 +62,7 @@ public class VehicleStore {
         log.info("Added vehicle with VIN {} and ID {}", vehicle.getVin(), vehicle.getId());
     }
 
+    // TODO return a Vehicle Model. not optional
     public Optional<Vehicle> getVehicleByVin(String vin) {
         Vehicle vehicle = vehicleMap.get(vin);
         if (vehicle != null) {
@@ -74,4 +75,6 @@ public class VehicleStore {
     }
 
 
+    public void saveVehicle(Vehicle v) {
+    }
 }

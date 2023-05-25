@@ -27,7 +27,7 @@ public class Order {
 
     private final boolean isCanceled;
 
-    private final LocalDate cancellationDate;
+    private LocalDate cancellationDate;
 
 }
 

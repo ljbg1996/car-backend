@@ -2,6 +2,7 @@ package com.motracoca.services;
 
 import com.motracoca.model.*;
 import com.motracoca.store.CustomerStore;
+import com.motracoca.store.OrderStore;
 import com.motracoca.store.ProductStore;
 import com.motracoca.store.VehicleStore;
 import lombok.RequiredArgsConstructor;
@@ -15,46 +16,42 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderService {
 
-    private final CustomerStore cs;
-    private final ProductStore ps;
+    private Order order;
+
+    private final OrderStore os;
     private final VehicleStore vs;
 
 
     //TODO Rückgabewert
-    public void buy(List<String> articleNumberList, String vin, long customerId, int duration) {
+    public Order buy(List<ProductConfiguration> articleNumberDurationList, String vin) {
 
-        Customer c = cs.getCustomerById(customerId);
-        List<Product> products = new ArrayList<>();
 
-        for (String articleNumber : articleNumberList) {
-            Product p = ps.getProductByArticleNumber(articleNumber);
-            products.add(p);
-        }
+        Vehicle v = vs.getVehicleByVin(vin);
+        Customer c = v.getOwner();
 
-        List<ProductConfiguration> productConfigurationList = new ArrayList<>();
+
         double sum = 0;
 
-        for (Product p : products) {
+        for (ProductConfiguration pc : articleNumberDurationList) {
 
-            //TODO ID Problem
-            ProductConfiguration pc = new ProductConfiguration(p, duration);
-            productConfigurationList.add(pc);
-            sum += p.getPrice().price();
+            double productWithDurationPrice = (pc.product().getPrice().price() * pc.duration());
+            sum += productWithDurationPrice;
 
         }
 
         Price totalPrice = new Price(sum);
 
-        Vehicle v1 = vs.getVehicleByVin(vin);
         LocalDate date = LocalDate.now();
 
+
         // TODO id im order model nicht mehr final, da ich sie sonst hier im konstruktor setzen müsste
-        Order actualOrder = new Order(false, v1, c, totalPrice, date, productConfigurationList);
+        Order actualOrder = new Order(false, v, c, totalPrice, date, articleNumberDurationList, false);
 
-        c.getOrderList().add(actualOrder);
+        order = actualOrder;
 
-        // TODO updateCustomer sollte ein customer Model entgegen nehmen
-        //cs.updateCustomer(c);
+        os.saveOrder(actualOrder);
+
+        return os.getOrder(actualOrder.getId());
 
     }
 }

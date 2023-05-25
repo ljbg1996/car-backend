@@ -40,4 +40,7 @@ public class ProductStore {
 
         return productEntity;
     }
+
+    public void saveProduct(Product product) {
+    }
 }

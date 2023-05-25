@@ -42,4 +42,11 @@ public class OrderStore {
 
         return orderEntity;
     }
+
+    public void saveOrder(Order actualOrder) {
+    }
+
+    public Order getOrder(long id) {
+        return null;
+    }
 }
