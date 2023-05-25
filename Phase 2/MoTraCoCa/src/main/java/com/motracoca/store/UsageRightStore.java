@@ -13,7 +13,11 @@ public class UsageRightStore {
                 usageRightEntity.getId(),
                 usageRightEntity.getStartDate(),
                 usageRightEntity.getEndDate(),
-                convertToProduct(usageRightEntity.getProduct())
+                convertToService(usageRightEntity.getCoveredService()),
+                convertToVehicle(usageRightEntity.getCoveredVehicle()),
+                convertToCustomer(usageRightEntity.getCoveredCustomer()),
+                convertToProduct(usageRightEntity.getFromProduct()),
+                convertToOrder(usageRightEntity.getFromOrder())
         );
     }
     public static UsageRightEntity convertToUsageRightEntity(UsageRight usageRight) {
@@ -21,7 +25,11 @@ public class UsageRightStore {
         usageRightEntity.setId(usageRight.getId());
         usageRightEntity.setStartDate(usageRight.getStartDate());
         usageRightEntity.setEndDate(usageRight.getEndDate());
-        usageRightEntity.setProduct(convertToProductEntity(usageRight.getProduct()));
+        usageRightEntity.setCoveredService(convertToServiceEntity(usageRight.getCoveredService()));
+        usageRightEntity.setCoveredVehicle(convertToVehicleEntity(usageRight.getCoveredVehicle()));
+        usageRightEntity.setCoveredCustomer(convertToCustomerEntity(usageRight.getCoveredCustomer()));
+        usageRightEntity.setFromProduct(convertToProductEntity(usageRight.getFromProduct()));
+        usageRightEntity.setFromOrder(convertToOrderEntity(usageRight.getFromOrder()));
 
         return usageRightEntity;
     }

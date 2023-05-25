@@ -30,11 +30,8 @@ public class VehicleStore {
                 .map(ServiceStore::convertToService)
                 .collect(Collectors.toList());
 
-        List<UsageRight> usageRightList = vehicleEntity.getUsageRightEntityList().stream()
-                .map(UsageRightStore::convertToUsageRight)
-                .collect(Collectors.toList());
 
-        return new Vehicle(vehicleEntity.getId(), new Vin(vehicleEntity.getVin()), serviceList, usageRightList);
+        return new Vehicle(vehicleEntity.getId(), new Vin(vehicleEntity.getVin()), convertToCustomer(vehicleEntity.getOwner()), serviceList);
     }
 
     public static VehicleEntity convertToVehicleEntity(Vehicle vehicle) {
@@ -42,11 +39,14 @@ public class VehicleStore {
                 .map(ServiceStore::convertToServiceEntity)
                 .collect(Collectors.toList());
 
-        List<UsageRightEntity> usageRightEntities = vehicle.getServiceList().stream()
-                .map(UsageRightStore::convertToUsageRightEntity)
-                .collect(Collectors.toList());
+        VehicleEntity vehicleEntity = new VehicleEntity();
 
-        return new VehicleEntity(vehicle.getId(), vehicle.getVin(), serviceEntities, usageRightEntities);
+        vehicleEntity.setId(vehicle.getId());
+        vehicleEntity.setVin(vehicle.getVin().vin());
+        vehicleEntity.setOwner(convertToCustomerEntity(vehicle.getOwner()));
+        vehicleEntity.setServiceEntityList(serviceEntities);
+
+        return vehicleEntity;
     }
 
 

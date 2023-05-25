@@ -22,34 +22,20 @@ public class CustomerStore {
     private final CustomerRepository customerRepository;
 
     public static Customer convertToCustomer(CustomerEntity customerEntity){
-        List<Vehicle> vehicleList = customerEntity.getVehicleEntityList().stream()
-                .map(VehicleStore::convertToVehicle)
-                .collect(Collectors.toList());
 
-        List<Order> orderList = customerEntity.getOrderEntityList().stream()
-                .map(OrderStore::convertToOrder)
-                .collect(Collectors.toList());
-
-        return new Customer(customerEntity.getId(), vehicleList, orderList, customerEntity.getPaymentInfo());
+        return new Customer(customerEntity.getId(), customerEntity.getPaymentInfo());
     }
 
     public static CustomerEntity convertToCustomerEntity(Customer customer) {
-        List<VehicleEntity> vehicleEntityList = customer.getVehicleList().stream()
-                .map(VehicleStore::convertToVehicleEntity)
-                .collect(Collectors.toList());
-
-        List<OrderEntity> orderEntityList = customer.getOrderList().stream()
-                .map(OrderStore::convertToOrderEntity)
-                .collect(Collectors.toList());
 
         CustomerEntity customerEntity = new CustomerEntity();
+
         customerEntity.setId(customer.getId());
-        customerEntity.setVehicleEntityList(vehicleEntityList);
-        customerEntity.setOrderEntityList(orderEntityList);
         customerEntity.setPaymentInfo(customer.getPaymentInfo());
 
         return customerEntity;
     }
+
 
     public Customer saveCustomer(CustomerEntity customerEntity) {
         CustomerEntity savedEntity = customerRepository.save(customerEntity);

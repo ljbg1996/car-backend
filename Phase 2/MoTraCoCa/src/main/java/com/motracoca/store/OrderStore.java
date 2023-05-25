@@ -21,9 +21,11 @@ public class OrderStore {
         return new Order(
                 orderEntity.isPayed(),
                 convertToVehicle(orderEntity.getVehicleEntity()),
+                convertToCustomer(orderEntity.getCustomerEntity()),
                 new Price(orderEntity.getTotalPrice()),
                 orderEntity.getDate(),
-                productConfigurations
+                productConfigurations,
+                orderEntity.isCanceled()
         );
     }
 
@@ -33,15 +35,17 @@ public class OrderStore {
                 .collect(Collectors.toList());
 
         OrderEntity orderEntity = new OrderEntity();
-        orderEntity.setId(order.getId());
         orderEntity.setPayed(order.isPayed());
+        orderEntity.setCustomerEntity(convertToCustomerEntity(order.getCustomer()));
         orderEntity.setVehicleEntity(convertToVehicleEntity(order.getVehicle()));
         orderEntity.setTotalPrice(order.getTotalPrice().price());
         orderEntity.setDate(order.getDate());
         orderEntity.setProducts(productConfigurationEntities);
+        orderEntity.setCanceled(order.isCanceled());
 
         return orderEntity;
     }
+
 
     public void saveOrder(Order actualOrder) {
     }

@@ -8,18 +8,18 @@ import static com.motracoca.store.ProductStore.convertToProductEntity;
 
 public class ProductConfigurationStore {
     public static ProductConfiguration convertToProductConfiguration(ProductConfigurationEntity productConfigurationEntity) {
-        return new ProductConfiguration(
+        return new ProductConfiguration(productConfigurationEntity.getId(),
                 convertToProduct(productConfigurationEntity.getProductEntity()),
                 productConfigurationEntity.getDuration()
         );
     }
     public static ProductConfigurationEntity convertToProductConfigurationEntity(ProductConfiguration productConfiguration) {
         ProductConfigurationEntity productConfigurationEntity = new ProductConfigurationEntity();
+        productConfigurationEntity.setId(productConfiguration.id());
         productConfigurationEntity.setProductEntity(convertToProductEntity(productConfiguration.product()));
         productConfigurationEntity.setDuration(productConfiguration.duration());
         return productConfigurationEntity;
     }
-
     public void saveProductConfiguration(ProductConfiguration pc) {
     }
 }
