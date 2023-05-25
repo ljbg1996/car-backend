@@ -1,9 +1,11 @@
-Aldin: DataStores (Vehicle, UsageRight, Product)
-Bianca: OrderService Test & Logik
-Xinjie: DataStores (Customer, Order, ProductConfiguration)
-Martin: ActiveServiceService Test & Logik, DataStore (Service)
+Aldin: DataStores (Vehicle, UsageRight)
+Bianca: DataStore (Order)
+Xinjie: DataStores alle ConvertMethoden (Customer, ProductConfiguration)
+Martin: DataStores(Product, Service)
+        ActiveServiceService Test & Logik
 
 Ausstehend:
 FinaliseOrderService Test & Logik
+CancellingOrder Test & Logik
 Controller
 OrderId nicht mehr final im Model. Nachfragen!
