@@ -51,7 +51,7 @@ public class OrderService {
 
         os.saveOrder(actualOrder);
 
-        return os.getOrder(actualOrder.getId());
+        return os.getOrderById(actualOrder.getId());
 
     }
 }

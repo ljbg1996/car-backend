@@ -1,5 +1,5 @@
 Aldin: DataStores (Vehicle, UsageRight)
-Bianca: DataStore (Order)
+Bianca:
 Xinjie: DataStores alle ConvertMethoden (Customer, ProductConfiguration)
 Martin: DataStores(Product, Service)
         ActiveServiceService Test & Logik

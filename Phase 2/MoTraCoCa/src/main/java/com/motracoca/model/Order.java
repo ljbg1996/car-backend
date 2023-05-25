@@ -15,6 +15,8 @@ public class Order {
 
     private final boolean isPayed;
 
+    private final LocalDate paymentDate;
+
     private final Vehicle vehicle;
 
     private final Customer customer;

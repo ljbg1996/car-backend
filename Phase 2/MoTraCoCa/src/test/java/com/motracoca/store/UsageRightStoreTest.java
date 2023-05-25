@@ -14,4 +14,30 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 public class UsageRightStoreTest {
+
+    @Mock
+    private UsageRightRepository usageRightRepository;
+
+    @InjectMocks
+    private UsageRightStore usageRightStore;
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
+
+   /* @Test
+    void saveUsageRight() {
+        long id = 1L;
+        LocalDate startDate = LocalDate.now();
+        LocalDate endDate = LocalDate.now();
+        Service coveredService = new Service();
+        Vehicle coveredVehicle = new Vehicle();
+        Customer coveredCustomer = new Customer();
+        Product fromProduct = new Product();
+        Order fromOrder = new Order();
+        UsageRight usageRight = new UsageRight(id, startDate, endDate, coveredService, coveredVehicle, coveredCustomer, fromProduct, fromOrder);
+    }*/
+
+
 }

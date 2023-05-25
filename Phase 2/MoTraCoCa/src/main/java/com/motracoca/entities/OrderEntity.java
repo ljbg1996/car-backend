@@ -27,6 +27,8 @@ public class OrderEntity {
 
     private boolean isPayed;
 
+    private LocalDate paymentDate;
+
     @ManyToOne(cascade = CascadeType.ALL)
     private VehicleEntity vehicleEntity;
 
