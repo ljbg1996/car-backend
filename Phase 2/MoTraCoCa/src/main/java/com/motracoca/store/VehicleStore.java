@@ -69,10 +69,10 @@ public class VehicleStore {
         VehicleEntity vehicle = vehicleMap.get(vin);
         if (vehicle != null) {
             log.info("Retrieved vehicle with VIN {} and ID{}", vehicle.getVin(), vehicle.getId());
-            return Optional.of(vehicle);
+            return vehicle;
         } else {
             log.warn("No vehicle found with VIN {}", vin);
-            return Optional.empty();
+            return null;
         }
     }
 
