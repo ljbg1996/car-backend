@@ -2,11 +2,13 @@ package com.motracoca.store;
 
 import com.motracoca.entities.ProductConfigurationEntity;
 import com.motracoca.model.ProductConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import static com.motracoca.store.ProductStore.convertToProduct;
 import static com.motracoca.store.ProductStore.convertToProductEntity;
 
 public class ProductConfigurationStore {
+
     public static ProductConfiguration convertToProductConfiguration(ProductConfigurationEntity productConfigurationEntity) {
         return new ProductConfiguration(productConfigurationEntity.getId(),
                 convertToProduct(productConfigurationEntity.getProductEntity()),
@@ -20,6 +22,6 @@ public class ProductConfigurationStore {
         productConfigurationEntity.setDuration(productConfiguration.duration());
         return productConfigurationEntity;
     }
-    public void saveProductConfiguration(ProductConfiguration pc) {
-    }
+
+
 }

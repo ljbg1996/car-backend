@@ -37,8 +37,8 @@ public class CustomerStore {
     }
 
 
-    public Customer saveCustomer(CustomerEntity customerEntity) {
-        CustomerEntity savedEntity = customerRepository.save(customerEntity);
+    public Customer saveCustomer(Customer customer) {
+        CustomerEntity savedEntity = customerRepository.save(convertToCustomerEntity(customer));
         return CustomerStore.convertToCustomer(savedEntity);
     }
 
@@ -52,8 +52,10 @@ public class CustomerStore {
     }
 
 
-    public List<CustomerEntity> getAllCustomers() {
-        return customerRepository.findAll();
+    public List<Customer> getAllCustomers() {
+        List<CustomerEntity> customerEntities = customerRepository.findAll();
+        List<Customer> customers = customerEntities.stream().map(CustomerStore::convertToCustomer).collect(Collectors.toList());
+        return customers;
     }
 
     public Customer updateCustomer(Customer customer) {
@@ -62,6 +64,7 @@ public class CustomerStore {
             CustomerEntity existingCustomer = existingCustomerOptional.get();
 
             // Update other properties as needed
+            existingCustomer.setPaymentInfo(customer.getPaymentInfo());
 
             CustomerEntity updatedEntity = customerRepository.save(existingCustomer);
             return convertToCustomer(updatedEntity);
@@ -79,28 +82,5 @@ public class CustomerStore {
         } else {
             throw new IllegalArgumentException("No user found for user id " + id);
         }
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public void deleteCustomer(CustomerEntity customer) {
-        customerRepository.delete(customer);
-    }
-
-    // TODO updateCustomer sollte ein customer Model entgegen nehmen und in eine entität umgewandelt werden
-    public void updateCustomer(CustomerEntity customer) {
-        customerRepository.save(customer);
     }
 }

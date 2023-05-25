@@ -22,6 +22,7 @@ public class OrderStore {
 
         return new Order(
                 orderEntity.isPayed(),
+                orderEntity.getDate(),
                 convertToVehicle(orderEntity.getVehicleEntity()),
                 convertToCustomer(orderEntity.getCustomerEntity()),
                 new Price(orderEntity.getTotalPrice()),
@@ -38,8 +39,9 @@ public class OrderStore {
 
         OrderEntity orderEntity = new OrderEntity();
         orderEntity.setPayed(order.isPayed());
-        orderEntity.setCustomerEntity(convertToCustomerEntity(order.getCustomer()));
+        orderEntity.setPaymentDate(order.getDate());
         orderEntity.setVehicleEntity(convertToVehicleEntity(order.getVehicle()));
+        orderEntity.setCustomerEntity(convertToCustomerEntity(order.getCustomer()));
         orderEntity.setTotalPrice(order.getTotalPrice().price());
         orderEntity.setDate(order.getDate());
         orderEntity.setProducts(productConfigurationEntities);

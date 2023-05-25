@@ -9,9 +9,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 class CustomerStoreTest {
@@ -34,7 +37,8 @@ class CustomerStoreTest {
         long customerId = 1L;
         CustomerEntity customerEntity = new CustomerEntity();
         customerEntity.setId(customerId);
-        Customer expectedCustomer = new Customer(customerId, null, null, null);
+        customerEntity.setPaymentInfo("no");
+        Customer expectedCustomer = new Customer(customerId, "no");
 
         when(customerRepository.findById(customerId)).thenReturn(Optional.of(customerEntity));
 
@@ -45,11 +49,25 @@ class CustomerStoreTest {
         assertThat(customer).isNotNull();
         assertThat(customer.getId()).isEqualTo(expectedCustomer.getId());
         assertThat(customer.getPaymentInfo()).isEqualTo(expectedCustomer.getPaymentInfo());
-        assertThat(customer.getOrderList()).isEqualTo(expectedCustomer.getOrderList());
-        assertThat(customer.getVehicleList()).isEqualTo(expectedCustomer.getVehicleList());
 
         verify(customerRepository, times(1)).findById(customerId);
     }
 
+    @Test
+    public void testGetCustomerById_NotExists() {
+        // ... (Arrange section same as before)
+        long customerId = 1L;
+
+        when(customerRepository.findById(customerId)).thenReturn(Optional.empty());
+
+        // Act
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            customerStore.getCustomerById(customerId);
+        });
+
+        // Assert
+        assertThat(exception.getMessage()).isEqualTo("No user found for user id 1");
+        verify(customerRepository, times(1)).findById(customerId);
+    }
 
 }
