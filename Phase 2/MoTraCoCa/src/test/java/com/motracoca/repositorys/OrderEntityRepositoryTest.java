@@ -33,7 +33,7 @@ public class OrderEntityRepositoryTest {
         pe1.setIncludedServices(serviceList);
 
         ProductConfigurationEntity pce1 = new ProductConfigurationEntity();
-        pce1.setProduct(pe1);
+//        pce1.setProduct(pe1);
 
         List<ProductConfigurationEntity> productConfigurationEntityList1 = new ArrayList<>();
         productConfigurationEntityList1.add(pce1);

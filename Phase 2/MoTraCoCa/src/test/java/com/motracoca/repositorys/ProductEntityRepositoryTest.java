@@ -1,5 +1,6 @@
 package com.motracoca.repositorys;
 
+import com.motracoca.entities.OrderEntity;
 import com.motracoca.entities.ProductEntity;
 import com.motracoca.entities.ServiceEntity;
 import com.motracoca.model.ArticleNumber;
@@ -9,6 +10,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class ProductEntityRepositoryTest {
     private final long ID = 12341234;
@@ -34,6 +37,19 @@ public class ProductEntityRepositoryTest {
         final long ARTICLENUMBER = 8150815;
         productEntity.setArticleNumber(ARTICLENUMBER);
         productEntity.setIncludedServices(List.of(SERVICE1, SERVICE2));
+
+        productRepository.save(productEntity);
+
+        final List<ProductEntity> productEntityList = productRepository.findAll();
+
+        assertThat(productEntityList.size()).isNotNull();
+        assertThat(productEntityList.size()).isEqualTo(1);
+
+        assertThat(productEntityList.get(0).getIncludedServices().size()).isEqualTo(2);
+
+        assertThat(productEntityList.get(0).getArticleNumber()).isEqualTo(ARTICLENUMBER);
+
+        assertThat(productEntityList.get(0).getIncludedServices().get(1).getName()).isEqualTo("SERVICE2");
     }
 
 }
