@@ -8,7 +8,6 @@ import com.motracoca.model.Service;
 import com.motracoca.model.UsageRight;
 import com.motracoca.model.Vehicle;
 import com.motracoca.model.Vin;
-import com.motracoca.repositorys.VehicleEntityRepository;
 import com.motracoca.repositorys.VehicleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -63,8 +62,8 @@ public class VehicleStore {
     }
 
     // TODO return a Vehicle Model. not optional
-    public Optional<Vehicle> getVehicleByVin(String vin) {
-        Vehicle vehicle = vehicleMap.get(vin);
+    public Optional<VehicleEntity> getVehicleByVin(String vin) {
+        VehicleEntity vehicle = vehicleMap.get(vin);
         if (vehicle != null) {
             log.info("Retrieved vehicle with VIN {} and ID{}", vehicle.getVin(), vehicle.getId());
             return Optional.of(vehicle);
@@ -76,5 +75,9 @@ public class VehicleStore {
 
 
     public void saveVehicle(Vehicle v) {
+    }
+
+    public Vehicle getVehicle(int i) {
+        return null;
     }
 }

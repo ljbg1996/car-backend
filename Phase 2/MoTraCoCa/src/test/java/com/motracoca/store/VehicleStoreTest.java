@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import com.motracoca.entities.VehicleEntity;
 import com.motracoca.model.Vehicle;
-import com.motracoca.repositorys.VehicleEntityRepository;
 import com.motracoca.repositorys.VehicleRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,7 +18,7 @@ import static org.mockito.Mockito.when;
 class VehicleStoreTest {
 
     @Mock
-    private VehicleEntityRepository vehicleEntityRepository;
+    private VehicleRepository vehicleRepository;
 
     private VehicleStore vehicleStore;
 
@@ -37,7 +36,7 @@ class VehicleStoreTest {
 
     @Test
     void findVehicleByVin() {
-        when(vehicleEntityRepository.findById(vehicleEntity.getVin())).thenReturn(Optional.of(vehicleEntity));
+        when(vehicleRepository.findById(Long.valueOf(vehicleEntity.getVin()))).thenReturn(Optional.of(vehicleEntity));
         final Vehicle vehicle = vehicleStore.getVehicle(1234);
 
     }
