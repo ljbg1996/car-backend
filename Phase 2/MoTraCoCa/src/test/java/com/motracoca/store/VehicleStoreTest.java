@@ -36,8 +36,8 @@ class VehicleStoreTest {
 
     @Test
     void findVehicleByVin() {
-        when(vehicleRepository.findById(Long.valueOf(vehicleEntity.getVin()))).thenReturn(Optional.of(vehicleEntity));
-        final Vehicle vehicle = vehicleStore.getVehicle(1234);
+        when(vehicleRepository.findById(vehicleEntity.getId())).thenReturn(Optional.of(vehicleEntity));
+        final Vehicle vehicle = vehicleStore.getVehicle(vehicleEntity.getId());
 
     }
 }

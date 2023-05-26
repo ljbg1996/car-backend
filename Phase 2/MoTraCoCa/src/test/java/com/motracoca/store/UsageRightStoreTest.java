@@ -1,5 +1,6 @@
 package com.motracoca.store;
 
+import com.motracoca.entities.VehicleEntity;
 import com.motracoca.model.*;
 import com.motracoca.repositorys.UsageRightRepository;
 import org.junit.jupiter.api.Assertions;
@@ -36,9 +37,11 @@ public class UsageRightStoreTest {
         Service coveredService = new Service(12345L,"Service A");
         Customer coveredCustomer = new Customer(12345L, "paid");
         Product fromProduct = new Product(12345L, new ArticleNumber(12345L),new Price(50.00), List.of());
-        Order fromOrder = new Order();
         Vehicle coveredVehicle = new Vehicle(12345L, new Vin("VIN123"), coveredCustomer, new ArrayList<>(){
         });
+        Order fromOrder = new Order(123, true, LocalDate.of(2023, 5, 5),coveredVehicle,
+               new Customer(12345L,"Sandro") , new Price(50), LocalDate.of(2023, 10, 6), new ArrayList<>(),true);
+
         UsageRight usageRight = new UsageRight(id, startDate, endDate, coveredService, coveredVehicle, coveredCustomer, fromProduct, fromOrder);
 
         Assertions.assertEquals(id, usageRight.getId());
