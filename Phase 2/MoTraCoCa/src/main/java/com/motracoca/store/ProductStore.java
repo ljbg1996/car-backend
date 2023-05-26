@@ -69,10 +69,13 @@ public class ProductStore {
         productRepository.save(productEntity);
     }
 
-    public List<ServiceEntity> findAllServices() {
+    public List<Service> findAllServices() {
         List<ServiceEntity>  serviceEntityList = productRepository.findAllServices();
         List<Service> serviceList = new ArrayList<>();
-        serviceEntityList.stream().map(se -> )
+        serviceList = serviceEntityList.stream()
+                .map(serviceEntity ->ServiceStore.convertToService(serviceEntity))
+                .collect(Collectors.toList());
         return serviceList;
+
     }
 }
