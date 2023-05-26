@@ -51,20 +51,15 @@ public class VehicleStore {
         return vehicleEntity;
     }
 
-    private final VehicleRepository vehicleRepository;
-
+    public Vehicle getVehicle(long id) {
 
 
     public Vehicle getVehicle() {
         Optional<VehicleEntity> optionalVehicleEntity = vehicleRepository.findById(getVehicle().getId());
         if (optionalVehicleEntity.isPresent()) {
             VehicleEntity vehicleEntity = optionalVehicleEntity.get();
-            return new Vehicle(
-                    vehicleEntity.getId(),
-                    vehicleEntity.getVin(),
-                    vehicleEntity.getOwner(),
-                    vehicleEntity.getServiceList()
-            );
+            Vehicle vehicle = convertToVehicle(vehicleEntity);
+            return vehicle;
         } else {
             throw new IllegalArgumentException("vehicle not found");
         }
