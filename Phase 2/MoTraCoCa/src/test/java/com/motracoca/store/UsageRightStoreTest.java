@@ -29,9 +29,10 @@ public class UsageRightStoreTest {
 
 
 
-   / @Test
+    @Test
     void saveUsageRightTest() {
         long id = 11234L;
+
         LocalDate startDate = LocalDate.of(2023, 5, 1);
         LocalDate endDate = LocalDate.of(2023, 10, 31);
         Service coveredService = new Service(12345L,"Service A");

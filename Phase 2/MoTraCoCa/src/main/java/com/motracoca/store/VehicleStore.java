@@ -27,6 +27,8 @@ import static com.motracoca.store.CustomerStore.convertToCustomerEntity;
 @Slf4j
 public class VehicleStore {
 
+    private final VehicleRepository vehicleRepository;
+
     public static Vehicle convertToVehicle(VehicleEntity vehicleEntity) {
         List<Service> serviceList = vehicleEntity.getServiceEntityList().stream()
                 .map(ServiceStore::convertToService)
@@ -53,9 +55,7 @@ public class VehicleStore {
 
     public Vehicle getVehicle(long id) {
 
-
-    public Vehicle getVehicle() {
-        Optional<VehicleEntity> optionalVehicleEntity = vehicleRepository.findById(getVehicle().getId());
+        Optional<VehicleEntity> optionalVehicleEntity = vehicleRepository.findById(id);
         if (optionalVehicleEntity.isPresent()) {
             VehicleEntity vehicleEntity = optionalVehicleEntity.get();
             Vehicle vehicle = convertToVehicle(vehicleEntity);
@@ -66,9 +66,11 @@ public class VehicleStore {
     }
 
 
-
     public void saveVehicle(Vehicle v) {
     }
 
 
+    public Vehicle getVehicleByVin(String vin) {
+        return null;
+    }
 }

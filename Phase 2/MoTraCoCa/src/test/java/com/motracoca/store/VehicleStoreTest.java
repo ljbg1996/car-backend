@@ -10,16 +10,21 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 
 import static org.mockito.Mockito.when;
 
+@SpringBootTest
 @ExtendWith(MockitoExtension.class)
 class VehicleStoreTest {
 
-    @Mock
+    @MockBean
     private VehicleRepository vehicleRepository;
 
+    @Autowired
     private VehicleStore vehicleStore;
 
     VehicleEntity vehicleEntity;
@@ -29,9 +34,6 @@ class VehicleStoreTest {
         vehicleEntity = new VehicleEntity();
         vehicleEntity.setVin("ABC123456");
         vehicleEntity.setId(1234);
-
-        VehicleRepository VehicleRepository = null;
-        vehicleStore = new VehicleStore(null);
     }
 
     @Test

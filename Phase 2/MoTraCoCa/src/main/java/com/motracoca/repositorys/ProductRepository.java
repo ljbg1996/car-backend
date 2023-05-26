@@ -10,8 +10,10 @@ import java.util.List;
 
 public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 
-    @Query("SELECT p FROM Product p WHERE p.articleNumber = ?1")
-    Optional<ProductEntity> getProductByArticleNumber(String articleNumber);
+    public ProductEntity findProductEntityByArticleNumber(long articleNumber);
+
+    /*@Query("SELECT p FROM ProductEntity WHERE p.articleNumber =:articleNumber")
+    public ProductEntity getProductByArticleNumber(@Param("articleNumber") long articleNumber);*/
 
     @Query("SELECT DISTINCT product.includedServices FROM ProductEntity product JOIN FETCH ServiceEntity service")
     public List<ServiceEntity> findAllServices();

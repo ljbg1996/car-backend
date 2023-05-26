@@ -5,6 +5,7 @@ import com.motracoca.entities.VehicleEntity;
 import com.motracoca.model.Customer;
 import com.motracoca.model.Vehicle;
 import com.motracoca.model.Vin;
+import com.motracoca.repositorys.CustomerRepository;
 import com.motracoca.store.CustomerStore;
 import com.motracoca.store.VehicleStore;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +16,14 @@ import java.util.List;
 @Service
 public class ActiveServiceService {
 
-//    private final CustomerStore customerStore;
+    CustomerRepository customerRepository;
+
+    public ActiveServiceService() {
+    }
+
 
     public List<com.motracoca.model.Service> getActiveServices(Vin vin, long customerId) {
+//        CustomerStore customerStore = new CustomerStore()
 //        Customer customer = customerStore.getCustomerById(customerId);
         return null;
     };

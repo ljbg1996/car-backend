@@ -36,14 +36,15 @@ public class ProductConfigurationStoreTest {
         productConfigurationEntity.setProductEntity(productEntity);
         productConfigurationEntity.setDuration(10);
 
+
         // Act
         ProductConfiguration productConfiguration = ProductConfigurationStore.convertToProductConfiguration(productConfigurationEntity);
 
         // Assert
         assertThat(productConfiguration.id()).isEqualTo(2L);
         assertThat(productConfiguration.product().getId()).isEqualTo(id);
-        assertThat(productConfiguration.product().getArticleNumber()).isEqualTo(articleNumber);
-        assertThat(productConfiguration.product().getPrice()).isEqualTo(price);
+        assertThat(productConfiguration.product().getArticleNumber().articleNumber()).isEqualTo(articleNumber);
+        assertThat(productConfiguration.product().getPrice().price()).isEqualTo(price);
         assertThat(productConfiguration.product().getIncludedServices().size()).isEqualTo(2);
         assertThat(productConfiguration.product().getIncludedServices().get(1).id()).isEqualTo(222222L);
         assertThat(productConfiguration.duration()).isEqualTo(10);

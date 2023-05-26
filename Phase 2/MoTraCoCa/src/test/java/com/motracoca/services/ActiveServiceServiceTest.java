@@ -5,6 +5,7 @@ import com.motracoca.model.*;
 import com.motracoca.repositorys.CustomerRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -43,6 +44,7 @@ public class ActiveServiceServiceTest {
 
 
     @Test
+    @DisplayName("Should display the active services of a user ")
     public void getActiveServicesTest() {
         ActiveServiceService activeServiceService = new ActiveServiceService();
 

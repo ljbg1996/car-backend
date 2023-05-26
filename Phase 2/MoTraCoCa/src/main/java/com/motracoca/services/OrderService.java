@@ -45,7 +45,8 @@ public class OrderService {
 
 
         // TODO id im order model nicht mehr final, da ich sie sonst hier im konstruktor setzen müsste
-        Order actualOrder = new Order(false, v, c, totalPrice, date, articleNumberDurationList, false);
+        //Nach der Aussage von Sandro habe ich das final gesetzt und jetzt wird die immer mit 0 initialisiert - Martin
+        Order actualOrder = new Order(0,false, date, v, c, totalPrice, date, articleNumberDurationList, false);
 
         order = actualOrder;
 

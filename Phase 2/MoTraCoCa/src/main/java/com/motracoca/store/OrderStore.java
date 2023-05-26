@@ -34,6 +34,7 @@ public class OrderStore {
                 .collect(Collectors.toList());
 
         return new Order(
+                orderEntity.getId(),
                 orderEntity.isPayed(),
                 orderEntity.getDate(),
                 convertToVehicle(orderEntity.getVehicleEntity()),
@@ -51,6 +52,7 @@ public class OrderStore {
                 .collect(Collectors.toList());
 
         OrderEntity orderEntity = new OrderEntity();
+        orderEntity.setId(order.getId());
         orderEntity.setPayed(order.isPayed());
         orderEntity.setPaymentDate(order.getDate());
         orderEntity.setVehicleEntity(convertToVehicleEntity(order.getVehicle()));

@@ -11,7 +11,7 @@ import java.util.List;
 public class Order {
 
 
-    private long id;
+    private final long id;
 
     private final boolean isPayed;
 
