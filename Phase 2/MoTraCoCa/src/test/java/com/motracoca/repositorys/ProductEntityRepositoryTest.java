@@ -7,6 +7,7 @@ import com.motracoca.model.ArticleNumber;
 import com.motracoca.model.Service;
 import jakarta.persistence.*;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -23,14 +24,17 @@ public class ProductEntityRepositoryTest {
 
     @BeforeEach
     public void init() {
-        ProductEntity productEntity = new ProductEntity();
 
         SERVICE1.setName("SERVICE1");
         SERVICE2.setName("SERVICE2");
 
         SERVICE1.setId(123123L);
         SERVICE2.setId(123124L);
+    }
 
+    @Test
+    public void productEntityTest() {
+        ProductEntity productEntity = new ProductEntity();
 
         productEntity.setId(ID);
         productEntity.setPrice(PRICE);
