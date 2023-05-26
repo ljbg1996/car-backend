@@ -72,17 +72,19 @@ public class ProductStoreTest {
 
     @Test
     public void convertToProductTest() {
-//        given
+//      given
         final long ARTICLENUMBER = 8150815;
         final long ID = 12341234;
-        final double PRICE = 420.0;        ProductEntity productEntity = new ProductEntity();
+        final double PRICE = 420.0;
+        ProductEntity productEntity = new ProductEntity();
+//      when
         productEntity.setId(ID);
         productEntity.setIncludedServices(List.of(SERVICEENTITY1, SERVICEENTITY2));
         productEntity.setArticleNumber(ARTICLENUMBER);
         productEntity.setPrice(PRICE);
 
-//        when
-//        then
+
+//      then
         Assertions.assertThat(ProductStore.convertToProduct(productEntity)
                         .getArticleNumber())
                 .isEqualTo(new ArticleNumber(ARTICLENUMBER));
@@ -143,6 +145,7 @@ public class ProductStoreTest {
                 .isEqualTo(product1);
     }
 
+    @Test
     public void getServicesTest() {
 //        given
         final Service SERVICE1 = new Service(11111111L, "Service1");

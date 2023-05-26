@@ -70,11 +70,16 @@ public class ProductStore {
     }
 
     public List<Service> findAllServices() {
-        List<ServiceEntity>  serviceEntityList = productRepository.findAllServices();
+        Optional<List<ServiceEntity>> serviceEntityListOptional  = productRepository.findAllServices();
         List<Service> serviceList = new ArrayList<>();
-        serviceList = serviceEntityList.stream()
-                .map(serviceEntity ->ServiceStore.convertToService(serviceEntity))
-                .collect(Collectors.toList());
+
+        if (serviceEntityListOptional.isPresent()) {
+            serviceList = serviceEntityListOptional.get().stream()
+                    .map(serviceEntity ->ServiceStore.convertToService(serviceEntity))
+                    .collect(Collectors.toList());
+        } else throw new IllegalArgumentException(
+                "No Services found");
+
         return serviceList;
 
     }

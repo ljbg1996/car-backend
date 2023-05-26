@@ -17,6 +17,6 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
     @Query("SELECT p FROM Product p WHERE p.articleNumber = ?1")
     Optional<ProductEntity> getProductByArticleNumber(String articleNumber);
 
-    @Query("SELECT * FROM Product.includedServices")
-    List<ServiceEntity> findAllServices();
+    @Query("SELECT DISTINCT s FROM ProductEntity p JOIN p.includedServices s")
+    Optional<List<ServiceEntity>> findAllServices();
 }
