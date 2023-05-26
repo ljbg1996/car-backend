@@ -20,8 +20,8 @@ public class ProductConfigurationStoreTest {
         serviceEntity1.setId(111111L);
         serviceEntity1.setName("Service1");
         final ServiceEntity serviceEntity2 = new ServiceEntity();
-        serviceEntity1.setId(222222L);
-        serviceEntity1.setName("Service2");
+        serviceEntity2.setId(222222L);
+        serviceEntity2.setName("Service2");
         final long articleNumber = 8150815;
         final long id = 1L;
         final double price = 420.0;
