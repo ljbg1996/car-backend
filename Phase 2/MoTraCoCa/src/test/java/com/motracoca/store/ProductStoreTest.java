@@ -12,17 +12,21 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
 import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SpringBootTest
 public class ProductStoreTest {
 
-    private final long ID = 12341234;
-    private final double PRICE = 420.0;
+
     private final ServiceEntity SERVICEENTITY1 = new ServiceEntity();
     private final ServiceEntity SERVICEENTITY2 = new ServiceEntity();
-    final long ARTICLENUMBER = 8150815;
+    private final ServiceEntity SERVICEENTITY3 = new ServiceEntity();
+
+
     @Autowired
     ProductRepository productRepository;
 
@@ -30,16 +34,30 @@ public class ProductStoreTest {
     public void init() {
         SERVICEENTITY1.setName("SERVICE1");
         SERVICEENTITY2.setName("SERVICE2");
+        SERVICEENTITY3.setName("SERVICE3");
 
         SERVICEENTITY1.setId(11111111L);
         SERVICEENTITY2.setId(22222222L);
+        SERVICEENTITY3.setId(3333333L);
     }
 
     @Test
-    public void getProductByArticleNumberTest(){
+    public void getProductByArticleNumberTest() {
         //given
-
+        final long ARTICLENUMBER = 8150815;
+        final long ID = 12341234;
+        final double PRICE = 420.0;
         final ProductStore productStore = new ProductStore(productRepository);
+
+        final Service SERVICE1 = new Service(11111111L, "Service1");
+        final Service SERVICE2 = new Service(22222222L, "Service2");
+
+        final Product product = new Product(
+                ID,
+                new ArticleNumber(ARTICLENUMBER),
+                new Price(PRICE),
+                List.of(SERVICE1, SERVICE2));
+
 
         // when
         final Product productResult = productStore
@@ -47,56 +65,67 @@ public class ProductStoreTest {
 
         // then
         Assertions.assertThat(productResult
-                .getArticleNumber()
-                .articleNumber())
+                        .getArticleNumber()
+                        .articleNumber())
                 .isEqualTo(ARTICLENUMBER);
     }
 
     @Test
-    public void convertToProductTest(){
+    public void convertToProductTest() {
 //        given
-        ProductEntity productEntity = new ProductEntity();
+        final long ARTICLENUMBER = 8150815;
+        final long ID = 12341234;
+        final double PRICE = 420.0;        ProductEntity productEntity = new ProductEntity();
         productEntity.setId(ID);
-        productEntity.setIncludedServices(List.of(SERVICEENTITY1,SERVICEENTITY2));
+        productEntity.setIncludedServices(List.of(SERVICEENTITY1, SERVICEENTITY2));
         productEntity.setArticleNumber(ARTICLENUMBER);
         productEntity.setPrice(PRICE);
 
 //        when
 //        then
         Assertions.assertThat(ProductStore.convertToProduct(productEntity)
-                .getArticleNumber())
+                        .getArticleNumber())
                 .isEqualTo(new ArticleNumber(ARTICLENUMBER));
     }
 
     @Test
-    public void convertToProductEntityTest(){
+    public void convertToProductEntityTest() {
 //      given
-        Service service1 = new Service(11111111L,"Service1");
-        Service service2 = new Service(22222222L,"Service2");
-
+        final Service SERVICE1 = new Service(11111111L, "Service1");
+        final Service SERVICE2 = new Service(22222222L, "Service2");
+        final long ARTICLENUMBER = 8150815;
+        final long ID = 12341234;
+        final double PRICE = 420.0;
 //      when
-        Product product = new Product(
+        final Product product = new Product(
                 ID,
                 new ArticleNumber(ARTICLENUMBER),
                 new Price(PRICE),
-                List.of(service1, service2));
+                List.of(SERVICE1, SERVICE2));
 //      then
         Assertions.assertThat(ProductStore.convertToProductEntity(product).getArticleNumber()).isEqualTo(ARTICLENUMBER);
     }
+
     @Test
-    public void saveProductTest(){
+    public void saveProductTest() {
         //given
-        Service service1 = new Service(11111111L,"Service1");
-        Service service2 = new Service(22222222L,"Service2");
+        final Service SERVICE1 = new Service(11111111L, "Service1");
+        final Service SERVICE2 = new Service(22222222L, "Service2");
+
+        final long ARTICLENUMBER = 8150815;
+        final long ID = 12341234;
+        final double PRICE = 420.0;
+
         final ProductStore productStore = new ProductStore(productRepository);
         ProductEntity productEntity = new ProductEntity();
 
         // when
-        Product product = new Product(
+        final Product product1 = new Product(
                 ID,
                 new ArticleNumber(ARTICLENUMBER),
                 new Price(PRICE),
-                List.of(service1, service2));
+                List.of(SERVICE1, SERVICE2));
+
 
         final Product productResult = productStore
                 .findProductByArticleNumber(new ArticleNumber(ARTICLENUMBER));
@@ -111,6 +140,42 @@ public class ProductStoreTest {
 
         // then
         Assertions.assertThat(productResult)
-                .isEqualTo(product);
+                .isEqualTo(product1);
+    }
+
+    public void getServicesTest() {
+//        given
+        final Service SERVICE1 = new Service(11111111L, "Service1");
+        final Service SERVICE2 = new Service(22222222L, "Service2");
+        final Service SERVICE3 = new Service(33333333L, "Service3");
+
+        final long ARTICLENUMBER1 = 8150815;
+        final long ARTICLENUMBER2 = 8150816;
+        final long ID1 = 12341234;
+        final long ID2 = 12341235;
+        final double PRICE = 420.0;
+
+        final ProductStore productStore = new ProductStore(productRepository);
+
+        final Product product1 = new Product(
+                ID1,
+                new ArticleNumber(ARTICLENUMBER1),
+                new Price(PRICE),
+                List.of(SERVICE1, SERVICE2));
+
+        Product product2 = new Product(
+                ID2,
+                new ArticleNumber(ARTICLENUMBER2),
+                new Price(PRICE),
+                List.of(SERVICE1, SERVICE3));
+
+        productStore.saveProduct(product1);
+
+        productStore.saveProduct(product2);
+
+
+        final List<Service> serviceList = productStore.findAllServices();
+
+        assertThat(serviceList.size()).isEqualTo(3);
     }
 }
