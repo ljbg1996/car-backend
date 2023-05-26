@@ -26,7 +26,6 @@ import static com.motracoca.store.CustomerStore.convertToCustomerEntity;
 @RequiredArgsConstructor
 @Slf4j
 public class VehicleStore {
-    private final VehicleRepository vehicleRepository;
 
     public static Vehicle convertToVehicle(VehicleEntity vehicleEntity) {
         List<Service> serviceList = vehicleEntity.getServiceEntityList().stream()
@@ -52,36 +51,26 @@ public class VehicleStore {
         return vehicleEntity;
     }
 
+    private final VehicleRepository vehicleRepository;
 
-
-    private final Map<String, VehicleEntity> vehicleMap = new HashMap<>();
-
-
-
-
-    public void addVehicle(VehicleEntity vehicle) {
-        vehicleMap.put(vehicle.getVin(), vehicle);
-        log.info("Added vehicle with VIN {} and ID {}", vehicle.getVin(), vehicle.getId());
+    public VehicleStore(VehicleRepository vehicleRepository) {
+        this.vehicleRepository = vehicleRepository;
     }
 
-
-    public Vehicle getVehicleByVin(String vin) {
-        VehicleEntity vehicleEntity = vehicleMap.get(vin);
-        Vehicle vehicle = convertToVehicle(vehicleEntity);
-        if (vehicle != null) {
-            log.info("Retrieved vehicle with VIN {} and ID{}", vehicle.getVin(), vehicle.getId());
-            return vehicle;
+    public Vehicle getVehicle() {
+        Optional<VehicleEntity> optionalVehicleEntity = vehicleRepository.findById(getVehicle().getId());
+        if (optionalVehicleEntity.isPresent()) {
+            VehicleEntity vehicleEntity = optionalVehicleEntity.get();
+            return new Vehicle(vehicleEntity.getId(), vehicleEntity.getVin());
         } else {
-            log.warn("No vehicle found with VIN {}", vin);
-            return null;
+            throw new IllegalArgumentException("vehicle not found");
         }
     }
+
 
 
     public void saveVehicle(Vehicle v) {
     }
 
-    public Vehicle getVehicle(int i) {
-        return null;
-    }
+
 }
