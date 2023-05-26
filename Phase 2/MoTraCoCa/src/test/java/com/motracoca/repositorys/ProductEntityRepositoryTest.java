@@ -19,6 +19,7 @@ public class ProductEntityRepositoryTest {
     private final double PRICE = 420.0;
     private final ServiceEntity SERVICE1 = new ServiceEntity();
     private final ServiceEntity SERVICE2 = new ServiceEntity();
+    final long ARTICLENUMBER = 8150815;
     @Autowired
     ProductRepository productRepository;
 
@@ -30,19 +31,20 @@ public class ProductEntityRepositoryTest {
 
         SERVICE1.setId(123123L);
         SERVICE2.setId(123124L);
-    }
-
-    @Test
-    public void productEntityTest() {
         ProductEntity productEntity = new ProductEntity();
 
         productEntity.setId(ID);
         productEntity.setPrice(PRICE);
-        final long ARTICLENUMBER = 8150815;
+
         productEntity.setArticleNumber(ARTICLENUMBER);
         productEntity.setIncludedServices(List.of(SERVICE1, SERVICE2));
 
         productRepository.save(productEntity);
+    }
+
+    @Test
+    public void productEntityTest() {
+
 
         final List<ProductEntity> productEntityList = productRepository.findAll();
 
@@ -55,5 +57,6 @@ public class ProductEntityRepositoryTest {
 
         assertThat(productEntityList.get(0).getIncludedServices().get(1).getName()).isEqualTo("SERVICE2");
     }
+
 
 }

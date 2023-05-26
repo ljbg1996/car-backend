@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -66,5 +67,12 @@ public class ProductStore {
     public void saveProduct(Product product) {
         ProductEntity productEntity = convertToProductEntity(product);
         productRepository.save(productEntity);
+    }
+
+    public List<ServiceEntity> findAllServices() {
+        List<ServiceEntity>  serviceEntityList = productRepository.findAllServices();
+        List<Service> serviceList = new ArrayList<>();
+        serviceEntityList.stream().map(se -> )
+        return serviceList;
     }
 }
