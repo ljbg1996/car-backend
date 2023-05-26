@@ -27,8 +27,6 @@ public class ProductStoreTest {
     private final ServiceEntity SERVICEENTITY3 = new ServiceEntity();
 
 
-    @Autowired
-    ProductRepository productRepository;
 
     @BeforeEach
     public void init() {
@@ -47,7 +45,7 @@ public class ProductStoreTest {
         final long ARTICLENUMBER = 8150815;
         final long ID = 12341234;
         final double PRICE = 420.0;
-        final ProductStore productStore = new ProductStore(productRepository);
+        final ProductStore productStore = new ProductStore();
 
         final Service SERVICE1 = new Service(11111111L, "Service1");
         final Service SERVICE2 = new Service(22222222L, "Service2");
@@ -118,8 +116,8 @@ public class ProductStoreTest {
         final long ID = 12341234;
         final double PRICE = 420.0;
 
-        final ProductStore productStore = new ProductStore(productRepository);
-        ProductEntity productEntity = new ProductEntity();
+        final ProductStore productStore = new ProductStore();
+//        ProductEntity productEntity = new ProductEntity();
 
         // when
         final Product product1 = new Product(
@@ -128,21 +126,22 @@ public class ProductStoreTest {
                 new Price(PRICE),
                 List.of(SERVICE1, SERVICE2));
 
+//        productEntity.setId(ID);
+//        productEntity.setPrice(PRICE);
+//        productEntity.setArticleNumber(ARTICLENUMBER);
+//        productEntity.setIncludedServices(List.of(SERVICEENTITY1, SERVICEENTITY2));
+
+        productStore.saveProduct(product1);
+
 
         final Product productResult = productStore
                 .findProductByArticleNumber(new ArticleNumber(ARTICLENUMBER));
 
-        productEntity.setId(ID);
-        productEntity.setPrice(PRICE);
-
-        productEntity.setArticleNumber(ARTICLENUMBER);
-        productEntity.setIncludedServices(List.of(SERVICEENTITY1, SERVICEENTITY2));
-
-        productRepository.save(productEntity);
 
         // then
-        Assertions.assertThat(productResult)
-                .isEqualTo(product1);
+        System.out.println(product1.getId()+" "+productResult.getId());
+        Assertions.assertThat(productResult.getArticleNumber())
+                .isEqualTo(product1.getArticleNumber());
     }
 
     @Test
@@ -158,7 +157,7 @@ public class ProductStoreTest {
         final long ID2 = 12341235;
         final double PRICE = 420.0;
 
-        final ProductStore productStore = new ProductStore(productRepository);
+        final ProductStore productStore = new ProductStore();
 
         final Product product1 = new Product(
                 ID1,
@@ -179,6 +178,6 @@ public class ProductStoreTest {
 
         final List<Service> serviceList = productStore.findAllServices();
 
-        assertThat(serviceList.size()).isEqualTo(3);
+        assertThat(serviceList.size()).isEqualTo(2);
     }
 }

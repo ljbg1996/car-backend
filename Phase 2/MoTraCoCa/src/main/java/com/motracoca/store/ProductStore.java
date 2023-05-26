@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,8 @@ import java.util.stream.Collectors;
 @Component
 @Slf4j
 public class ProductStore {
-    private final ProductRepository productRepository;
+    @Autowired
+    private ProductRepository productRepository;
 
 
     //TODO Use Optionals
