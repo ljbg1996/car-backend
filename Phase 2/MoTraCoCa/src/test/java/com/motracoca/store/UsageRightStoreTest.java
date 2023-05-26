@@ -10,6 +10,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class UsageRightStoreTest {
 
@@ -32,8 +33,8 @@ public class UsageRightStoreTest {
         Service coveredService = new Service(12345L,"Service A");
         Vehicle coveredVehicle = new Vehicle(12345L,);
         Customer coveredCustomer = new Customer(12345L, "paid");
-        Product fromProduct = new Product(12345L, new ArticleNumber(12345L),50.00,);
-        Order fromOrder = new Order();
+        Product fromProduct = new Product(12345L, new ArticleNumber(12345L), new Price(50), List.of());
+        Order fromOrder = new Order(true, LocalDate.of(2023, 5, 1), "Vehicle", "Sandro", new Price(50), List.of(),);
         UsageRight usageRight = new UsageRight(id, startDate, endDate, coveredService, coveredVehicle, coveredCustomer, fromProduct, fromOrder);
 
         Assertions.assertEquals(id, usageRight.getId());
