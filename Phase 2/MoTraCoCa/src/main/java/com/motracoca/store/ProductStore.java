@@ -27,11 +27,10 @@ public class ProductStore {
 
     //TODO Use Optionals
     public Product findProductByArticleNumber(ArticleNumber articleNumber) {
-        final Optional<ProductEntity> productEntityOptional = productRepository
-                .getProductByArticleNumber(articleNumber.toString());
+        final ProductEntity productEntity = productRepository
+                .findProductEntityByArticleNumber(articleNumber.articleNumber());
 
-        if (productEntityOptional.isPresent()) {
-            final ProductEntity productEntity = productEntityOptional.get();
+        if (productEntity != null) {
             return convertToProduct(productEntity);
         } else throw new IllegalArgumentException(
                 "No Product found for ArticleNumber " + articleNumber.articleNumber());
@@ -70,11 +69,11 @@ public class ProductStore {
     }
 
     public List<Service> findAllServices() {
-        Optional<List<ServiceEntity>> serviceEntityListOptional  = productRepository.findAllServices();
+        List<ServiceEntity> serviceEntityList  = productRepository.findAllServices();
         List<Service> serviceList = new ArrayList<>();
 
-        if (serviceEntityListOptional.isPresent()) {
-            serviceList = serviceEntityListOptional.get().stream()
+        if (!serviceEntityList.isEmpty()) {
+            serviceList = serviceEntityList.stream()
                     .map(serviceEntity ->ServiceStore.convertToService(serviceEntity))
                     .collect(Collectors.toList());
         } else throw new IllegalArgumentException(

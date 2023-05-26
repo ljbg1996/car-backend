@@ -23,7 +23,7 @@ public class VehicleEntity {
 
     private String vin;
 
-    @OneToMany
+    @OneToMany( fetch = FetchType.EAGER )
     private List<ServiceEntity> serviceEntityList;
 
     @ManyToOne(cascade = CascadeType.ALL)
