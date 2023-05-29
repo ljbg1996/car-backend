@@ -9,6 +9,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 import static com.motracoca.store.CustomerStore.convertToCustomer;
 import static com.motracoca.store.CustomerStore.convertToCustomerEntity;
 import static com.motracoca.store.OrderStore.convertToOrder;
@@ -24,7 +28,10 @@ import static com.motracoca.store.VehicleStore.convertToVehicleEntity;
 @Slf4j
 public class UsageRightStore {
 
-    public static UsageRight convertToUsageRight(UsageRightEntity usageRightEntity) {
+
+    private final UsageRightRepository usageRightRepository;
+
+    public UsageRight convertToUsageRight(UsageRightEntity usageRightEntity) {
         return new UsageRight(
                 usageRightEntity.getId(),
                 usageRightEntity.getStartDate(),
@@ -50,7 +57,6 @@ public class UsageRightStore {
         return usageRightEntity;
     }
 
-    private final UsageRightRepository usageRightRepository;
 
     public UsageRight saveUsageRight(UsageRight usageRight) {
         UsageRightEntity entity = convertToUsageRightEntity(usageRight);
@@ -58,10 +64,18 @@ public class UsageRightStore {
         return convertToUsageRight(savedEntity);
     }
 
+    public UsageRight findUsageRightById(long id) {
+        Optional<UsageRightEntity> usageRightEntityOptional = usageRightRepository.findById(id);
+        return usageRightEntityOptional.map(this::convertToUsageRight).orElse(null);
+    }
 
-
-
-
+    public List<UsageRight> findUsageRightsByVin(String vin) {
+        List<UsageRightEntity> usageRightEntities = usageRightRepository.findAll();
+        return usageRightEntities.stream()
+                .filter(entity -> entity.getCoveredVehicle().getVin().equals(vin))
+                .map(this::convertToUsageRight)
+                .collect(Collectors.toList());
+    }
 
 
 }

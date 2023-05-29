@@ -1,5 +1,6 @@
 package com.motracoca.store;
 
+import com.motracoca.entities.CustomerEntity;
 import com.motracoca.entities.ServiceEntity;
 import com.motracoca.entities.UsageRightEntity;
 import com.motracoca.entities.VehicleEntity;
@@ -53,24 +54,25 @@ public class VehicleStore {
         return vehicleEntity;
     }
 
-    public Vehicle getVehicle(long id) {
-
-        Optional<VehicleEntity> optionalVehicleEntity = vehicleRepository.findById(id);
-        if (optionalVehicleEntity.isPresent()) {
-            VehicleEntity vehicleEntity = optionalVehicleEntity.get();
-            Vehicle vehicle = convertToVehicle(vehicleEntity);
-            return vehicle;
-        } else {
-            throw new IllegalArgumentException("vehicle not found");
-        }
-    }
-
-
-    public void saveVehicle(Vehicle v) {
-    }
-
-
     public Vehicle getVehicleByVin(String vin) {
+        Optional<VehicleEntity> vehicleEntityOptional = vehicleRepository.findByVin(vin);
+        if (vehicleEntityOptional.isPresent()) {
+            VehicleEntity vehicleEntity = vehicleEntityOptional.get();
+            return convertToVehicle(vehicleEntity);
+        }
         return null;
     }
+
+    public List<Service> getServicesByVin(String vin) {
+        Optional<VehicleEntity> vehicleEntityOptional = vehicleRepository.findByVin(vin);
+        if (vehicleEntityOptional.isPresent()) {
+            VehicleEntity vehicleEntity = vehicleEntityOptional.get();
+            return vehicleEntity.getServiceEntityList().stream()
+                    .map(ServiceStore::convertToService)
+                    .collect(Collectors.toList());
+        }
+        return null;
+    }
+
 }
+
