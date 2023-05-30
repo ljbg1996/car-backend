@@ -59,8 +59,9 @@ public class VehicleStore {
         if (vehicleEntityOptional.isPresent()) {
             VehicleEntity vehicleEntity = vehicleEntityOptional.get();
             return convertToVehicle(vehicleEntity);
+        }else {
+            throw new IllegalArgumentException("No Vehicle found " + vin);
         }
-        return null;
     }
 
     public List<Service> getServicesByVin(String vin) {
@@ -70,8 +71,9 @@ public class VehicleStore {
             return vehicleEntity.getServiceEntityList().stream()
                     .map(ServiceStore::convertToService)
                     .collect(Collectors.toList());
+        } else {
+            throw new IllegalArgumentException("No Service found " + vin);
         }
-        return null;
     }
 
 }
