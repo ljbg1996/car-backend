@@ -7,6 +7,7 @@ import com.motracoca.model.Vin;
 import com.motracoca.repositorys.VehicleRepository;
 import com.motracoca.store.ServiceStore;
 import com.motracoca.store.VehicleStore;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -45,7 +46,8 @@ public class VehicleStoreTest {
         Vehicle expectedVehicle = new Vehicle(1L, new Vin(vin), null, null);
         Vehicle actualVehicle = vehicleStore.getVehicleByVin(vin);
 
-        assertEquals(expectedVehicle, actualVehicle);
+
+        Assertions.assertThat(actualVehicle).isEqualTo(expectedVehicle);
     }
 
     @Test
@@ -77,7 +79,8 @@ public class VehicleStoreTest {
 
         List<Service> actualServices = vehicleStore.getServicesByVin(vin);
 
-        assertEquals(expectedServices, actualServices);
+
+        Assertions.assertThat(actualServices).isEqualTo(expectedServices);
     }
 }
 

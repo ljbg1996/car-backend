@@ -4,6 +4,7 @@ import com.motracoca.entities.*;
 import com.motracoca.model.*;
 import com.motracoca.repositorys.UsageRightRepository;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
@@ -60,21 +62,18 @@ public class UsageRightStoreTest {
 
         when(usageRightRepository.save(usageRightEntity)).thenReturn(usageRightEntity);
 
-
         UsageRight savedUsageRight = usageRightStore.saveUsageRight(usageRight);
-
 
         verify(usageRightRepository, times(1)).save(usageRightEntity);
 
-
-        assertEquals(usageRight.getId(), savedUsageRight.getId());
-        assertEquals(usageRight.getStartDate(), savedUsageRight.getStartDate());
-        assertEquals(usageRight.getEndDate(), savedUsageRight.getEndDate());
-        assertEquals(usageRight.getCoveredService().getClass(), savedUsageRight.getCoveredService().getClass());
-        assertEquals(usageRight.getCoveredVehicle().getVin(), savedUsageRight.getCoveredVehicle().getVin());
-        assertEquals(usageRight.getCoveredCustomer().getId(), savedUsageRight.getCoveredCustomer().getId());
-        assertEquals(usageRight.getFromProduct().getId(), savedUsageRight.getFromProduct().getId());
-        assertEquals(usageRight.getFromOrder().getId(), savedUsageRight.getFromOrder().getId());
+        Assertions.assertThat(savedUsageRight.getId()).isEqualTo(usageRight.getId());
+        Assertions.assertThat(savedUsageRight.getStartDate()).isEqualTo(usageRight.getStartDate());
+        Assertions.assertThat(savedUsageRight.getEndDate()).isEqualTo(usageRight.getEndDate());
+        Assertions.assertThat(savedUsageRight.getCoveredService().getClass()).isEqualTo(usageRight.getCoveredService().getClass());
+        Assertions.assertThat(savedUsageRight.getCoveredVehicle().getVin()).isEqualTo(usageRight.getCoveredVehicle().getVin());
+        Assertions.assertThat(savedUsageRight.getCoveredCustomer().getId()).isEqualTo(usageRight.getCoveredCustomer().getId());
+        Assertions.assertThat(savedUsageRight.getFromProduct().getId()).isEqualTo(usageRight.getFromProduct().getId());
+        Assertions.assertThat(savedUsageRight.getFromOrder().getId()).isEqualTo(usageRight.getFromOrder().getId());
     }
 
 
@@ -96,9 +95,10 @@ public class UsageRightStoreTest {
         verify(usageRightRepository, times(1)).findById(1L);
 
 
-        assertEquals(usageRightEntity.getId(), foundUsageRight.getId());
-        assertEquals(usageRightEntity.getStartDate(), foundUsageRight.getStartDate());
-        assertEquals(usageRightEntity.getEndDate(), foundUsageRight.getEndDate());
+
+        Assertions.assertThat(foundUsageRight.getId()).isEqualTo(usageRightEntity.getId());
+        Assertions.assertThat(foundUsageRight.getStartDate()).isEqualTo(usageRightEntity.getStartDate());
+        Assertions.assertThat(foundUsageRight.getEndDate()).isEqualTo(usageRightEntity.getEndDate());
     }
 
     @Test
@@ -125,14 +125,13 @@ public class UsageRightStoreTest {
 
         verify(usageRightRepository, times(1)).findAll();
 
-
-        assertEquals(1, foundUsageRights.size());
+        Assertions.assertThat(foundUsageRights.size()).isEqualTo(1);
 
 
         UsageRight foundUsageRight = foundUsageRights.get(0);
-        assertEquals(usageRightEntity1.getId(), foundUsageRight.getId());
-        assertEquals(usageRightEntity1.getStartDate(), foundUsageRight.getStartDate());
-        assertEquals(usageRightEntity1.getEndDate(), foundUsageRight.getEndDate());
+        Assertions.assertThat(foundUsageRight.getId()).isEqualTo(usageRightEntity1.getId());
+        Assertions.assertThat(foundUsageRight.getStartDate()).isEqualTo(usageRightEntity1.getStartDate());
+        Assertions.assertThat(foundUsageRight.getEndDate()).isEqualTo(usageRightEntity1.getEndDate());
     }
 
 }
