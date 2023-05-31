@@ -1,36 +1,61 @@
 package com.motracoca.store;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import com.motracoca.entities.ServiceEntity;
 import com.motracoca.entities.VehicleEntity;
 import com.motracoca.model.Service;
 import com.motracoca.model.Vehicle;
 import com.motracoca.model.Vin;
 import com.motracoca.repositorys.VehicleRepository;
-import com.motracoca.store.ServiceStore;
-import com.motracoca.store.VehicleStore;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-public class VehicleStoreTest {
+@SpringBootTest
+@ExtendWith(MockitoExtension.class)
+class VehicleStoreTest {
 
+    //@MockBean
     @Mock
     private VehicleRepository vehicleRepository;
 
+    //@Autowired
     @InjectMocks
     private VehicleStore vehicleStore;
 
+    VehicleEntity vehicleEntity;
+
     @BeforeEach
-    public void setup() {
+    void init() {
+        vehicleEntity = new VehicleEntity();
+        vehicleEntity.setVin("ABC123456");
+        vehicleEntity.setId(1234);
+
         MockitoAnnotations.openMocks(this);
+
+    }
+
+    @Test
+    void findVehicleByVin() {
+        //TODO hier fehlt noch was. es wurde noch nicht in der db gespeichert
+        when(vehicleRepository.findById(vehicleEntity.getId())).thenReturn(Optional.of(vehicleEntity));
+        com.motracoca.model.Vehicle vehicle = vehicleStore.getVehicle(vehicleEntity.getId());
+
     }
 
     @Test
@@ -45,7 +70,8 @@ public class VehicleStoreTest {
         Vehicle expectedVehicle = new Vehicle(1L, new Vin(vin), null, null);
         Vehicle actualVehicle = vehicleStore.getVehicleByVin(vin);
 
-        assertEquals(expectedVehicle, actualVehicle);
+
+        assertThat(actualVehicle).isEqualTo(expectedVehicle);
     }
 
     @Test
@@ -77,8 +103,10 @@ public class VehicleStoreTest {
 
         List<Service> actualServices = vehicleStore.getServicesByVin(vin);
 
-        assertEquals(expectedServices, actualServices);
+
+        assertThat(actualServices).isEqualTo(expectedServices);
     }
+
 }
 
 

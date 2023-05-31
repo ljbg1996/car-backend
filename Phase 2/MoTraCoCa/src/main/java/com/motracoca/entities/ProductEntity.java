@@ -16,16 +16,16 @@ public class ProductEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
+    @Column(nullable = false)
     private long id;
 
-    @Column(name = "Article number")
     private long articleNumber;
 
-    @Column(name = "Price per month")
+    @Column(name = "PricePerMonth")
     private double price;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "product_id", referencedColumnName = "id")
     private List<ServiceEntity> includedServices;
 
 

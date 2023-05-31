@@ -1,22 +1,22 @@
 package com.motracoca.store;
 
-import com.motracoca.entities.CustomerEntity;
 import com.motracoca.entities.ServiceEntity;
-import com.motracoca.entities.UsageRightEntity;
+
 import com.motracoca.entities.VehicleEntity;
 
 import com.motracoca.model.Service;
-import com.motracoca.model.UsageRight;
+
 import com.motracoca.model.Vehicle;
 import com.motracoca.model.Vin;
 import com.motracoca.repositorys.VehicleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
+
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -28,7 +28,8 @@ import static com.motracoca.store.CustomerStore.convertToCustomerEntity;
 @Slf4j
 public class VehicleStore {
 
-    private final VehicleRepository vehicleRepository;
+    @Autowired
+    private VehicleRepository vr;
 
     public static Vehicle convertToVehicle(VehicleEntity vehicleEntity) {
         List<Service> serviceList = vehicleEntity.getServiceEntityList().stream()
@@ -54,25 +55,48 @@ public class VehicleStore {
         return vehicleEntity;
     }
 
+    public Vehicle getVehicle(long id) {
+
+        Optional<VehicleEntity> optionalVehicleEntity = vr.findById(id);
+        if (optionalVehicleEntity.isPresent()) {
+            VehicleEntity vehicleEntity = optionalVehicleEntity.get();
+            com.motracoca.model.Vehicle vehicle = convertToVehicle(vehicleEntity);
+            return vehicle;
+        } else {
+            throw new IllegalArgumentException("vehicle not found");
+        }
+    }
+
+
+    public void saveVehicle(Vehicle v) {
+        VehicleEntity ve = convertToVehicleEntity(v);
+        vr.save(ve);
+    }
+
+
     public Vehicle getVehicleByVin(String vin) {
-        Optional<VehicleEntity> vehicleEntityOptional = vehicleRepository.findByVin(vin);
+        /*VehicleEntity ve = vr.getVehicleEntityByVin(vin);
+        com.motracoca.model.Vehicle v = convertToVehicle(ve);
+        return v;*/
+        Optional<VehicleEntity> vehicleEntityOptional = vr.findByVin(vin);
         if (vehicleEntityOptional.isPresent()) {
             VehicleEntity vehicleEntity = vehicleEntityOptional.get();
             return convertToVehicle(vehicleEntity);
+        }else {
+            throw new IllegalArgumentException("No Vehicle found " + vin);
         }
-        return null;
     }
 
+    //TODO hier wäre auch ein Methodenaufruf möglich, damit kein doppelter Code existiert
     public List<Service> getServicesByVin(String vin) {
-        Optional<VehicleEntity> vehicleEntityOptional = vehicleRepository.findByVin(vin);
+        Optional<VehicleEntity> vehicleEntityOptional = vr.findByVin(vin);
         if (vehicleEntityOptional.isPresent()) {
             VehicleEntity vehicleEntity = vehicleEntityOptional.get();
             return vehicleEntity.getServiceEntityList().stream()
                     .map(ServiceStore::convertToService)
                     .collect(Collectors.toList());
+        } else {
+            throw new IllegalArgumentException("No Service found " + vin);
         }
-        return null;
     }
-
 }
-

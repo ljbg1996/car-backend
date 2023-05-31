@@ -11,8 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.motracoca.store.CustomerStore.convertToCustomer;
@@ -26,30 +26,50 @@ import static com.motracoca.store.VehicleStore.convertToVehicleEntity;
 public class OrderStore {
 
     @Autowired
-    private final OrderRepository or;
+    private OrderRepository or;
 
     public static Order convertToOrder(OrderEntity orderEntity) {
-        List<ProductConfiguration> productConfigurations = orderEntity.getProducts().stream()
+        /*List<ProductConfiguration> productConfigurations = orderEntity.getProducts().stream()
                 .map(ProductConfigurationStore::convertToProductConfiguration)
-                .collect(Collectors.toList());
+                .collect(Collectors.toList());*/
+
+        List<ProductConfiguration> productConfigurationList = new ArrayList<>();
+        List<ProductConfigurationEntity> pceList = orderEntity.getProducts();
+
+        for (ProductConfigurationEntity pce : pceList) {
+            ProductConfiguration pc = ProductConfigurationStore.convertToProductConfiguration(pce);
+            productConfigurationList.add(pc);
+
+        }
+
 
         return new Order(
                 orderEntity.getId(),
                 orderEntity.isPayed(),
-                orderEntity.getDate(),
+                orderEntity.getPaymentDate(),
                 convertToVehicle(orderEntity.getVehicleEntity()),
                 convertToCustomer(orderEntity.getCustomerEntity()),
                 new Price(orderEntity.getTotalPrice()),
                 orderEntity.getDate(),
-                productConfigurations,
+                productConfigurationList,
                 orderEntity.isCanceled()
         );
     }
 
     public static OrderEntity convertToOrderEntity(Order order) {
-        List<ProductConfigurationEntity> productConfigurationEntities = order.getProducts().stream()
+        /*List<ProductConfigurationEntity> productConfigurationEntities = order.getProducts().stream()
                 .map(ProductConfigurationStore::convertToProductConfigurationEntity)
-                .collect(Collectors.toList());
+                .collect(Collectors.toList());*/
+
+        List<ProductConfigurationEntity> pceList = new ArrayList<>();
+        List<ProductConfiguration> pcList = order.getProducts();
+
+        for (ProductConfiguration pc : pcList) {
+
+            ProductConfigurationEntity pce = ProductConfigurationStore.convertToProductConfigurationEntity(pc);
+            pceList.add(pce);
+
+        }
 
         OrderEntity orderEntity = new OrderEntity();
         orderEntity.setId(order.getId());
@@ -59,17 +79,19 @@ public class OrderStore {
         orderEntity.setCustomerEntity(convertToCustomerEntity(order.getCustomer()));
         orderEntity.setTotalPrice(order.getTotalPrice().price());
         orderEntity.setDate(order.getDate());
-        orderEntity.setProducts(productConfigurationEntities);
+        orderEntity.setProducts(pceList);
         orderEntity.setCanceled(order.isCanceled());
 
         return orderEntity;
     }
 
 
-    public void saveOrder(Order actualOrder) {
+    public OrderEntity saveOrder(Order actualOrder) {
 
         OrderEntity orderEntity = convertToOrderEntity(actualOrder);
-        or.save(orderEntity);
+        OrderEntity savedEntity = or.save(orderEntity);
+
+        return savedEntity;
 
     }
 
@@ -89,10 +111,24 @@ public class OrderStore {
         }
     }
 
-    public void updateOrder(Order order){
+    public OrderEntity getOrderEntityById(long id) {
+
+        OrderEntity orderEntity= or.getReferenceById(id);
+
+        if (orderEntity != null) {
+            log.info("Retrieved order with ID{}", orderEntity.getId());
+            return orderEntity;
+        } else {
+            log.warn("No order found with ID {}", id);
+            return null;
+        }
+    }
+
+    public boolean updateOrder(Order order){
 
         OrderEntity orderFromDB = or.getReferenceById(order.getId());
         OrderEntity orderUpdate = convertToOrderEntity(order);
+
 
         if (orderFromDB != null) {
             log.info("Order will be updated with ID{}", orderFromDB.getId());
@@ -108,11 +144,50 @@ public class OrderStore {
             orderFromDB.setDate(orderFromDB.getDate());
 
             or.save(orderFromDB);
+            return true;
 
         } else {
             log.warn("No order found to be updated with ID {}", order.getId());
 
+            return false;
         }
+
+
+
+
+
+
+    }
+
+    public boolean updateOrderEntity(OrderEntity orderEntity){
+
+        //OrderEntity orderFromDB = or.getReferenceById(orderEntity.getId());
+
+
+
+        if (orderEntity != null) {
+            log.info("Order will be updated with ID{}", orderEntity.getId());
+
+            /*
+            orderFromDB.setPayed(orderEntity.isPayed());
+            orderFromDB.setPaymentDate(orderEntity.getPaymentDate());
+            orderFromDB.setCanceled(orderEntity.isCanceled());
+            orderFromDB.setCancellationDate(orderEntity.getCancellationDate());
+            orderFromDB.setVehicleEntity(orderEntity.getVehicleEntity());
+            orderFromDB.setCustomerEntity(orderEntity.getCustomerEntity());
+            orderFromDB.setTotalPrice(orderEntity.getTotalPrice());
+            orderFromDB.setProducts(orderEntity.getProducts());
+            orderFromDB.setDate(orderEntity.getDate());*/
+
+            or.save(orderEntity);
+            return true;
+
+        } else {
+            log.warn("No order found to be updated with ID {}", orderEntity.getId());
+
+            return false;
+        }
+
 
 
 

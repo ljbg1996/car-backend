@@ -2,16 +2,21 @@ package com.motracoca.store;
 
 import com.motracoca.entities.ServiceEntity;
 import com.motracoca.entities.UsageRightEntity;
+import com.motracoca.entities.VehicleEntity;
 import com.motracoca.model.Service;
 import com.motracoca.model.UsageRight;
 import com.motracoca.repositorys.UsageRightRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.motracoca.store.CustomerStore.convertToCustomer;
 import static com.motracoca.store.CustomerStore.convertToCustomerEntity;
@@ -29,7 +34,8 @@ import static com.motracoca.store.VehicleStore.convertToVehicleEntity;
 public class UsageRightStore {
 
 
-    private final UsageRightRepository usageRightRepository;
+    @Autowired
+    private UsageRightRepository usageRightRepository;
 
     public UsageRight convertToUsageRight(UsageRightEntity usageRightEntity) {
         return new UsageRight(
@@ -57,6 +63,18 @@ public class UsageRightStore {
         return usageRightEntity;
     }
 
+    public List<ServiceEntity> getUsageRightEntitiesByVin(VehicleEntity vehicleEntity){
+
+        List<UsageRightEntity> usageRightEntitiesWithVin = usageRightRepository.findByCoveredVehicle(vehicleEntity);
+        List<ServiceEntity> serviceEntitiesWithVin = new ArrayList<>();
+
+
+
+        return serviceEntitiesWithVin;
+
+
+
+    }
 
     public UsageRight saveUsageRight(UsageRight usageRight) {
         UsageRightEntity entity = convertToUsageRightEntity(usageRight);

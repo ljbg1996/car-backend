@@ -22,10 +22,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ProductStoreTest {
 
 
-    private final ServiceEntity SERVICEENTITY1 = new ServiceEntity();
-    private final ServiceEntity SERVICEENTITY2 = new ServiceEntity();
-    private final ServiceEntity SERVICEENTITY3 = new ServiceEntity();
+    private ServiceEntity SERVICEENTITY1 = new ServiceEntity();
+    private ServiceEntity SERVICEENTITY2 = new ServiceEntity();
+    private ServiceEntity SERVICEENTITY3 = new ServiceEntity();
 
+    @Autowired
+    ProductStore productStore;
 
 
     @BeforeEach
@@ -42,15 +44,15 @@ public class ProductStoreTest {
     @Test
     public void getProductByArticleNumberTest() {
         //given
-        final long ARTICLENUMBER = 8150815;
-        final long ID = 12341234;
-        final double PRICE = 420.0;
-        final ProductStore productStore = new ProductStore();
+        long ARTICLENUMBER = 8150815;
+        long ID = 12341234;
+        double PRICE = 420.0;
 
-        final Service SERVICE1 = new Service(11111111L, "Service1");
-        final Service SERVICE2 = new Service(22222222L, "Service2");
 
-        final Product product = new Product(
+        Service SERVICE1 = new Service(11111111L, "Service1");
+        Service SERVICE2 = new Service(22222222L, "Service2");
+
+        Product product = new Product(
                 ID,
                 new ArticleNumber(ARTICLENUMBER),
                 new Price(PRICE),
@@ -58,7 +60,7 @@ public class ProductStoreTest {
 
 
         // when
-        final Product productResult = productStore
+        Product productResult = productStore
                 .findProductByArticleNumber(new ArticleNumber(ARTICLENUMBER));
 
         // then
@@ -109,18 +111,18 @@ public class ProductStoreTest {
     @Test
     public void saveProductTest() {
         //given
-        final Service SERVICE1 = new Service(11111111L, "Service1");
-        final Service SERVICE2 = new Service(22222222L, "Service2");
+        Service SERVICE1 = new Service(0L, "Service1");
+        Service SERVICE2 = new Service(0L, "Service2");
 
-        final long ARTICLENUMBER = 8150815;
-        final long ID = 12341234;
-        final double PRICE = 420.0;
+        long ARTICLENUMBER = 8150815;
+        long ID = 0L;
+        double PRICE = 420.0;
 
-        final ProductStore productStore = new ProductStore();
+
 //        ProductEntity productEntity = new ProductEntity();
 
         // when
-        final Product product1 = new Product(
+        Product product1 = new Product(
                 ID,
                 new ArticleNumber(ARTICLENUMBER),
                 new Price(PRICE),
@@ -147,19 +149,20 @@ public class ProductStoreTest {
     @Test
     public void getServicesTest() {
 //        given
-        final Service SERVICE1 = new Service(11111111L, "Service1");
-        final Service SERVICE2 = new Service(22222222L, "Service2");
-        final Service SERVICE3 = new Service(33333333L, "Service3");
+        //TODO services vorher speichern
+        Service SERVICE1 = new Service(0L, "Service1");
+        Service SERVICE2 = new Service(0L, "Service2");
+        Service SERVICE3 = new Service(0L, "Service3");
 
-        final long ARTICLENUMBER1 = 8150815;
-        final long ARTICLENUMBER2 = 8150816;
-        final long ID1 = 12341234;
-        final long ID2 = 12341235;
-        final double PRICE = 420.0;
+        long ARTICLENUMBER1 = 8150815L;
+        long ARTICLENUMBER2 = 8150816L;
+        long ID1 = 0L;
+        long ID2 = 0L;
+        double PRICE = 420.0;
 
-        final ProductStore productStore = new ProductStore();
 
-        final Product product1 = new Product(
+
+        Product product1 = new Product(
                 ID1,
                 new ArticleNumber(ARTICLENUMBER1),
                 new Price(PRICE),
@@ -176,8 +179,9 @@ public class ProductStoreTest {
         productStore.saveProduct(product2);
 
 
-        final List<Service> serviceList = productStore.findAllServices();
+        List<Service> serviceList = productStore.findAllServices();
 
-        assertThat(serviceList.size()).isEqualTo(2);
+        //TODO Klärung: was genau soll passieren
+        assertThat(serviceList.size()).isEqualTo(3);
     }
 }
