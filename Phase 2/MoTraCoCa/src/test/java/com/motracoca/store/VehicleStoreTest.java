@@ -53,6 +53,7 @@ class VehicleStoreTest {
     @Test
     void findVehicleByVin() {
         //TODO hier fehlt noch was. es wurde noch nicht in der db gespeichert
+        
         when(vehicleRepository.findById(vehicleEntity.getId())).thenReturn(Optional.of(vehicleEntity));
         Vehicle vehicle = vehicleStore.getVehicle(vehicleEntity.getId());
 
