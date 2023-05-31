@@ -1,6 +1,7 @@
 package com.motracoca.services;
 
 
+import com.motracoca.entities.CustomerEntity;
 import com.motracoca.entities.OrderEntity;
 import com.motracoca.entities.VehicleEntity;
 import com.motracoca.model.*;
@@ -21,23 +22,28 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 public class OrderServiceTest {
 
+    private OrderService orderService = new OrderService();
     @Autowired
     private CustomerStore cs;
+    @Autowired
+    private OrderStore os;
     @Autowired
     private ProductStore ps;
     @Autowired
     private VehicleStore vs;
     @Autowired
-    private ServiceStore ss = new ServiceStore();
-    @Autowired
-    private OrderStore os;
-    @Autowired
-    private OrderService orderService = new OrderService();
+    private ServiceStore ss;
 
-    List<ProductConfiguration> articleNumberDurationList;
-    Vehicle v;
-    VehicleEntity safedVehicleEntity;
+    private List<ProductConfiguration> articleNumberDurationList;
+    private Vehicle v;
+    private VehicleEntity safedVehicleEntity;
 
+    private CustomerEntity safedCustomerEntitity;
+    private Service safedService1;
+    private Service safedService2;
+    private Service safedService3;
+    private Product safedProduct1;
+    private Product safedProduct2;
 
     @BeforeEach
     public void init(){
@@ -47,9 +53,9 @@ public class OrderServiceTest {
         Service s2 = new Service(0L, "service2");
         Service s3 = new Service(0L, "service3");
 
-        Service safedService1 = ss.safeService(s1);
-        Service safedService2 = ss.safeService(s2);
-        Service safedService3 = ss.safeService(s3);
+        safedService1 = ss.safeService(s1);
+        safedService2 = ss.safeService(s2);
+        safedService3 = ss.safeService(s3);
 
 
         List<Service> serviceList1 = new ArrayList<>();
@@ -65,8 +71,8 @@ public class OrderServiceTest {
         Product p1 = new Product(0L, an1, pricePerMonth1, serviceList1);
         Product p2 = new Product(0L, an2, pricePerMonth2, serviceList2);
 
-        Product safedProduct1 = ps.saveProduct(p1);
-        Product safedProduct2 = ps.saveProduct(p2);
+        safedProduct1 = ps.saveProduct(p1);
+        safedProduct2 = ps.saveProduct(p2);
 
         ProductConfiguration  pc1 = new ProductConfiguration(0L, safedProduct1, 3);
         ProductConfiguration  pc2 = new ProductConfiguration(0L, safedProduct2, 6);
@@ -79,7 +85,7 @@ public class OrderServiceTest {
         Vin vin = new Vin("vin123");
         v = new Vehicle(0L, vin, c, serviceList1);
 
-        cs.saveCustomer(c);
+        safedCustomerEntitity = CustomerStore.convertToCustomerEntity(cs.saveCustomer(c));
         safedVehicleEntity = vs.saveVehicle(v);
 
     }
