@@ -28,7 +28,7 @@ public class ProductStoreTest {
     private ServiceEntity SERVICEENTITY3 = new ServiceEntity();
 
     @Autowired
-    ProductStore productStore = new ProductStore();
+    ProductStore productStore;
 
 
     @BeforeEach

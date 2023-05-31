@@ -31,16 +31,16 @@ public class VehicleStore {
     @Autowired
     private VehicleRepository vr;
 
-    public static com.motracoca.model.Vehicle convertToVehicle(VehicleEntity vehicleEntity) {
+    public static Vehicle convertToVehicle(VehicleEntity vehicleEntity) {
         List<Service> serviceList = vehicleEntity.getServiceEntityList().stream()
                 .map(ServiceStore::convertToService)
                 .collect(Collectors.toList());
 
 
-        return new com.motracoca.model.Vehicle(vehicleEntity.getId(), new Vin(vehicleEntity.getVin()), convertToCustomer(vehicleEntity.getOwner()), serviceList);
+        return new Vehicle(vehicleEntity.getId(), new Vin(vehicleEntity.getVin()), convertToCustomer(vehicleEntity.getOwner()), serviceList);
     }
 
-    public static VehicleEntity convertToVehicleEntity(com.motracoca.model.Vehicle vehicle) {
+    public static VehicleEntity convertToVehicleEntity(Vehicle vehicle) {
         List<ServiceEntity> serviceEntities = vehicle.getServiceList().stream()
                 .map(ServiceStore::convertToServiceEntity)
                 .collect(Collectors.toList());
@@ -75,8 +75,28 @@ public class VehicleStore {
 
 
     public Vehicle getVehicleByVin(String vin) {
-        VehicleEntity ve = vr.getVehicleEntityByVin(vin);
+        /*VehicleEntity ve = vr.getVehicleEntityByVin(vin);
         com.motracoca.model.Vehicle v = convertToVehicle(ve);
-        return v;
+        return v;*/
+        Optional<VehicleEntity> vehicleEntityOptional = vr.findByVin(vin);
+        if (vehicleEntityOptional.isPresent()) {
+            VehicleEntity vehicleEntity = vehicleEntityOptional.get();
+            return convertToVehicle(vehicleEntity);
+        }else {
+            throw new IllegalArgumentException("No Vehicle found " + vin);
+        }
+    }
+
+    //TODO hier wäre auch ein Methodenaufruf möglich, damit kein doppelter Code existiert
+    public List<Service> getServicesByVin(String vin) {
+        Optional<VehicleEntity> vehicleEntityOptional = vr.findByVin(vin);
+        if (vehicleEntityOptional.isPresent()) {
+            VehicleEntity vehicleEntity = vehicleEntityOptional.get();
+            return vehicleEntity.getServiceEntityList().stream()
+                    .map(ServiceStore::convertToService)
+                    .collect(Collectors.toList());
+        } else {
+            throw new IllegalArgumentException("No Service found " + vin);
+        }
     }
 }
