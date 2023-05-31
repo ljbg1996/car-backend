@@ -6,6 +6,7 @@ import com.motracoca.entities.VehicleEntity;
 import com.motracoca.model.*;
 
 import com.motracoca.store.*;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,14 +31,16 @@ public class OrderServiceTest {
     private ServiceStore ss = new ServiceStore();
     @Autowired
     private OrderStore os;
-
     @Autowired
     private OrderService orderService = new OrderService();
 
-    @DisplayName("should place a order and update the customer")
-    @Test
-    public void placeOrder(){
+    List<ProductConfiguration> articleNumberDurationList;
+    Vehicle v;
+    VehicleEntity safedVehicleEntity;
 
+
+    @BeforeEach
+    public void init(){
         Price pricePerMonth1 = new Price(15.99);
         Price pricePerMonth2 = new Price(12.99);
         Service s1 = new Service(0L, "service1");
@@ -68,18 +71,23 @@ public class OrderServiceTest {
         ProductConfiguration  pc1 = new ProductConfiguration(0L, safedProduct1, 3);
         ProductConfiguration  pc2 = new ProductConfiguration(0L, safedProduct2, 6);
 
-        List<ProductConfiguration> articleNumberDurationList = new ArrayList<>();
+        articleNumberDurationList = new ArrayList<>();
         articleNumberDurationList.add(pc1);
         articleNumberDurationList.add(pc2);
 
         Customer c = new Customer(0L, "payment");
         Vin vin = new Vin("vin123");
-        Vehicle v = new Vehicle(0L, vin, c, serviceList1);
-
-
+        v = new Vehicle(0L, vin, c, serviceList1);
 
         cs.saveCustomer(c);
-        vs.saveVehicle(v);
+        safedVehicleEntity = vs.saveVehicle(v);
+
+    }
+
+    @DisplayName("should place a order and update the customer")
+    @Test
+    public void placeOrder(){
+
 
         OrderEntity savedOrder = orderService.buy(articleNumberDurationList, v.getVin().vin());
 
