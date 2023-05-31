@@ -1,11 +1,15 @@
 package com.motracoca.services;
 
+import com.motracoca.entities.OrderEntity;
+import com.motracoca.entities.UsageRightEntity;
 import com.motracoca.model.*;
+import com.motracoca.repositorys.UsageRightRepository;
 import com.motracoca.store.CustomerStore;
 import com.motracoca.store.OrderStore;
 import com.motracoca.store.ProductStore;
 import com.motracoca.store.VehicleStore;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -16,14 +20,17 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderService {
 
-    private Order order;
 
-    private final OrderStore os;
-    private final VehicleStore vs;
+    @Autowired
+    private OrderStore os;
+    @Autowired
+    private VehicleStore vs = new VehicleStore();
+
+    @Autowired
+    private UsageRightRepository usageRightRepository;
 
 
-    //TODO Rückgabewert
-    public Order buy(List<ProductConfiguration> articleNumberDurationList, String vin) {
+    public OrderEntity buy(List<ProductConfiguration> articleNumberDurationList, String vin) {
 
 
         Vehicle v = vs.getVehicleByVin(vin);
@@ -42,17 +49,52 @@ public class OrderService {
         Price totalPrice = new Price(sum);
 
         LocalDate date = LocalDate.now();
+        LocalDate paymentDate = null;
 
 
-        // TODO id im order model nicht mehr final, da ich sie sonst hier im konstruktor setzen müsste
-        //Nach der Aussage von Sandro habe ich das final gesetzt und jetzt wird die immer mit 0 initialisiert - Martin
-        Order actualOrder = new Order(0,false, date, v, c, totalPrice, date, articleNumberDurationList, false);
+        Order actualOrder = new Order(0L,false, paymentDate, v, c, totalPrice, date, articleNumberDurationList, false);
 
-        order = actualOrder;
 
-        os.saveOrder(actualOrder);
+        OrderEntity savedOrder = os.saveOrder(actualOrder);
 
-        return os.getOrderById(actualOrder.getId());
+        processPayment(actualOrder);
+
+        return savedOrder;
 
     }
+
+
+
+    public void processPayment(Order order){
+
+    }
+
+
+
+    public boolean cancelOrder(OrderEntity orderEntity){
+
+        //OrderEntity orderFromDb = os.getOrderEntityById(orderEntity.getId());
+        orderEntity.setCanceled(true);
+        orderEntity.setCancellationDate(LocalDate.now());
+
+        List<UsageRightEntity> onCancellationUsageRightList = usageRightRepository.findByFromOrder(orderEntity);
+        for (UsageRightEntity ure : onCancellationUsageRightList) {
+
+            usageRightRepository.deleteById(ure.getId());
+
+        }
+
+        boolean isUpdated = os.updateOrderEntity(orderEntity);
+
+        if (isUpdated){
+            return true;
+        } else {
+            return false;
+        }
+
+
+    }
+
+
+
 }

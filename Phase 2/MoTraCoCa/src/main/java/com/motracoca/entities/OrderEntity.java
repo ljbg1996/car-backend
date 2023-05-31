@@ -29,19 +29,18 @@ public class OrderEntity {
 
     private LocalDate paymentDate;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private VehicleEntity vehicleEntity;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private CustomerEntity customerEntity;
 
-    //@Embedded
     private double totalPrice;
 
-    //@Temporal(TemporalType.TIMESTAMP)
     private LocalDate date;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "order_id", referencedColumnName = "id")
     private List<ProductConfigurationEntity> products;
 
     private boolean isCanceled;

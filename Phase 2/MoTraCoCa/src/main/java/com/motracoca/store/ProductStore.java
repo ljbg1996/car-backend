@@ -30,7 +30,7 @@ public class ProductStore {
 
     //TODO Use Optionals
     public Product findProductByArticleNumber(ArticleNumber articleNumber) {
-        final ProductEntity productEntity = productRepository
+        ProductEntity productEntity = productRepository
                 .findProductEntityByArticleNumber(articleNumber.articleNumber());
 
         if (productEntity != null) {
@@ -66,9 +66,12 @@ public class ProductStore {
         return productEntity;
     }
 
-    public void saveProduct(Product product) {
+    public Product saveProduct(Product product) {
+        productRepository.flush();
         ProductEntity productEntity = convertToProductEntity(product);
-        productRepository.save(productEntity);
+        ProductEntity safedProductEntity = productRepository.save(productEntity);
+        Product safedProduct = convertToProduct(safedProductEntity);
+        return safedProduct;
     }
 
     public List<Service> findAllServices() {

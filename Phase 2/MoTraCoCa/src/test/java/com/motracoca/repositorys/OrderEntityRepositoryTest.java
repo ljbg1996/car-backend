@@ -18,6 +18,16 @@ public class OrderEntityRepositoryTest {
 
     @Autowired
     private OrderRepository or;
+    @Autowired
+    private ServiceRepository sr;
+    @Autowired
+    private ProductRepository pr;
+
+    @Autowired
+    private VehicleRepository vr;
+
+    @Autowired
+    private CustomerRepository cr;
 
 
     @DisplayName("should store a order")
@@ -26,29 +36,39 @@ public class OrderEntityRepositoryTest {
 
         ServiceEntity se1 = new ServiceEntity();
         ServiceEntity se2 = new ServiceEntity();
-        ProductEntity pe1 = new ProductEntity();
+        ServiceEntity savedServiceEntity1 = sr.save(se1);
+        ServiceEntity savedServiceEntity2 = sr.save(se2);
+
         List<ServiceEntity> serviceList = new ArrayList<>();
-        serviceList.add(se1);
-        serviceList.add(se2);
+        serviceList.add(savedServiceEntity1);
+        serviceList.add(savedServiceEntity2);
+
+        ProductEntity pe1 = new ProductEntity();
         pe1.setIncludedServices(serviceList);
 
+        ProductEntity safedProductEntity = pr.save(pe1);
+
         ProductConfigurationEntity pce1 = new ProductConfigurationEntity();
-//        pce1.setProduct(pe1);
+        pce1.setProductEntity(safedProductEntity);
+        pce1.setDuration(6);
 
         List<ProductConfigurationEntity> productConfigurationEntityList1 = new ArrayList<>();
         productConfigurationEntityList1.add(pce1);
 
-        OrderEntity order1 = new OrderEntity();
-        order1.setProducts(productConfigurationEntityList1);
-        order1.setPayed(true);
-
         VehicleEntity ve1 = new VehicleEntity();
         ve1.setServiceEntityList(serviceList);
 
-        order1.setVehicleEntity(ve1);
+        VehicleEntity safedVehicleEntity = vr.save(ve1);
+
+        OrderEntity order1 = new OrderEntity();
+        order1.setProducts(productConfigurationEntityList1);
+        order1.setPayed(true);
+        order1.setVehicleEntity(safedVehicleEntity);
         order1.setTotalPrice(20.99);
         LocalDate date = LocalDate.now();
         order1.setDate(date);
+
+
 
         or.save(order1);
 

@@ -23,7 +23,8 @@ public class VehicleEntity {
 
     private String vin;
 
-    @OneToMany( fetch = FetchType.EAGER )
+    @OneToMany(fetch = FetchType.EAGER )
+    @JoinColumn(name = "vehicle_id", referencedColumnName = "id")
     private List<ServiceEntity> serviceEntityList;
 
     @ManyToOne(cascade = CascadeType.ALL)

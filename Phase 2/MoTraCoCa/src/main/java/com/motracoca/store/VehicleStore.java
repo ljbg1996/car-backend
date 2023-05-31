@@ -1,22 +1,22 @@
 package com.motracoca.store;
 
-import com.motracoca.entities.CustomerEntity;
 import com.motracoca.entities.ServiceEntity;
-import com.motracoca.entities.UsageRightEntity;
+
 import com.motracoca.entities.VehicleEntity;
 
 import com.motracoca.model.Service;
-import com.motracoca.model.UsageRight;
+
 import com.motracoca.model.Vehicle;
 import com.motracoca.model.Vin;
 import com.motracoca.repositorys.VehicleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
+
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -28,18 +28,19 @@ import static com.motracoca.store.CustomerStore.convertToCustomerEntity;
 @Slf4j
 public class VehicleStore {
 
-    private final VehicleRepository vehicleRepository;
+    @Autowired
+    private VehicleRepository vr;
 
-    public static Vehicle convertToVehicle(VehicleEntity vehicleEntity) {
+    public static com.motracoca.model.Vehicle convertToVehicle(VehicleEntity vehicleEntity) {
         List<Service> serviceList = vehicleEntity.getServiceEntityList().stream()
                 .map(ServiceStore::convertToService)
                 .collect(Collectors.toList());
 
 
-        return new Vehicle(vehicleEntity.getId(), new Vin(vehicleEntity.getVin()), convertToCustomer(vehicleEntity.getOwner()), serviceList);
+        return new com.motracoca.model.Vehicle(vehicleEntity.getId(), new Vin(vehicleEntity.getVin()), convertToCustomer(vehicleEntity.getOwner()), serviceList);
     }
 
-    public static VehicleEntity convertToVehicleEntity(Vehicle vehicle) {
+    public static VehicleEntity convertToVehicleEntity(com.motracoca.model.Vehicle vehicle) {
         List<ServiceEntity> serviceEntities = vehicle.getServiceList().stream()
                 .map(ServiceStore::convertToServiceEntity)
                 .collect(Collectors.toList());
@@ -54,27 +55,28 @@ public class VehicleStore {
         return vehicleEntity;
     }
 
-    public Vehicle getVehicleByVin(String vin) {
-        Optional<VehicleEntity> vehicleEntityOptional = vehicleRepository.findByVin(vin);
-        if (vehicleEntityOptional.isPresent()) {
-            VehicleEntity vehicleEntity = vehicleEntityOptional.get();
-            return convertToVehicle(vehicleEntity);
-        }else {
-            throw new IllegalArgumentException("No Vehicle found " + vin);
-        }
-    }
+    public Vehicle getVehicle(long id) {
 
-    public List<Service> getServicesByVin(String vin) {
-        Optional<VehicleEntity> vehicleEntityOptional = vehicleRepository.findByVin(vin);
-        if (vehicleEntityOptional.isPresent()) {
-            VehicleEntity vehicleEntity = vehicleEntityOptional.get();
-            return vehicleEntity.getServiceEntityList().stream()
-                    .map(ServiceStore::convertToService)
-                    .collect(Collectors.toList());
+        Optional<VehicleEntity> optionalVehicleEntity = vr.findById(id);
+        if (optionalVehicleEntity.isPresent()) {
+            VehicleEntity vehicleEntity = optionalVehicleEntity.get();
+            com.motracoca.model.Vehicle vehicle = convertToVehicle(vehicleEntity);
+            return vehicle;
         } else {
-            throw new IllegalArgumentException("No Service found " + vin);
+            throw new IllegalArgumentException("vehicle not found");
         }
     }
 
-}
 
+    public void saveVehicle(Vehicle v) {
+        VehicleEntity ve = convertToVehicleEntity(v);
+        vr.save(ve);
+    }
+
+
+    public Vehicle getVehicleByVin(String vin) {
+        VehicleEntity ve = vr.getVehicleEntityByVin(vin);
+        com.motracoca.model.Vehicle v = convertToVehicle(ve);
+        return v;
+    }
+}
