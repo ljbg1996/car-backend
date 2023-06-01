@@ -68,9 +68,10 @@ public class VehicleStore {
     }
 
 
-    public void saveVehicle(Vehicle v) {
+    public VehicleEntity saveVehicle(Vehicle v) {
         VehicleEntity ve = convertToVehicleEntity(v);
-        vr.save(ve);
+        VehicleEntity safedVehicle = vr.save(ve);
+        return safedVehicle;
     }
 
 

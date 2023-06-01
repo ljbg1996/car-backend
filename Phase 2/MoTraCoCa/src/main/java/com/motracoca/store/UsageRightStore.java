@@ -63,14 +63,12 @@ public class UsageRightStore {
         return usageRightEntity;
     }
 
-    public List<ServiceEntity> getUsageRightEntitiesByVin(VehicleEntity vehicleEntity){
+    public List<UsageRightEntity> findByCoveredVehicle(VehicleEntity vehicleEntity){
 
         List<UsageRightEntity> usageRightEntitiesWithVin = usageRightRepository.findByCoveredVehicle(vehicleEntity);
-        List<ServiceEntity> serviceEntitiesWithVin = new ArrayList<>();
 
 
-
-        return serviceEntitiesWithVin;
+        return usageRightEntitiesWithVin;
 
 
 
@@ -87,13 +85,7 @@ public class UsageRightStore {
         return usageRightEntityOptional.map(this::convertToUsageRight).orElse(null);
     }
 
-    public List<UsageRight> findUsageRightsByVin(String vin) {
-        List<UsageRightEntity> usageRightEntities = usageRightRepository.findAll();
-        return usageRightEntities.stream()
-                .filter(entity -> entity.getCoveredVehicle().getVin().equals(vin))
-                .map(this::convertToUsageRight)
-                .collect(Collectors.toList());
-    }
+
 
 
 }

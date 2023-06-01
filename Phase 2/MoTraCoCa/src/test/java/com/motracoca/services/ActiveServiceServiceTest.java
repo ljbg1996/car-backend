@@ -4,7 +4,7 @@ import com.motracoca.entities.*;
 import com.motracoca.model.*;
 import com.motracoca.repositorys.CustomerRepository;
 import com.motracoca.repositorys.UsageRightRepository;
-import com.motracoca.store.UsageRightStore;
+import com.motracoca.store.*;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -23,11 +23,74 @@ public class ActiveServiceServiceTest {
     private UsageRightRepository urr;
     @Autowired
     private UsageRightStore urs = new UsageRightStore();
+    @Autowired
+    private CustomerStore cs;
+    @Autowired
+    private OrderStore os;
+    @Autowired
+    private ProductStore ps;
+    @Autowired
+    private VehicleStore vs;
+    @Autowired
+    private ServiceStore ss;
 
-    private VehicleEntity ve1;
+    private List<ProductConfiguration> articleNumberDurationList;
+    private Vehicle v;
+    private VehicleEntity safedVehicleEntity;
+
+    private CustomerEntity safedCustomerEntitity;
+    private Service safedService1;
+    private Service safedService2;
+    private Service safedService3;
+    private Product safedProduct1;
+    private Product safedProduct2;
+    private VehicleEntity safedVehicle1;
+    private VehicleEntity safedVehicle2;
+    @Autowired
+    private ActiveServiceService activeServiceService;
 
     @BeforeEach
-    void init() {
+    public void init(){
+        Price pricePerMonth1 = new Price(15.99);
+        Price pricePerMonth2 = new Price(12.99);
+        Service s1 = new Service(0L, "service1");
+        Service s2 = new Service(0L, "service2");
+        Service s3 = new Service(0L, "service3");
+
+        safedService1 = ss.safeService(s1);
+        safedService2 = ss.safeService(s2);
+        safedService3 = ss.safeService(s3);
+
+
+        List<Service> serviceList1 = new ArrayList<>();
+        List<Service> serviceList2 = new ArrayList<>();
+        serviceList1.add(safedService1);
+        serviceList1.add(safedService2);
+        serviceList1.add(safedService3);
+        serviceList2.add(safedService1);
+        serviceList2.add(safedService3);
+
+        ArticleNumber an1 = new ArticleNumber(123L);
+        ArticleNumber an2 = new ArticleNumber(456L);
+        Product p1 = new Product(0L, an1, pricePerMonth1, serviceList1);
+        Product p2 = new Product(0L, an2, pricePerMonth2, serviceList2);
+
+        safedProduct1 = ps.saveProduct(p1);
+        safedProduct2 = ps.saveProduct(p2);
+
+        ProductConfiguration  pc1 = new ProductConfiguration(0L, safedProduct1, 3);
+        ProductConfiguration  pc2 = new ProductConfiguration(0L, safedProduct2, 6);
+
+        articleNumberDurationList = new ArrayList<>();
+        articleNumberDurationList.add(pc1);
+        articleNumberDurationList.add(pc2);
+
+        Customer c = new Customer(0L, "payment");
+        Vin vin = new Vin("vin123");
+        v = new Vehicle(0L, vin, c, serviceList1);
+
+        safedCustomerEntitity = CustomerStore.convertToCustomerEntity(cs.saveCustomer(c));
+        safedVehicleEntity = vs.saveVehicle(v);
 
         UsageRightEntity ure1 = new UsageRightEntity();
         UsageRightEntity ure2 = new UsageRightEntity();
@@ -35,40 +98,36 @@ public class ActiveServiceServiceTest {
         UsageRightEntity ure4 = new UsageRightEntity();
         UsageRightEntity ure5 = new UsageRightEntity();
 
-        ServiceEntity se1 = new ServiceEntity();
-        se1.setName("Service1");
-        ServiceEntity se2 = new ServiceEntity();
-        se2.setName("Service2");
-        ServiceEntity se3 = new ServiceEntity();
-        se3.setName("Service3");
-        ServiceEntity se4 = new ServiceEntity();
-        se4.setName("Service4");
-        ServiceEntity se5 = new ServiceEntity();
-        se5.setName("Service5");
 
         CustomerEntity ce1 = new CustomerEntity();
         ce1.setPaymentInfo("paypal");
+        CustomerEntity safedCustomerEntity1 = CustomerStore.convertToCustomerEntity(cs.saveCustomer(CustomerStore.convertToCustomer(ce1)));
         CustomerEntity ce2 = new CustomerEntity();
         ce2.setPaymentInfo("transfer");
+        CustomerEntity safedCustomerEntity2 = CustomerStore.convertToCustomerEntity(cs.saveCustomer(CustomerStore.convertToCustomer(ce2)));
 
-        ve1 = new VehicleEntity();
+        VehicleEntity ve1 = new VehicleEntity();
         ve1.setVin("vin123");
-        ve1.setOwner(ce1);
+        ve1.setOwner(safedCustomerEntity1);
         List<ServiceEntity> offeredServiceList = new ArrayList<>();
-        offeredServiceList.add(se1);
-        offeredServiceList.add(se2);
-        offeredServiceList.add(se3);
-        offeredServiceList.add(se4);
-        offeredServiceList.add(se5);
+        offeredServiceList.add(ServiceStore.convertToServiceEntity(safedService1));
+        offeredServiceList.add(ServiceStore.convertToServiceEntity(safedService3));
+        ve1.setServiceEntityList(offeredServiceList);
+
+        safedVehicle1 = vs.saveVehicle(VehicleStore.convertToVehicle(ve1));
+
         VehicleEntity ve2 = new VehicleEntity();
         ve2.setVin("vin456");
-        ve1.setOwner(ce2);
+        ve2.setOwner(safedCustomerEntity2);
         List<ServiceEntity> offeredServiceList2 = new ArrayList<>();
-        offeredServiceList2.add(se1);
-        offeredServiceList2.add(se2);
-        offeredServiceList2.add(se3);
+        offeredServiceList2.add(ServiceStore.convertToServiceEntity(safedService1));
+        offeredServiceList2.add(ServiceStore.convertToServiceEntity(safedService2));
+        offeredServiceList2.add(ServiceStore.convertToServiceEntity(safedService3));
+        ve2.setServiceEntityList(offeredServiceList2);
 
-        ProductEntity pe1 = new ProductEntity();
+        safedVehicle2 = vs.saveVehicle(VehicleStore.convertToVehicle(ve2));
+
+        /*ProductEntity pe1 = new ProductEntity();
         pe1.setArticleNumber(12345L);
         pe1.setPrice(12.99);
         List<ServiceEntity> includedServices1 = new ArrayList<>();
@@ -87,7 +146,7 @@ public class ActiveServiceServiceTest {
         pce1.setDuration(3);
         ProductConfigurationEntity pce2 = new ProductConfigurationEntity();
         pce2.setProductEntity(pe2);
-        pce2.setDuration(6);
+        pce2.setDuration(6);*/
 
         OrderEntity oe1 = new OrderEntity();
         oe1.setPayed(true);
@@ -95,13 +154,19 @@ public class ActiveServiceServiceTest {
         oe1.setPaymentDate(paymentDate);
         oe1.setCanceled(false);
         oe1.setCancellationDate(null);
-        oe1.setVehicleEntity(ve1);
-        oe1.setCustomerEntity(ce1);
+        oe1.setVehicleEntity(safedVehicle1);
+        oe1.setCustomerEntity(safedCustomerEntity1);
         oe1.setTotalPrice(38.97);
-        List<ProductConfigurationEntity> pceList = new ArrayList<>();
-        pceList.add(pce1);
-        oe1.setProducts(pceList);
+        List<ProductConfigurationEntity> pceList1 = new ArrayList<>();
+        articleNumberDurationList.remove(pc2);
+        for (ProductConfiguration pc : articleNumberDurationList) {
+            ProductConfigurationEntity pce = ProductConfigurationStore.convertToProductConfigurationEntity(pc);
+            pceList1.add(pce);
+        }
+        oe1.setProducts(pceList1);
         oe1.setDate(LocalDate.of(2023, 5, 29));
+
+        OrderEntity safedOrder1 = os.saveOrder(OrderStore.convertToOrder(oe1));
 
         OrderEntity oe2 = new OrderEntity();
         oe2.setPayed(true);
@@ -109,53 +174,60 @@ public class ActiveServiceServiceTest {
         oe2.setPaymentDate(paymentDate1);
         oe2.setCanceled(false);
         oe2.setCancellationDate(null);
-        oe2.setVehicleEntity(ve2);
-        oe2.setCustomerEntity(ce2);
+        oe2.setVehicleEntity(safedVehicle2);
+        oe2.setCustomerEntity(safedCustomerEntity2);
         oe2.setTotalPrice(41.94);
-        List<ProductConfigurationEntity> pceList1 = new ArrayList<>();
-        pceList1.add(pce2);
-        oe2.setProducts(pceList1);
+        List<ProductConfigurationEntity> pceList2 = new ArrayList<>();
+        articleNumberDurationList.remove(pc1);
+        articleNumberDurationList.add(pc2);
+        for (ProductConfiguration pc : articleNumberDurationList) {
+            ProductConfigurationEntity pce = ProductConfigurationStore.convertToProductConfigurationEntity(pc);
+            pceList2.add(pce);
+        }
+        oe2.setProducts(pceList2);
         oe2.setDate(LocalDate.of(2023, 4, 23));
+
+        OrderEntity safedOrder2 = os.saveOrder(OrderStore.convertToOrder(oe2));
 
         ure1.setStartDate(LocalDate.of(2023, 5, 29));
         ure1.setEndDate(LocalDate.of(2023, 8, 29));
-        ure1.setCoveredService(se1);
-        ure1.setCoveredVehicle(ve1);
-        ure1.setCoveredCustomer(ce1);
-        ure1.setFromProduct(pe1);
-        ure1.setFromOrder(oe1);
+        ure1.setCoveredService(ServiceStore.convertToServiceEntity(safedService1));
+        ure1.setCoveredVehicle(safedVehicle1);
+        ure1.setCoveredCustomer(safedCustomerEntity1);
+        ure1.setFromProduct(ProductStore.convertToProductEntity(safedProduct1));
+        ure1.setFromOrder(safedOrder1);
 
         ure3.setStartDate(LocalDate.of(2023, 5, 29));
         ure3.setEndDate(LocalDate.of(2023, 8, 29));
-        ure3.setCoveredService(se3);
-        ure3.setCoveredVehicle(ve1);
-        ure3.setCoveredCustomer(ce1);
-        ure3.setFromProduct(pe1);
-        ure3.setFromOrder(oe1);
+        ure3.setCoveredService(ServiceStore.convertToServiceEntity(safedService2));
+        ure3.setCoveredVehicle(safedVehicle1);
+        ure3.setCoveredCustomer(safedCustomerEntity1);
+        ure3.setFromProduct(ProductStore.convertToProductEntity(safedProduct1));
+        ure3.setFromOrder(safedOrder1);
 
         ure5.setStartDate(LocalDate.of(2023, 5, 29));
         ure5.setEndDate(LocalDate.of(2023, 8, 29));
-        ure5.setCoveredService(se5);
-        ure5.setCoveredVehicle(ve1);
-        ure5.setCoveredCustomer(ce1);
-        ure5.setFromProduct(pe1);
-        ure5.setFromOrder(oe1);
+        ure5.setCoveredService(ServiceStore.convertToServiceEntity(safedService3));
+        ure5.setCoveredVehicle(safedVehicle1);
+        ure5.setCoveredCustomer(safedCustomerEntity1);
+        ure5.setFromProduct(ProductStore.convertToProductEntity(safedProduct1));
+        ure5.setFromOrder(safedOrder1);
 
         ure2.setStartDate(LocalDate.of(2023, 4, 25));
         ure2.setEndDate(LocalDate.of(2023, 10, 29));
-        ure2.setCoveredService(se2);
-        ure2.setCoveredVehicle(ve2);
-        ure2.setCoveredCustomer(ce2);
-        ure2.setFromProduct(pe2);
-        ure2.setFromOrder(oe2);
+        ure2.setCoveredService(ServiceStore.convertToServiceEntity(safedService1));
+        ure2.setCoveredVehicle(safedVehicle2);
+        ure2.setCoveredCustomer(safedCustomerEntity2);
+        ure2.setFromProduct(ProductStore.convertToProductEntity(safedProduct2));
+        ure2.setFromOrder(safedOrder2);
 
         ure4.setStartDate(LocalDate.of(2023, 4, 25));
         ure4.setEndDate(LocalDate.of(2023, 10, 29));
-        ure4.setCoveredService(se4);
-        ure4.setCoveredVehicle(ve2);
-        ure4.setCoveredCustomer(ce2);
-        ure4.setFromProduct(pe2);
-        ure4.setFromOrder(oe2);
+        ure4.setCoveredService(ServiceStore.convertToServiceEntity(safedService3));
+        ure4.setCoveredVehicle(safedVehicle2);
+        ure4.setCoveredCustomer(safedCustomerEntity2);
+        ure4.setFromProduct(ProductStore.convertToProductEntity(safedProduct2));
+        ure4.setFromOrder(safedOrder2);
 
         urr.save(ure1);
         urr.save(ure2);
@@ -170,33 +242,13 @@ public class ActiveServiceServiceTest {
     @DisplayName("Should display the active services of a user ")
     public void getActiveServicesTest() {
 
-        List<ServiceEntity> serviceEntitiesWithVin = urs.getUsageRightEntitiesByVin(ve1);
+        List<Service> servicesWithVin1 = activeServiceService.getActiveServices(VehicleStore.convertToVehicle(safedVehicle1).getVin());
+        List<Service> servicesWithVin2 = activeServiceService.getActiveServices(VehicleStore.convertToVehicle(safedVehicle2).getVin());
 
-        assertThat(serviceEntitiesWithVin.size()).isEqualTo(3);
+        assertThat(servicesWithVin1.size()).isEqualTo(3);
+        assertThat(servicesWithVin2.size()).isEqualTo(2);
 
     }
-/*        @Test
-    public void extractServicesTest(){
-        //given
-        Service s1 = new Service(SERVICEID1,SERVICENAME1);
-        Service s2 = new Service(SERVICEID2,SERVICENAME2);
 
-        Product product = new Product(PRODUCTID1, new ArticleNumber(12345678), new Price(5),List.of(s1, s2));
-
-//        UsageRight usageRight1 = new UsageRight(USAGERIGHTID,LocalDate.now(),LocalDate.now(),product);
-
-//        Vehicle v1 = new Vehicle(VEHICLEID,VIN,List.of(s1,s2),List.of(usageRight1));
-
-//        Customer customer = new Customer()
-//        customerRepository.save(customer);
-
-        ActiveServiceService activeServiceService = new ActiveServiceService();
-
-        //when
-//        List<Service> activeServices = activeServiceService.extractServices(v1,CUSTOMERID);
-
-        //then
-//            Assertions.assertThat(activeServices).size().isEqualTo(2);
-        }*/
 
 }
