@@ -120,7 +120,8 @@ public class UsageRightStoreTest {
         when(usageRightRepository.findAll()).thenReturn(Arrays.asList(usageRightEntity1, usageRightEntity2));
 
 
-        List<UsageRight> foundUsageRights = usageRightStore.findUsageRightsByVin("VIN1");
+        List<UsageRightEntity> foundUsageRights = usageRightStore.
+                findByCoveredVehicle(new VehicleEntity());
 
 
         verify(usageRightRepository, times(1)).findAll();
@@ -128,7 +129,7 @@ public class UsageRightStoreTest {
         Assertions.assertThat(foundUsageRights.size()).isEqualTo(1);
 
 
-        UsageRight foundUsageRight = foundUsageRights.get(0);
+        UsageRightEntity foundUsageRight = foundUsageRights.get(0);
         Assertions.assertThat(foundUsageRight.getId()).isEqualTo(usageRightEntity1.getId());
         Assertions.assertThat(foundUsageRight.getStartDate()).isEqualTo(usageRightEntity1.getStartDate());
         Assertions.assertThat(foundUsageRight.getEndDate()).isEqualTo(usageRightEntity1.getEndDate());

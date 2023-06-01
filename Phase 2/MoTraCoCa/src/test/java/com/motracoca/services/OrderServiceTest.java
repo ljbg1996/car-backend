@@ -6,12 +6,16 @@ import com.motracoca.entities.OrderEntity;
 import com.motracoca.entities.VehicleEntity;
 import com.motracoca.model.*;
 
+import com.motracoca.model.Order;
+import com.motracoca.repositorys.*;
 import com.motracoca.store.*;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.aspectj.lang.annotation.Before;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.event.annotation.BeforeTestClass;
+import org.springframework.test.context.event.annotation.BeforeTestExecution;
+import org.springframework.test.context.event.annotation.BeforeTestMethod;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +26,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 public class OrderServiceTest {
 
+    @Autowired
+    VehicleRepository vr;
+    @Autowired
+    CustomerRepository cr;
+    @Autowired
+    OrderRepository or;
+    @Autowired
+    ProductRepository pr;
+    @Autowired
+    ServiceRepository sr;
+    @Autowired
+    UsageRightRepository urr;
+    @Autowired
     private OrderService orderService = new OrderService();
     @Autowired
     private CustomerStore cs;
@@ -82,20 +99,24 @@ public class OrderServiceTest {
         articleNumberDurationList.add(pc2);
 
         Customer c = new Customer(0L, "payment");
-        Vin vin = new Vin("vin123");
-        v = new Vehicle(0L, vin, c, serviceList1);
 
-        safedCustomerEntitity = CustomerStore.convertToCustomerEntity(cs.saveCustomer(c));
+        Customer safedCustomer = cs.saveCustomer(c);
+        safedCustomerEntitity = CustomerStore.convertToCustomerEntity(safedCustomer);
+
+        Vin vin = new Vin("vin123");
+        v = new Vehicle(0L, vin, safedCustomer, serviceList1);
+
         safedVehicleEntity = vs.saveVehicle(v);
 
     }
+
 
     @DisplayName("should place a order and update the customer")
     @Test
     public void placeOrder(){
 
 
-        OrderEntity savedOrder = orderService.buy(articleNumberDurationList, v.getVin().vin());
+        OrderEntity savedOrder = orderService.buy(articleNumberDurationList, safedVehicleEntity.getVin());
 
         assertThat(savedOrder.getProducts().size()).isEqualTo(2);
         assertThat(savedOrder.getTotalPrice()).isEqualTo(125.91);
@@ -103,13 +124,17 @@ public class OrderServiceTest {
         assertThat(savedOrder.getProducts().get(1).getProductEntity().getIncludedServices().size()).isEqualTo(2);
         assertThat(savedOrder.getProducts().get(0).getDuration()).isEqualTo(3);
         assertThat(savedOrder.getProducts().get(1).getDuration()).isEqualTo(6);
+
+        or.deleteById(savedOrder.getId());
+        vr.deleteById(safedVehicleEntity.getId());
+
     }
 
     @Test
     @DisplayName("should cancel an order")
     public void cancelOrderTest(){
 
-        Price pricePerMonth1 = new Price(15.99);
+       /* Price pricePerMonth1 = new Price(15.99);
         Price pricePerMonth2 = new Price(12.99);
         Service s1 = new Service(0L, "service1");
         Service s2 = new Service(0L, "service2");
@@ -137,9 +162,9 @@ public class OrderServiceTest {
         Vin vin = new Vin("vin123");
         Vehicle v = new Vehicle(0L, vin, c, serviceList1);
 
-        vs.saveVehicle(v);
+        vs.saveVehicle(v);*/
 
-        OrderEntity savedOrder = orderService.buy(articleNumberDurationList, v.getVin().vin());
+        OrderEntity savedOrder = orderService.buy(articleNumberDurationList, safedVehicleEntity.getVin());
 
         orderService.cancelOrder(savedOrder);
         Order canceledOrder = os.getOrderById(savedOrder.getId());
@@ -149,7 +174,25 @@ public class OrderServiceTest {
 
     }
 
+   /* @AfterEach
+    public void quit(){
+        sr.deleteAll();
 
+        vr.deleteAll();
+        cr.deleteAll();
+        pr.deleteAll();
+
+
+
+
+        urr.deleteAll();
+        or.deleteAll();
+
+
+
+
+
+    }*/
 
 
 

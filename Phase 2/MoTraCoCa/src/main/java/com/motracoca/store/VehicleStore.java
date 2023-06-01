@@ -76,28 +76,28 @@ public class VehicleStore {
 
 
     public Vehicle getVehicleByVin(String vin) {
-        /*VehicleEntity ve = vr.getVehicleEntityByVin(vin);
+        VehicleEntity ve = vr.findByVin(vin);
         com.motracoca.model.Vehicle v = convertToVehicle(ve);
-        return v;*/
-        Optional<VehicleEntity> vehicleEntityOptional = vr.findByVin(vin);
+        return v;}
+       /* Optional<VehicleEntity> vehicleEntityOptional = vr.findByVin(vin);
         if (vehicleEntityOptional.isPresent()) {
             VehicleEntity vehicleEntity = vehicleEntityOptional.get();
             return convertToVehicle(vehicleEntity);
         }else {
             throw new IllegalArgumentException("No Vehicle found " + vin);
         }
-    }
+    }*/
 
     //TODO hier wäre auch ein Methodenaufruf möglich, damit kein doppelter Code existiert
     public List<Service> getServicesByVin(String vin) {
-        Optional<VehicleEntity> vehicleEntityOptional = vr.findByVin(vin);
-        if (vehicleEntityOptional.isPresent()) {
-            VehicleEntity vehicleEntity = vehicleEntityOptional.get();
+        VehicleEntity vehicleEntity = vr.findByVin(vin);
+        /*if (vehicleEntityOptional.isPresent()) {
+            VehicleEntity vehicleEntity = vehicleEntityOptional.get();*/
             return vehicleEntity.getServiceEntityList().stream()
                     .map(ServiceStore::convertToService)
                     .collect(Collectors.toList());
-        } else {
+        /*} else {
             throw new IllegalArgumentException("No Service found " + vin);
-        }
+        }*/
     }
 }

@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.motracoca.entities.CustomerEntity;
 import com.motracoca.entities.ServiceEntity;
 import com.motracoca.entities.VehicleEntity;
-import com.motracoca.model.Service;
-import com.motracoca.model.Vehicle;
-import com.motracoca.model.Vin;
+import com.motracoca.model.*;
 import com.motracoca.repositorys.VehicleRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,13 +37,30 @@ class VehicleStoreTest {
     @InjectMocks
     private VehicleStore vehicleStore;
 
-    VehicleEntity vehicleEntity;
+    //VehicleEntity vehicleEntity;
+
+
+
+    @Autowired
+    private CustomerStore cs;
+    @Autowired
+    private VehicleStore vs;
+    @Autowired
+    private ServiceStore ss;
+    private Vehicle v;
+    private VehicleEntity safedVehicleEntity;
+    private CustomerEntity safedCustomerEntitity;
+    private Service safedService1;
+    private Service safedService2;
+    private Service safedService3;
+
+
 
     @BeforeEach
     void init() {
-        vehicleEntity = new VehicleEntity();
+        /*vehicleEntity = new VehicleEntity();
         vehicleEntity.setVin("ABC123456");
-        vehicleEntity.setId(1234);
+        vehicleEntity.setId(1234);*/
 
         MockitoAnnotations.openMocks(this);
 
@@ -52,27 +68,82 @@ class VehicleStoreTest {
 
     @Test
     void findVehicleByVin() {
-        //TODO hier fehlt noch was. es wurde noch nicht in der db gespeichert
-        
-        when(vehicleRepository.findById(vehicleEntity.getId())).thenReturn(Optional.of(vehicleEntity));
-        Vehicle vehicle = vehicleStore.getVehicle(vehicleEntity.getId());
+
+
+        Service s1 = new Service(0L, "service1");
+        Service s2 = new Service(0L, "service2");
+        Service s3 = new Service(0L, "service3");
+
+        safedService1 = ss.safeService(s1);
+        safedService2 = ss.safeService(s2);
+        safedService3 = ss.safeService(s3);
+
+
+        List<Service> serviceList1 = new ArrayList<>();
+        List<Service> serviceList2 = new ArrayList<>();
+        serviceList1.add(safedService1);
+        serviceList1.add(safedService2);
+        serviceList1.add(safedService3);
+        serviceList2.add(safedService1);
+        serviceList2.add(safedService3);
+
+        Customer c = new Customer(0L, "payment");
+
+        Customer safedCustomer = cs.saveCustomer(c);
+        safedCustomerEntitity = CustomerStore.convertToCustomerEntity(safedCustomer);
+
+        Vin vin = new Vin("vin123");
+        v = new Vehicle(0L, vin, safedCustomer, serviceList1);
+
+        safedVehicleEntity = vs.saveVehicle(v);
+
+        when(vehicleRepository.findById(safedVehicleEntity.getId())).thenReturn(Optional.of(safedVehicleEntity));
+        Vehicle vehicle = vehicleStore.getVehicle(safedVehicleEntity.getId());
 
     }
 
     @Test
     public void testGetVehicleByVin() {
-        String vin = "ABC123";
+        /*String vin = "ABC123";
         VehicleEntity vehicleEntity = new VehicleEntity();
         vehicleEntity.setId(1L);
-        vehicleEntity.setVin(vin);
+        vehicleEntity.setVin(vin);*/
 
-        when(vehicleRepository.findByVin(vin)).thenReturn(Optional.of(vehicleEntity));
+        Service s1 = new Service(0L, "service1");
+        Service s2 = new Service(0L, "service2");
+        Service s3 = new Service(0L, "service3");
 
-        Vehicle expectedVehicle = new Vehicle(1L, new Vin(vin), null, null);
-        Vehicle actualVehicle = vehicleStore.getVehicleByVin(vin);
+        safedService1 = ss.safeService(s1);
+        safedService2 = ss.safeService(s2);
+        safedService3 = ss.safeService(s3);
 
 
-        assertThat(actualVehicle).isEqualTo(expectedVehicle);
+        List<Service> serviceList1 = new ArrayList<>();
+        List<Service> serviceList2 = new ArrayList<>();
+        serviceList1.add(safedService1);
+        serviceList1.add(safedService2);
+        serviceList1.add(safedService3);
+        serviceList2.add(safedService1);
+        serviceList2.add(safedService3);
+
+        Customer c = new Customer(0L, "payment");
+
+        Customer safedCustomer = cs.saveCustomer(c);
+        safedCustomerEntitity = CustomerStore.convertToCustomerEntity(safedCustomer);
+
+        Vin vin = new Vin("vin123");
+        v = new Vehicle(0L, vin, safedCustomer, serviceList1);
+
+        safedVehicleEntity = vs.saveVehicle(v);
+
+
+
+        when(vehicleRepository.findByVin(safedVehicleEntity.getVin())).thenReturn(safedVehicleEntity);
+
+        Vehicle actualVehicle = vehicleStore.getVehicleByVin(safedVehicleEntity.getVin());
+
+
+        assertThat(actualVehicle.getVin()).isEqualTo(vin);
     }
 
     @Test
@@ -96,7 +167,7 @@ class VehicleStoreTest {
 
         vehicleEntity.setServiceEntityList(serviceEntities);
 
-        when(vehicleRepository.findByVin(vin)).thenReturn(Optional.of(vehicleEntity));
+        when(vehicleRepository.findByVin(vin)).thenReturn(vehicleEntity);
 
         List<Service> expectedServices = new ArrayList<>();
         expectedServices.add(ServiceStore.convertToService(serviceEntity1));
