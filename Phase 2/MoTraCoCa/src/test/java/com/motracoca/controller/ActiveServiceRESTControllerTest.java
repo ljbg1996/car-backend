@@ -14,6 +14,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,17 +22,19 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
+import org.springframework.stereotype.Controller;
 import org.springframework.test.annotation.DirtiesContext;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.HttpStatus;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit4.SpringRunner;
 
 
 import java.util.List;
 
 @SpringBootTest
-@DirtiesContext
-
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class ActiveServiceRESTControllerTest {
     @LocalServerPort
     private int port;
@@ -53,28 +56,30 @@ public class ActiveServiceRESTControllerTest {
         vin = "XYZ420";
         url = "http://localhost:" + port + "/" + vin + "/" + customer + "/";
 
-        Customer customerModel = new Customer(1337L,"Paypal");
+        Customer customerModel = new Customer(1337L, "Paypal");
 
         Vehicle vehicleModel = new Vehicle(
                 0L,
                 new Vin(vin),
                 customerModel,
-                List.of(new Service(0L,"TestService")));
+                List.of(new Service(0L, "TestService")));
 
         vehicleRepository.save(VehicleStore.convertToVehicleEntity(vehicleModel));
     }
+
     @AfterEach
-    public void cleanUp(){
+    public void cleanUp() {
         vehicleRepository.deleteAll();
     }
 
     @Test
-    void getActiveServicesTest(){
+    void getActiveServicesTest() {
         ResponseEntity<List<Service>> response = restTemplate.exchange(
                 url,
                 HttpMethod.GET,
                 new HttpEntity<>(new HttpHeaders()),
-                new ParameterizedTypeReference<List<Service>>() {});
+                new ParameterizedTypeReference<List<Service>>() {
+                });
 
         List<Service> services = response.getBody();
 
@@ -82,7 +87,7 @@ public class ActiveServiceRESTControllerTest {
     }
 
     @AfterEach
-    void cleanup(){
+    void cleanup() {
         vehicleRepository.deleteAll();
     }
 }
