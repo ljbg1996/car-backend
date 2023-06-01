@@ -24,7 +24,7 @@ public class OrderService {
     @Autowired
     private OrderStore os;
     @Autowired
-    private VehicleStore vs = new VehicleStore();
+    private VehicleStore vs;
 
     @Autowired
     private UsageRightRepository usageRightRepository;

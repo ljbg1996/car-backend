@@ -95,21 +95,21 @@ public class ProductEntityRepositoryTest {
         safedProduct1 = ps.saveProduct(p1);
         safedProduct2 = ps.saveProduct(p2);
 
-        ProductConfiguration  pc1 = new ProductConfiguration(0L, safedProduct1, 3);
-        ProductConfiguration  pc2 = new ProductConfiguration(0L, safedProduct2, 6);
-
-        articleNumberDurationList = new ArrayList<>();
-        articleNumberDurationList.add(pc1);
-        articleNumberDurationList.add(pc2);
-
-        Customer c = new Customer(0L, "payment");
-        Customer safedCustomer = cs.saveCustomer(c);
-        safedCustomerEntitity = CustomerStore.convertToCustomerEntity(safedCustomer);
-
-        Vin vin = new Vin("vin123");
-        v = new Vehicle(0L, vin, safedCustomer, serviceList1);
-
-        safedVehicleEntity = vs.saveVehicle(v);
+//        ProductConfiguration  pc1 = new ProductConfiguration(0L, safedProduct1, 3);
+//        ProductConfiguration  pc2 = new ProductConfiguration(0L, safedProduct2, 6);
+//
+//        articleNumberDurationList = new ArrayList<>();
+//        articleNumberDurationList.add(pc1);
+//        articleNumberDurationList.add(pc2);
+//
+//        Customer c = new Customer(0L, "payment");
+//        Customer safedCustomer = cs.saveCustomer(c);
+//        safedCustomerEntitity = CustomerStore.convertToCustomerEntity(safedCustomer);
+//
+//        Vin vin = new Vin("vin123");
+//        v = new Vehicle(0L, vin, safedCustomer, serviceList1);
+//
+//        safedVehicleEntity = vs.saveVehicle(v);
 
     }
 

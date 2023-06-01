@@ -25,7 +25,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
+
 @ExtendWith(MockitoExtension.class)
 class VehicleStoreTest {
 
@@ -33,34 +33,23 @@ class VehicleStoreTest {
     @Mock
     private VehicleRepository vehicleRepository;
 
-    //@Autowired
-    @InjectMocks
-    private VehicleStore vehicleStore;
 
-    //VehicleEntity vehicleEntity;
+    VehicleStore vs;
 
+    VehicleEntity vehicleEntity;
 
-
-    @Autowired
-    private CustomerStore cs;
-    @Autowired
-    private VehicleStore vs;
-    @Autowired
-    private ServiceStore ss;
-    private Vehicle v;
-    private VehicleEntity safedVehicleEntity;
-    private CustomerEntity safedCustomerEntitity;
-    private Service safedService1;
-    private Service safedService2;
-    private Service safedService3;
-
-
+    List<ServiceEntity> serviceList;
 
     @BeforeEach
     void init() {
-        /*vehicleEntity = new VehicleEntity();
+        vehicleEntity = new VehicleEntity();
         vehicleEntity.setVin("ABC123456");
-        vehicleEntity.setId(1234);*/
+        vehicleEntity.setId(1234);
+        serviceList = new ArrayList<>();
+        ServiceEntity service1 = new ServiceEntity();
+        serviceList.add(service1);
+        vehicleEntity.setServiceEntityList(serviceList);
+        vehicleEntity.setOwner(new CustomerEntity());
 
         MockitoAnnotations.openMocks(this);
 
@@ -69,7 +58,8 @@ class VehicleStoreTest {
     @Test
     void findVehicleByVin() {
 
-
+        vs = new VehicleStore(vehicleRepository);
+/*
         Service s1 = new Service(0L, "service1");
         Service s2 = new Service(0L, "service2");
         Service s3 = new Service(0L, "service3");
@@ -95,20 +85,24 @@ class VehicleStoreTest {
         Vin vin = new Vin("vin123");
         v = new Vehicle(0L, vin, safedCustomer, serviceList1);
 
-        safedVehicleEntity = vs.saveVehicle(v);
+        safedVehicleEntity = vs.saveVehicle(v);*/
 
-        when(vehicleRepository.findById(safedVehicleEntity.getId())).thenReturn(Optional.of(safedVehicleEntity));
-        Vehicle vehicle = vehicleStore.getVehicle(safedVehicleEntity.getId());
+        when(vehicleRepository.findById(vehicleEntity.getId())).thenReturn(Optional.of(vehicleEntity));
+        Vehicle vehicle = vs.getVehicle(vehicleEntity.getId());
 
     }
 
     @Test
     public void testGetVehicleByVin() {
-        /*String vin = "ABC123";
+        String vin = "ABC123";
         VehicleEntity vehicleEntity = new VehicleEntity();
         vehicleEntity.setId(1L);
-        vehicleEntity.setVin(vin);*/
+        vehicleEntity.setVin(vin);
+        vehicleEntity.setServiceEntityList(serviceList);
+        vehicleEntity.setOwner(new CustomerEntity());
 
+        vs = new VehicleStore(vehicleRepository);
+/*
         Service s1 = new Service(0L, "service1");
         Service s2 = new Service(0L, "service2");
         Service s3 = new Service(0L, "service3");
@@ -135,19 +129,21 @@ class VehicleStoreTest {
         v = new Vehicle(0L, vin, safedCustomer, serviceList1);
 
         safedVehicleEntity = vs.saveVehicle(v);
+*/
 
 
+        when(vehicleRepository.findByVin(vehicleEntity.getVin())).thenReturn(vehicleEntity);
 
-        when(vehicleRepository.findByVin(safedVehicleEntity.getVin())).thenReturn(safedVehicleEntity);
-
-        Vehicle actualVehicle = vehicleStore.getVehicleByVin(safedVehicleEntity.getVin());
+        Vehicle actualVehicle = vs.getVehicleByVin(vehicleEntity.getVin());
 
 
-        assertThat(actualVehicle.getVin()).isEqualTo(vin);
+        assertThat(actualVehicle.getVin().vin()).isEqualTo(vin);
     }
 
     @Test
     public void testGetServicesByVin() {
+        vs = new VehicleStore(vehicleRepository);
+
         String vin = "ABC123";
         VehicleEntity vehicleEntity = new VehicleEntity();
         vehicleEntity.setId(1L);
@@ -173,7 +169,7 @@ class VehicleStoreTest {
         expectedServices.add(ServiceStore.convertToService(serviceEntity1));
         expectedServices.add(ServiceStore.convertToService(serviceEntity2));
 
-        List<Service> actualServices = vehicleStore.getServicesByVin(vin);
+        List<Service> actualServices = vs.getServicesByVin(vin);
 
 
         assertThat(actualServices).isEqualTo(expectedServices);

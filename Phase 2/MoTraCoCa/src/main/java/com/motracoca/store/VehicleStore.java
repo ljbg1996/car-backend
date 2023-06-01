@@ -29,7 +29,7 @@ import static com.motracoca.store.CustomerStore.convertToCustomerEntity;
 public class VehicleStore {
 
     @Autowired
-    private VehicleRepository vr;
+    private final VehicleRepository vr;
 
     public static Vehicle convertToVehicle(VehicleEntity vehicleEntity) {
         List<Service> serviceList = vehicleEntity.getServiceEntityList().stream()

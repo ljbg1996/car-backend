@@ -66,7 +66,7 @@ public class ProductStore {
     }
 
     public Product saveProduct(Product product) {
-        productRepository.flush();
+        //productRepository.flush();
         ProductEntity productEntity = convertToProductEntity(product);
         ProductEntity safedProductEntity = productRepository.save(productEntity);
         Product safedProduct = convertToProduct(safedProductEntity);

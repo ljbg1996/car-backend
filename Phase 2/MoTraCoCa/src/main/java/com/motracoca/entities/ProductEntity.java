@@ -24,7 +24,7 @@ public class ProductEntity {
     @Column(name = "PricePerMonth")
     private double price;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private List<ServiceEntity> includedServices;
 

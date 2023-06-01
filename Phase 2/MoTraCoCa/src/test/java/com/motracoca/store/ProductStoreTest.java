@@ -37,13 +37,13 @@ public class ProductStoreTest {
 
     @BeforeEach
     public void init() {
-        SERVICEENTITY1.setName("SERVICE1");
-        SERVICEENTITY2.setName("SERVICE2");
-        SERVICEENTITY3.setName("SERVICE3");
-
-        SERVICEENTITY1.setId(11111111L);
-        SERVICEENTITY2.setId(22222222L);
-        SERVICEENTITY3.setId(3333333L);
+//        SERVICEENTITY1.setName("SERVICE1");
+//        SERVICEENTITY2.setName("SERVICE2");
+//        SERVICEENTITY3.setName("SERVICE3");
+//
+//        SERVICEENTITY1.setId(11111111L);
+//        SERVICEENTITY2.setId(22222222L);
+//        SERVICEENTITY3.setId(3333333L);
     }
 
     @Test
@@ -79,8 +79,8 @@ public class ProductStoreTest {
                         .articleNumber())
                 .isEqualTo(ARTICLENUMBER);
 
-        sr.deleteById(safedService1.id());
-        sr.deleteById(safedService2.id());
+//        sr.deleteById(safedService1.id());
+//        sr.deleteById(safedService2.id());
     }
 
     @Test
@@ -160,8 +160,8 @@ public class ProductStoreTest {
         Assertions.assertThat(productResult.getArticleNumber())
                 .isEqualTo(product1.getArticleNumber());
 
-        sr.deleteById(safedService1.id());
-        sr.deleteById(safedService2.id());
+//        sr.deleteById(safedService1.id());
+//        sr.deleteById(safedService2.id());
     }
 
     @Test
@@ -202,7 +202,7 @@ public class ProductStoreTest {
 
         List<Service> serviceList = productStore.findAllServices();
 
-        //TODO Klärung: was genau soll passieren
+
         assertThat(serviceList.size()).isEqualTo(3);
     }
 }
