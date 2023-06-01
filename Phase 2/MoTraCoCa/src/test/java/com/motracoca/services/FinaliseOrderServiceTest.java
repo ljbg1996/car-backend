@@ -15,9 +15,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
 public class FinaliseOrderServiceTest {
-    @Mock
     private OrderService orderService;
     private Order order;
     private Vehicle vehicle;

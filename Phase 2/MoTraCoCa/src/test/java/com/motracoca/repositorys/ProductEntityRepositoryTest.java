@@ -4,10 +4,12 @@ import com.motracoca.entities.*;
 import com.motracoca.model.*;
 import com.motracoca.store.*;
 import jakarta.persistence.*;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -111,6 +113,10 @@ public class ProductEntityRepositoryTest {
 //
 //        safedVehicleEntity = vs.saveVehicle(v);
 
+    }
+    @AfterEach
+    public void cleanup() {
+        productRepository.deleteAll();
     }
 
     @Test

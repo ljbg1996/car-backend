@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.motracoca.entities.*;
 import com.motracoca.model.*;
 import com.motracoca.store.*;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -98,6 +99,14 @@ public class OrderEntityRepositoryTest {
 
         safedVehicleEntity = vs.saveVehicle(v);
 
+    }
+    @AfterEach
+    public void cleanUp() {
+        or.deleteAll();
+        sr.deleteAll();
+        pr.deleteAll();
+        vr.deleteAll();
+        cr.deleteAll();
     }
 
 

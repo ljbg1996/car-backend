@@ -5,11 +5,15 @@ import com.motracoca.entities.ProductEntity;
 import com.motracoca.entities.ServiceEntity;
 import com.motracoca.model.*;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
+
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 
+@SpringBootTest
 public class ProductConfigurationStoreTest {
 
     @Test

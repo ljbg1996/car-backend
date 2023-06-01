@@ -5,6 +5,7 @@ import com.motracoca.entities.ServiceEntity;
 import com.motracoca.entities.VehicleEntity;
 import com.motracoca.model.*;
 import com.motracoca.store.*;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -90,6 +91,11 @@ public class VehicleEntityRepositoryTest {
 
         safedVehicleEntity = vs.saveVehicle(v);
 
+    }
+
+    @AfterEach
+    public void cleanUp(){
+        vr.deleteAll();
     }
 
 

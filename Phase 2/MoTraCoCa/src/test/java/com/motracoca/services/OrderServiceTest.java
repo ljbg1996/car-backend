@@ -13,6 +13,7 @@ import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.event.annotation.BeforeTestClass;
 import org.springframework.test.context.event.annotation.BeforeTestExecution;
 import org.springframework.test.context.event.annotation.BeforeTestMethod;
@@ -64,6 +65,7 @@ public class OrderServiceTest {
 
     @BeforeEach
     public void init(){
+
         Price pricePerMonth1 = new Price(15.99);
         Price pricePerMonth2 = new Price(12.99);
         Service s1 = new Service(0L, "service1");
@@ -196,7 +198,15 @@ public class OrderServiceTest {
 
 
 
-
+    @AfterEach
+    public void cleanup() {
+        or.deleteAll();
+        vr.deleteAll();
+        cr.deleteAll();
+        pr.deleteAll();
+        sr.deleteAll();
+        urr.deleteAll();
+    }
 
 
 }

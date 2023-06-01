@@ -6,6 +6,7 @@ import com.motracoca.repositorys.CustomerRepository;
 import com.motracoca.repositorys.UsageRightRepository;
 import com.motracoca.store.*;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -242,6 +243,7 @@ public class ActiveServiceServiceTest {
     }
 
 
+
     @Test
     @DisplayName("Should display the active services of a user ")
     public void getActiveServicesTest() {
@@ -252,6 +254,10 @@ public class ActiveServiceServiceTest {
         assertThat(servicesWithVin1.size()).isEqualTo(3);
         assertThat(servicesWithVin2.size()).isEqualTo(2);
 
+    }
+    @AfterEach
+    public void cleanUp(){
+        urr.deleteAll();
     }
 
 

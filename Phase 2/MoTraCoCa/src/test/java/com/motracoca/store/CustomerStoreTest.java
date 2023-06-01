@@ -3,6 +3,7 @@ package com.motracoca.store;
 import com.motracoca.entities.CustomerEntity;
 import com.motracoca.model.Customer;
 import com.motracoca.repositorys.CustomerRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,6 +32,11 @@ class CustomerStoreTest {
     CustomerStore customerStore;
     @BeforeEach
     void init(){customerStore = new CustomerStore(customerRepository);}
+
+    @AfterEach
+    void cleanUp(){
+        customerRepository.deleteAll();
+    }
 
     @Test
     public void testGetCustomerById_Exists() {

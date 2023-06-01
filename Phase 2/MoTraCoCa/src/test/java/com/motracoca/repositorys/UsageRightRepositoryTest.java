@@ -3,6 +3,7 @@ package com.motracoca.repositorys;
 import com.motracoca.entities.*;
 import com.motracoca.model.*;
 import com.motracoca.store.*;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -86,6 +87,11 @@ public class UsageRightRepositoryTest {
         safedVehicleEntity = vs.saveVehicle(v);
 
     }
+    @AfterEach
+    public void cleanup() {
+        usageRightRepository.deleteAll();
+
+    }
 
     @DisplayName("should store a UsageRight")
     @Test
@@ -155,4 +161,5 @@ public class UsageRightRepositoryTest {
         assertThat(savedUsageRight.get(0).getFromOrder().getProducts().get(0).getProductEntity().getPrice()).isEqualTo(15.99);
 
     }
+
 }

@@ -63,6 +63,10 @@ public class ActiveServiceRESTControllerTest {
 
         vehicleRepository.save(VehicleStore.convertToVehicleEntity(vehicleModel));
     }
+    @AfterEach
+    public void cleanUp(){
+        vehicleRepository.deleteAll();
+    }
 
     @Test
     void getActiveServicesTest(){

@@ -9,10 +9,12 @@ import com.motracoca.model.Service;
 import com.motracoca.repositorys.ProductRepository;
 import com.motracoca.repositorys.ServiceRepository;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.List;
 
@@ -20,6 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SpringBootTest
+
 public class ProductStoreTest {
 
 
@@ -46,6 +49,10 @@ public class ProductStoreTest {
 //        SERVICEENTITY3.setId(3333333L);
     }
 
+    @AfterEach
+    public void cleanUp(){
+        sr.deleteAll();
+    }
     @Test
     public void getProductByArticleNumberTest() {
         //given
