@@ -9,6 +9,7 @@ import com.motracoca.model.Service;
 import com.motracoca.repositorys.ProductRepository;
 import com.motracoca.repositorys.ServiceRepository;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,12 @@ public class ProductStoreTest {
     ServiceStore serviceStore;
     @Autowired
     ServiceRepository sr;
+    @Autowired
+    ProductRepository pr;
+
+    Service safedService1;
+    Service safedService2;
+    Product productResult;
 
 
     @BeforeEach
@@ -46,6 +53,25 @@ public class ProductStoreTest {
 //        SERVICEENTITY3.setId(3333333L);
     }
 
+    @AfterEach
+    public void cleanUp(){
+
+        if (productResult != null){
+            pr.deleteById(productResult.getId());
+        }
+
+        if (safedService1 != null){
+            sr.deleteById(safedService1.id());
+        }
+
+        if (safedService2 != null){
+            sr.deleteById(safedService2.id());
+        }
+
+
+
+    }
+
     @Test
     public void getProductByArticleNumberTest() {
         //given
@@ -57,8 +83,8 @@ public class ProductStoreTest {
         Service SERVICE1 = new Service(0L, "Service1");
         Service SERVICE2 = new Service(0L, "Service2");
 
-        Service safedService1 = serviceStore.safeService(SERVICE1);
-        Service safedService2 = serviceStore.safeService(SERVICE2);
+        safedService1 = serviceStore.safeService(SERVICE1);
+        safedService2 = serviceStore.safeService(SERVICE2);
 
         Product product = new Product(
                 ID,
@@ -70,7 +96,7 @@ public class ProductStoreTest {
 
 
         // when
-        Product productResult = productStore
+        productResult = productStore
                 .findProductByArticleNumber(new ArticleNumber(ARTICLENUMBER));
 
         // then
@@ -79,6 +105,7 @@ public class ProductStoreTest {
                         .articleNumber())
                 .isEqualTo(ARTICLENUMBER);
 
+//        pr.deleteById(productResult.getId());
 //        sr.deleteById(safedService1.id());
 //        sr.deleteById(safedService2.id());
     }
@@ -131,8 +158,8 @@ public class ProductStoreTest {
         long ID = 0L;
         double PRICE = 420.0;
 
-        Service safedService1 = serviceStore.safeService(SERVICE1);
-        Service safedService2 = serviceStore.safeService(SERVICE2);
+        safedService1 = serviceStore.safeService(SERVICE1);
+        safedService2 = serviceStore.safeService(SERVICE2);
 
 //        ProductEntity productEntity = new ProductEntity();
 
@@ -151,7 +178,7 @@ public class ProductStoreTest {
         productStore.saveProduct(product1);
 
 
-        final Product productResult = productStore
+        productResult = productStore
                 .findProductByArticleNumber(new ArticleNumber(ARTICLENUMBER));
 
 
@@ -167,7 +194,7 @@ public class ProductStoreTest {
     @Test
     public void getServicesTest() {
 //        given
-        //TODO services vorher speichern
+
         Service SERVICE1 = new Service(0L, "Service1");
         Service SERVICE2 = new Service(0L, "Service2");
         Service SERVICE3 = new Service(0L, "Service3");
@@ -178,8 +205,8 @@ public class ProductStoreTest {
         long ID2 = 0L;
         double PRICE = 420.0;
 
-        Service safedService1 = serviceStore.safeService(SERVICE1);
-        Service safedService2 = serviceStore.safeService(SERVICE2);
+        safedService1 = serviceStore.safeService(SERVICE1);
+        safedService2 = serviceStore.safeService(SERVICE2);
         Service safedService3 = serviceStore.safeService(SERVICE3);
 
 
@@ -195,14 +222,18 @@ public class ProductStoreTest {
                 new Price(PRICE),
                 List.of(safedService1, safedService3));
 
-        productStore.saveProduct(product1);
+        Product savedProduct1 = productStore.saveProduct(product1);
 
-        productStore.saveProduct(product2);
+        Product savedProduct2 = productStore.saveProduct(product2);
 
 
         List<Service> serviceList = productStore.findAllServices();
 
 
         assertThat(serviceList.size()).isEqualTo(3);
+
+        pr.deleteById(savedProduct1.getId());
+        pr.deleteById(savedProduct2.getId());
+
     }
 }
