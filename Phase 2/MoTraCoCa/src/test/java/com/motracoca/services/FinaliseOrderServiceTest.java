@@ -15,6 +15,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
+@SpringBootTest
 public class FinaliseOrderServiceTest {
     private OrderService orderService;
     private Order order;
@@ -64,15 +65,15 @@ public class FinaliseOrderServiceTest {
         );
     }
 
-    @Test
-    public void markOrderAsCompleted() {
-//        // given
-//        when(orderService.ge(userEntity.getId())).thenReturn(Optional.of(userEntity));
-//        // when
-//        final User user = userStore.findUser("U12345789");
-//        // then
-//        assertThat(user.getFirstName()).isEqualTo("Max");
-    }
+//    @Test
+//    public void markOrderAsCompleted() {
+////        // given
+////        when(orderService.ge(userEntity.getId())).thenReturn(Optional.of(userEntity));
+////        // when
+////        final User user = userStore.findUser("U12345789");
+////        // then
+////        assertThat(user.getFirstName()).isEqualTo("Max");
+//    }
 
 
 }

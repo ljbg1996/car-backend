@@ -11,12 +11,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class OrderEntityRepositoryTest {
 
 
@@ -100,14 +102,7 @@ public class OrderEntityRepositoryTest {
         safedVehicleEntity = vs.saveVehicle(v);
 
     }
-    @AfterEach
-    public void cleanUp() {
-        or.deleteAll();
-        sr.deleteAll();
-        pr.deleteAll();
-        vr.deleteAll();
-        cr.deleteAll();
-    }
+
 
 
     @DisplayName("should store a order")

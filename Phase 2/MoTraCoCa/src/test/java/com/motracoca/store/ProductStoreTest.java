@@ -22,7 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SpringBootTest
-
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class ProductStoreTest {
 
 
@@ -34,8 +34,7 @@ public class ProductStoreTest {
     ProductStore productStore;
     @Autowired
     ServiceStore serviceStore;
-    @Autowired
-    ServiceRepository sr;
+
 
 
     @BeforeEach
@@ -49,10 +48,7 @@ public class ProductStoreTest {
 //        SERVICEENTITY3.setId(3333333L);
     }
 
-    @AfterEach
-    public void cleanUp(){
-        sr.deleteAll();
-    }
+
     @Test
     public void getProductByArticleNumberTest() {
         //given
