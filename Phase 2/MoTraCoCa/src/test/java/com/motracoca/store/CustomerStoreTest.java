@@ -5,10 +5,14 @@ import com.motracoca.model.Customer;
 import com.motracoca.repositorys.CustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,19 +22,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 @SpringBootTest
+@ExtendWith(MockitoExtension.class)
 class CustomerStoreTest {
 
-    @Mock
+    @MockBean
     private CustomerRepository customerRepository;
 
-    @InjectMocks
+    @Autowired
     private CustomerStore customerStore;
-
-    @BeforeEach
-    void init() {
-        MockitoAnnotations.openMocks(this);
-    }
-
 
     @Test
     public void testGetCustomerById_Exists() {
@@ -51,7 +50,9 @@ class CustomerStoreTest {
         assertThat(customer.getId()).isEqualTo(expectedCustomer.getId());
         assertThat(customer.getPaymentInfo()).isEqualTo(expectedCustomer.getPaymentInfo());
 
+        // Verify
         verify(customerRepository, times(1)).findById(customerId);
+
     }
 
     @Test
