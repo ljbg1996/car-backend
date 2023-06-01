@@ -21,15 +21,16 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
-@SpringBootTest
+
 @ExtendWith(MockitoExtension.class)
 class CustomerStoreTest {
 
-    @MockBean
+    @Mock
     private CustomerRepository customerRepository;
 
-    @Autowired
-    private CustomerStore customerStore;
+    CustomerStore customerStore;
+    @BeforeEach
+    void init(){customerStore = new CustomerStore(customerRepository);}
 
     @Test
     public void testGetCustomerById_Exists() {
