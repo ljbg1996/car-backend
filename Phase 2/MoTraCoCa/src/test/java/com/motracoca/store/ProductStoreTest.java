@@ -7,6 +7,7 @@ import com.motracoca.model.Price;
 import com.motracoca.model.Product;
 import com.motracoca.model.Service;
 import com.motracoca.repositorys.ProductRepository;
+import com.motracoca.repositorys.ServiceRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,6 +30,10 @@ public class ProductStoreTest {
 
     @Autowired
     ProductStore productStore;
+    @Autowired
+    ServiceStore serviceStore;
+    @Autowired
+    ServiceRepository sr;
 
 
     @BeforeEach
@@ -45,19 +50,24 @@ public class ProductStoreTest {
     @Test
     public void getProductByArticleNumberTest() {
         //given
-        long ARTICLENUMBER = 8150815;
-        long ID = 12341234;
+        long ARTICLENUMBER = 123456L;
+        long ID = 0L;
         double PRICE = 420.0;
 
 
-        Service SERVICE1 = new Service(11111111L, "Service1");
-        Service SERVICE2 = new Service(22222222L, "Service2");
+        Service SERVICE1 = new Service(0L, "Service1");
+        Service SERVICE2 = new Service(0L, "Service2");
+
+        Service safedService1 = serviceStore.safeService(SERVICE1);
+        Service safedService2 = serviceStore.safeService(SERVICE2);
 
         Product product = new Product(
                 ID,
                 new ArticleNumber(ARTICLENUMBER),
                 new Price(PRICE),
-                List.of(SERVICE1, SERVICE2));
+                List.of(safedService1, safedService2));
+
+        productStore.saveProduct(product);
 
 
         // when
@@ -69,6 +79,9 @@ public class ProductStoreTest {
                         .getArticleNumber()
                         .articleNumber())
                 .isEqualTo(ARTICLENUMBER);
+
+        sr.deleteById(safedService1.id());
+        sr.deleteById(safedService2.id());
     }
 
     @Test
@@ -119,6 +132,8 @@ public class ProductStoreTest {
         long ID = 0L;
         double PRICE = 420.0;
 
+        Service safedService1 = serviceStore.safeService(SERVICE1);
+        Service safedService2 = serviceStore.safeService(SERVICE2);
 
 //        ProductEntity productEntity = new ProductEntity();
 
@@ -127,7 +142,7 @@ public class ProductStoreTest {
                 ID,
                 new ArticleNumber(ARTICLENUMBER),
                 new Price(PRICE),
-                List.of(SERVICE1, SERVICE2));
+                List.of(safedService1, safedService2));
 
 //        productEntity.setId(ID);
 //        productEntity.setPrice(PRICE);
@@ -145,6 +160,9 @@ public class ProductStoreTest {
         System.out.println(product1.getId()+" "+productResult.getId());
         Assertions.assertThat(productResult.getArticleNumber())
                 .isEqualTo(product1.getArticleNumber());
+
+        sr.deleteById(safedService1.id());
+        sr.deleteById(safedService2.id());
     }
 
     @Test
@@ -155,25 +173,28 @@ public class ProductStoreTest {
         Service SERVICE2 = new Service(0L, "Service2");
         Service SERVICE3 = new Service(0L, "Service3");
 
-        long ARTICLENUMBER1 = 8150815L;
-        long ARTICLENUMBER2 = 8150816L;
+        long ARTICLENUMBER1 = 41516546L;
+        long ARTICLENUMBER2 = 87451465L;
         long ID1 = 0L;
         long ID2 = 0L;
         double PRICE = 420.0;
 
+        Service safedService1 = serviceStore.safeService(SERVICE1);
+        Service safedService2 = serviceStore.safeService(SERVICE2);
+        Service safedService3 = serviceStore.safeService(SERVICE3);
 
 
         Product product1 = new Product(
                 ID1,
                 new ArticleNumber(ARTICLENUMBER1),
                 new Price(PRICE),
-                List.of(SERVICE1, SERVICE2));
+                List.of(safedService1, safedService2));
 
         Product product2 = new Product(
                 ID2,
                 new ArticleNumber(ARTICLENUMBER2),
                 new Price(PRICE),
-                List.of(SERVICE1, SERVICE3));
+                List.of(safedService1, safedService3));
 
         productStore.saveProduct(product1);
 

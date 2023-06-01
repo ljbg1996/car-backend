@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.motracoca.store.CustomerStore.convertToCustomer;
@@ -29,10 +30,10 @@ public class OrderStore {
     private OrderRepository or;
 
     public static Order convertToOrder(OrderEntity orderEntity) {
-        /*List<ProductConfiguration> productConfigurations = orderEntity.getProducts().stream()
+        List<ProductConfiguration> productConfigurations = orderEntity.getProducts().stream()
                 .map(ProductConfigurationStore::convertToProductConfiguration)
-                .collect(Collectors.toList());*/
-
+                .collect(Collectors.toList());
+/*
         List<ProductConfiguration> productConfigurationList = new ArrayList<>();
         List<ProductConfigurationEntity> pceList = orderEntity.getProducts();
 
@@ -40,7 +41,7 @@ public class OrderStore {
             ProductConfiguration pc = ProductConfigurationStore.convertToProductConfiguration(pce);
             productConfigurationList.add(pc);
 
-        }
+        }*/
 
 
         return new Order(
@@ -51,7 +52,7 @@ public class OrderStore {
                 convertToCustomer(orderEntity.getCustomerEntity()),
                 new Price(orderEntity.getTotalPrice()),
                 orderEntity.getDate(),
-                productConfigurationList,
+                productConfigurations,
                 orderEntity.isCanceled()
         );
     }
@@ -99,8 +100,8 @@ public class OrderStore {
 
     public Order getOrderById(long id) {
 
-        OrderEntity orderEntity= or.getReferenceById(id);
-        Order order = convertToOrder(orderEntity);
+        Optional<OrderEntity> orderEntity= or.findById(id);
+        Order order = convertToOrder(orderEntity.get());
 
         if (orderEntity != null) {
             log.info("Retrieved order with ID{}", order.getId());
@@ -161,14 +162,14 @@ public class OrderStore {
 
     public boolean updateOrderEntity(OrderEntity orderEntity){
 
-        //OrderEntity orderFromDB = or.getReferenceById(orderEntity.getId());
+        Optional<OrderEntity> orderEntityOptional = or.findById(orderEntity.getId());
+        OrderEntity orderFromDB = orderEntityOptional.get();
 
 
-
-        if (orderEntity != null) {
+        if (orderFromDB != null) {
             log.info("Order will be updated with ID{}", orderEntity.getId());
 
-            /*
+
             orderFromDB.setPayed(orderEntity.isPayed());
             orderFromDB.setPaymentDate(orderEntity.getPaymentDate());
             orderFromDB.setCanceled(orderEntity.isCanceled());
@@ -177,9 +178,9 @@ public class OrderStore {
             orderFromDB.setCustomerEntity(orderEntity.getCustomerEntity());
             orderFromDB.setTotalPrice(orderEntity.getTotalPrice());
             orderFromDB.setProducts(orderEntity.getProducts());
-            orderFromDB.setDate(orderEntity.getDate());*/
+            orderFromDB.setDate(orderEntity.getDate());
 
-            or.save(orderEntity);
+            or.save(orderFromDB);
             return true;
 
         } else {

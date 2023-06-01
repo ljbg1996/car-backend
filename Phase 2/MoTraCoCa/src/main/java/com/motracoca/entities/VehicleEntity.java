@@ -21,13 +21,14 @@ public class VehicleEntity {
     @Column(name = "id", nullable = false)
     private long id;
 
+    //@Column(unique=true)
     private String vin;
 
     @OneToMany(fetch = FetchType.EAGER )
     @JoinColumn(name = "vehicle_id", referencedColumnName = "id")
     private List<ServiceEntity> serviceEntityList;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     private CustomerEntity owner;
 
 

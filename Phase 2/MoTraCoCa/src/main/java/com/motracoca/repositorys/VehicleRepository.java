@@ -15,5 +15,5 @@ public interface VehicleRepository extends JpaRepository<VehicleEntity, Long> {
     public VehicleEntity getVehicleEntityByVin(String vin);
 
     @Query
-    public Optional<VehicleEntity> findByVin(String vin);
+    public VehicleEntity findByVin(String vin);
 }

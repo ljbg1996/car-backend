@@ -29,10 +29,10 @@ public class OrderEntity {
 
     private LocalDate paymentDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private VehicleEntity vehicleEntity;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private CustomerEntity customerEntity;
 
     private double totalPrice;

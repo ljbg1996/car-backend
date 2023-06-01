@@ -86,11 +86,15 @@ public class ActiveServiceServiceTest {
         articleNumberDurationList.add(pc2);
 
         Customer c = new Customer(0L, "payment");
-        Vin vin = new Vin("vin123");
-        v = new Vehicle(0L, vin, c, serviceList1);
 
-        safedCustomerEntitity = CustomerStore.convertToCustomerEntity(cs.saveCustomer(c));
-        safedVehicleEntity = vs.saveVehicle(v);
+        Customer safedCustomer = cs.saveCustomer(c);
+        safedCustomerEntitity = CustomerStore.convertToCustomerEntity(safedCustomer);
+
+        /*Vin vin = new Vin("vin123");
+        v = new Vehicle(0L, vin, safedCustomer, serviceList1);
+
+        safedVehicleEntity = vs.saveVehicle(v);*/
+
 
         UsageRightEntity ure1 = new UsageRightEntity();
         UsageRightEntity ure2 = new UsageRightEntity();

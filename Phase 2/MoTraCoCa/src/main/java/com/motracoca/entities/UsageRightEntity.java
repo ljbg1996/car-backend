@@ -23,19 +23,19 @@ public class UsageRightEntity {
 
     private LocalDate endDate;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private ServiceEntity coveredService;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private VehicleEntity coveredVehicle;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private CustomerEntity coveredCustomer;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private ProductEntity fromProduct;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private OrderEntity fromOrder;
 
 

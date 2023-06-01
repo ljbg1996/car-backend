@@ -89,10 +89,13 @@ public class OrderEntityRepositoryTest {
         articleNumberDurationList.add(pc2);
 
         Customer c = new Customer(0L, "payment");
-        Vin vin = new Vin("vin123");
-        v = new Vehicle(0L, vin, c, serviceList1);
 
-        safedCustomerEntitity = CustomerStore.convertToCustomerEntity(cs.saveCustomer(c));
+        Customer safedCustomer = cs.saveCustomer(c);
+        safedCustomerEntitity = CustomerStore.convertToCustomerEntity(safedCustomer);
+
+        Vin vin = new Vin("vin123");
+        v = new Vehicle(0L, vin, safedCustomer, serviceList1);
+
         safedVehicleEntity = vs.saveVehicle(v);
 
     }
