@@ -1,4 +1,4 @@
-/*package com.motracoca.controller;
+package com.motracoca.controller;
 
 import com.motracoca.model.Service;
 import com.motracoca.model.Vin;
@@ -25,7 +25,7 @@ public class ActiveServiceRESTController {
         private final ActiveServiceService activeServiceService;
 
         @Autowired
-        public ActiveServiceRESTController(ActiveServiceService activeServiceService, CustomerRepository customerRepository) {
+        public ActiveServiceRESTController(ActiveServiceService activeServiceService) {
             this.activeServiceService = activeServiceService;
         }
 
@@ -38,16 +38,14 @@ public class ActiveServiceRESTController {
                     content = @Content) })
 
         @GetMapping("/{vin}/{customerId}")
-        public List<Service> getActiveServices(@PathVariable String vin, @PathVariable String customerId) {
+        public List<Service> getActiveServices(@PathVariable String vin) {
             Vin vin1 = new Vin(vin);
-            long customerId1 = Long.parseLong(customerId);
 
             // Call ActiveServiceService to retrieve active services
-            List<Service> activeServices = activeServiceService.getActiveServices(vin1, customerId1);
+            List<Service> activeServices = activeServiceService.getActiveServices(vin1);
 
             return activeServices;
         }
 }
 
 
-*/
