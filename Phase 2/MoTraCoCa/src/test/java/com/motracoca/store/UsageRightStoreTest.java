@@ -44,7 +44,6 @@ public class UsageRightStoreTest {
 
 
 
-
     @Test
     public void testSaveUsageRight() {
 
@@ -102,32 +101,32 @@ public class UsageRightStoreTest {
     @Test
     public void testFindUsageRightsByVin() {
 
-        // Test setup
-        VehicleEntity vehicleEntity = new VehicleEntity();
-        // Prepare the vehicleEntity with necessary data for the test
 
-        // Create the expected usageRightEntity
+        VehicleEntity vehicleEntity = new VehicleEntity();
+
+
+
         UsageRightEntity expectedUsageRight = new UsageRightEntity();
         expectedUsageRight.setId(1L);
         expectedUsageRight.setStartDate(LocalDate.of(2023, 5, 29));
         expectedUsageRight.setEndDate(LocalDate.of(2023, 6, 29));
         expectedUsageRight.setCoveredVehicle(vehicleEntity);
 
-        // Set up the mock behavior
+
         when(usageRightRepository.findByCoveredVehicle(Mockito.eq(vehicleEntity)))
                 .thenReturn(Collections.singletonList(expectedUsageRight));
 
-        // Invoke the method under test
+
         List<UsageRightEntity> foundUsageRights = usageRightStore.findByCoveredVehicle(vehicleEntity);
 
-        // Assertions
+
         Assertions.assertThat(foundUsageRights.size()).isEqualTo(1);
         UsageRightEntity foundUsageRight = foundUsageRights.get(0);
         Assertions.assertThat(foundUsageRight.getId()).isEqualTo(expectedUsageRight.getId());
         Assertions.assertThat(foundUsageRight.getStartDate()).isEqualTo(expectedUsageRight.getStartDate());
         Assertions.assertThat(foundUsageRight.getEndDate()).isEqualTo(expectedUsageRight.getEndDate());
 
-        // Verify the method was called with the expected parameter exactly once
+
         verify(usageRightRepository, times(1)).findByCoveredVehicle(Mockito.eq(vehicleEntity));
     }
 
