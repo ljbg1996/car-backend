@@ -1,23 +1,14 @@
 package com.motracoca.services;
 
 import com.motracoca.model.*;
-import com.motracoca.repositorys.OrderRepository;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
 
 @SpringBootTest
 public class FinaliseOrderServiceTest {
-    private OrderService orderService;
+
     private Order order;
     private Vehicle vehicle;
     private Customer customer;
@@ -65,6 +56,7 @@ public class FinaliseOrderServiceTest {
                 null
         );
     }
+
 
 //    @Test
 //    public void markOrderAsCompleted() {

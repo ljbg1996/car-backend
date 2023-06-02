@@ -2,10 +2,8 @@ package com.motracoca.services;
 
 import com.motracoca.entities.*;
 import com.motracoca.model.*;
-import com.motracoca.repositorys.CustomerRepository;
 import com.motracoca.repositorys.UsageRightRepository;
 import com.motracoca.store.*;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -13,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -26,8 +23,6 @@ public class ActiveServiceServiceTest {
     @Autowired
     private UsageRightRepository urr;
     @Autowired
-    private UsageRightStore urs;
-    @Autowired
     private CustomerStore cs;
     @Autowired
     private OrderStore os;
@@ -39,8 +34,6 @@ public class ActiveServiceServiceTest {
     private ServiceStore ss;
 
     private List<ProductConfiguration> articleNumberDurationList;
-    private Vehicle v;
-    private VehicleEntity safedVehicleEntity;
 
     private CustomerEntity safedCustomerEntitity;
     private Service safedService1;
@@ -50,9 +43,9 @@ public class ActiveServiceServiceTest {
     private Product safedProduct2;
     private VehicleEntity safedVehicle1;
     private VehicleEntity safedVehicle2;
+
     @Autowired
     private ActiveServiceService activeServiceService;
-
     @BeforeEach
     public void init(){
         Price pricePerMonth1 = new Price(15.99);
@@ -64,7 +57,6 @@ public class ActiveServiceServiceTest {
         safedService1 = ss.safeService(s1);
         safedService2 = ss.safeService(s2);
         safedService3 = ss.safeService(s3);
-
 
         List<Service> serviceList1 = new ArrayList<>();
         List<Service> serviceList2 = new ArrayList<>();
@@ -94,18 +86,11 @@ public class ActiveServiceServiceTest {
         Customer safedCustomer = cs.saveCustomer(c);
         safedCustomerEntitity = CustomerStore.convertToCustomerEntity(safedCustomer);
 
-        /*Vin vin = new Vin("vin123");
-        v = new Vehicle(0L, vin, safedCustomer, serviceList1);
-
-        safedVehicleEntity = vs.saveVehicle(v);*/
-
-
         UsageRightEntity ure1 = new UsageRightEntity();
         UsageRightEntity ure2 = new UsageRightEntity();
         UsageRightEntity ure3 = new UsageRightEntity();
         UsageRightEntity ure4 = new UsageRightEntity();
         UsageRightEntity ure5 = new UsageRightEntity();
-
 
         CustomerEntity ce1 = new CustomerEntity();
         ce1.setPaymentInfo("paypal");
@@ -134,27 +119,6 @@ public class ActiveServiceServiceTest {
         ve2.setServiceEntityList(offeredServiceList2);
 
         safedVehicle2 = vs.saveVehicle(VehicleStore.convertToVehicle(ve2));
-
-        /*ProductEntity pe1 = new ProductEntity();
-        pe1.setArticleNumber(12345L);
-        pe1.setPrice(12.99);
-        List<ServiceEntity> includedServices1 = new ArrayList<>();
-        includedServices1.add(se1);
-        includedServices1.add(se3);
-        includedServices1.add(se5);
-        ProductEntity pe2 = new ProductEntity();
-        pe2.setArticleNumber(6789L);
-        pe2.setPrice(6.99);
-        List<ServiceEntity> includedServices2 = new ArrayList<>();
-        includedServices2.add(se2);
-        includedServices2.add(se4);
-
-        ProductConfigurationEntity pce1 = new ProductConfigurationEntity();
-        pce1.setProductEntity(pe1);
-        pce1.setDuration(3);
-        ProductConfigurationEntity pce2 = new ProductConfigurationEntity();
-        pce2.setProductEntity(pe2);
-        pce2.setDuration(6);*/
 
         OrderEntity oe1 = new OrderEntity();
         oe1.setPayed(true);
