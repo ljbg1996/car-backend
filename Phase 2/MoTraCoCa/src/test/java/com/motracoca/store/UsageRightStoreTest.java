@@ -48,17 +48,23 @@ public class UsageRightStoreTest {
     public void testSaveUsageRight() {
 
         Service service = new Service(1234L, "Service1");
-        Vehicle vehicle = new Vehicle(12345L, new Vin("Vehicle1"),new Customer(1234L, "paid"),new ArrayList<>());
         Customer customer = new Customer(12345L, "paid");
-        Product product = new Product(1234L,new ArticleNumber(123456L), new Price(99.99), new ArrayList<>());
-        Order order = new Order(12345, true, LocalDate.now(), new Vehicle(123456L, new Vin("Vehicle2"),
-                new Customer(1235L, "paid"),new ArrayList<>()), new Customer(12346L, "paid"),
-                new Price(88.88), LocalDate.now(), new ArrayList<>(), true, null);
-        UsageRight usageRight = new UsageRight(1, LocalDate.now(), LocalDate.now().plusDays(7),
+        List<Service> serviceList = new ArrayList<>();
+        serviceList.add(service);
+        Vehicle vehicle = new Vehicle(12345L, new Vin("Vehicle1"),customer,serviceList);
+
+        Product product = new Product(1234L,new ArticleNumber(123456L), new Price(99.99), serviceList);
+
+        ProductConfiguration productConfiguration = new ProductConfiguration(1234L, product, 6);
+        List<ProductConfiguration> productConfigurationList = new ArrayList<>();
+        productConfigurationList.add(productConfiguration);
+
+        Order order = new Order(12345, true, LocalDate.now(), vehicle,
+                customer, new Price(88.88), LocalDate.now(), productConfigurationList, true, LocalDate.now());
+        UsageRight usageRight = new UsageRight(1L, LocalDate.now(), LocalDate.now().plusDays(7),
                 service, vehicle, customer, product, order);
 
-        UsageRightEntity usageRightEntity = new UsageRightEntity();
-        usageRightEntity.setId(1L);
+        UsageRightEntity usageRightEntity = usageRightStore.convertToUsageRightEntity(usageRight);
 
         when(usageRightRepository.save(any(UsageRightEntity.class))).thenReturn(usageRightEntity);
 
@@ -70,22 +76,32 @@ public class UsageRightStoreTest {
     }
 
 
+
+
     @Test
     public void testFindUsageRightById() {
 
-        UsageRightEntity usageRightEntity1 = new UsageRightEntity();
-        usageRightEntity1.setId(1L);
-        usageRightEntity1.setStartDate(LocalDate.of(2023, 5, 29));
-        usageRightEntity1.setEndDate(LocalDate.of(2023, 6, 29));
+        Service service = new Service(1234L, "Service1");
+        Customer customer = new Customer(12345L, "paid");
+        List<Service> serviceList = new ArrayList<>();
+        serviceList.add(service);
+        Vehicle vehicle = new Vehicle(12345L, new Vin("Vehicle1"),customer,serviceList);
+
+        Product product = new Product(1234L,new ArticleNumber(123456L), new Price(99.99), serviceList);
+
+        ProductConfiguration productConfiguration = new ProductConfiguration(1234L, product, 6);
+        List<ProductConfiguration> productConfigurationList = new ArrayList<>();
+        productConfigurationList.add(productConfiguration);
+
+        Order order = new Order(12345, true, LocalDate.now(), vehicle,
+                customer, new Price(88.88), LocalDate.now(), productConfigurationList, true, LocalDate.now());
+        UsageRight usageRight = new UsageRight(1L, LocalDate.now(), LocalDate.now().plusDays(7),
+                service, vehicle, customer, product, order);
+
+        UsageRightEntity usageRightEntity = usageRightStore.convertToUsageRightEntity(usageRight);
 
 
-        UsageRightEntity usageRightEntity2 = new UsageRightEntity();
-        usageRightEntity2.setId(2L);
-        usageRightEntity2.setStartDate(LocalDate.of(2023, 6, 1));
-        usageRightEntity2.setEndDate(LocalDate.of(2023, 7, 1));
-
-
-        when(usageRightRepository.findById(1L)).thenReturn(Optional.of(usageRightEntity1));
+        when(usageRightRepository.findById(1L)).thenReturn(Optional.of(usageRightEntity));
 
 
         UsageRight foundUsageRight = usageRightStore.findUsageRightById(1L);
@@ -93,9 +109,9 @@ public class UsageRightStoreTest {
 
         verify(usageRightRepository, times(1)).findById(1L);
 
-        assertThat(foundUsageRight.getId()).isEqualTo(usageRightEntity1.getId());
-        assertThat(foundUsageRight.getStartDate()).isEqualTo(usageRightEntity1.getStartDate());
-        assertThat(foundUsageRight.getEndDate()).isEqualTo(usageRightEntity1.getEndDate());
+        assertThat(foundUsageRight.getId()).isEqualTo(usageRightEntity.getId());
+        assertThat(foundUsageRight.getStartDate()).isEqualTo(usageRightEntity.getStartDate());
+        assertThat(foundUsageRight.getEndDate()).isEqualTo(usageRightEntity.getEndDate());
     }
 
     @Test
