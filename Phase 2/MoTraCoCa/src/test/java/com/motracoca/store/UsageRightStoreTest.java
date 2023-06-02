@@ -18,7 +18,8 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.beans.factory.annotation.Autowired;
+
 
 
 import java.time.LocalDate;
@@ -37,17 +38,16 @@ public class UsageRightStoreTest {
     @Mock
     private UsageRightRepository usageRightRepository;
 
+    @Autowired
     private UsageRightStore usageRightStore;
 
     @BeforeEach
     void init(){usageRightStore = new UsageRightStore(usageRightRepository);}
+
     @AfterEach
     void cleanUp(){
         usageRightRepository.deleteAll();
     }
-
-
-
 
 
     @Test
@@ -121,8 +121,7 @@ public class UsageRightStoreTest {
 
 
         when(usageRightRepository.findAll()).thenReturn(Arrays.asList(usageRightEntity1));
-        final var listOngoingStubbing = when(usageRightRepository.findByCoveredVehicle(Mockito.any(VehicleEntity.class)))
-                .thenReturn(Arrays.asList(usageRightEntity1));
+        when(usageRightRepository.findByCoveredVehicle(Mockito.any(VehicleEntity.class))).thenReturn(Arrays.asList(usageRightEntity1));
         List<UsageRightEntity> foundUsageRights = usageRightStore.findByCoveredVehicle(new VehicleEntity());
         
         verify(usageRightRepository, times(1));
