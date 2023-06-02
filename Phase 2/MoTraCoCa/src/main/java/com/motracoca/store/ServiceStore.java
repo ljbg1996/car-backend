@@ -17,7 +17,7 @@ public class ServiceStore {
     private ServiceRepository sr;
 
     public static Service convertToService(ServiceEntity serviceEntity) {
-
+        //Added this
         if (serviceEntity == null) {
             return null;
         }
