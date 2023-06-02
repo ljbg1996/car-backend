@@ -6,8 +6,5 @@ import lombok.Getter;
 
 import java.util.List;
 
-@AllArgsConstructor
-@Getter
-class ServiceList {
-    public List<Service> serviceList;
+record ServiceList(List<Service> serviceList) {
 }
