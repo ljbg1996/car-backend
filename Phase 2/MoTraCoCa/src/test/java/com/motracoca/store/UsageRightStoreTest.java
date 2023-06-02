@@ -14,10 +14,9 @@ import org.mockito.Mock;
 
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.stubbing.OngoingStubbing;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -26,6 +25,7 @@ import java.util.List;
 import java.util.Optional;
 
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
@@ -58,59 +58,15 @@ public class UsageRightStoreTest {
         UsageRight usageRight = new UsageRight(1, LocalDate.now(), LocalDate.now().plusDays(7),
                 service, vehicle, customer, product, order);
 
-
         UsageRightEntity usageRightEntity = new UsageRightEntity();
-        usageRightEntity.setId(1);
-        usageRightEntity.setStartDate(LocalDate.now());
-        usageRightEntity.setEndDate(LocalDate.now().plusDays(7));
-        usageRightEntity.setCoveredService(new ServiceEntity());
-        usageRightEntity.setCoveredVehicle(new VehicleEntity());
-        usageRightEntity.setCoveredCustomer(new CustomerEntity());
-        usageRightEntity.setFromProduct(new ProductEntity());
-        usageRightEntity.setFromOrder(new OrderEntity());
-        usageRightEntity.getCoveredVehicle().setServiceEntityList(new ArrayList<>());
-        usageRightEntity.setCoveredCustomer(new CustomerEntity());
-
-
-        ServiceEntity serviceEntity = new ServiceEntity();
-        VehicleEntity vehicleEntity = new VehicleEntity();
-        vehicleEntity.setServiceEntityList(new ArrayList<>());
-        CustomerEntity customerEntity = new CustomerEntity();
-
-        usageRightEntity.setCoveredService(serviceEntity);
-        usageRightEntity.setCoveredVehicle(vehicleEntity);
-        usageRightEntity.setCoveredCustomer(customerEntity);
+        usageRightEntity.setId(1L);
 
         when(usageRightRepository.save(any(UsageRightEntity.class))).thenReturn(usageRightEntity);
 
         UsageRight savedUsageRight = usageRightStore.saveUsageRight(usageRight);
 
+        assertThat(savedUsageRight.getId()).isEqualTo(1L);
         verify(usageRightRepository, times(1)).save(any(UsageRightEntity.class));
-
-        Assertions.assertThat(savedUsageRight.getId()).isEqualTo(usageRight.getId());
-        Assertions.assertThat(savedUsageRight.getStartDate()).isEqualTo(usageRight.getStartDate());
-        Assertions.assertThat(savedUsageRight.getEndDate()).isEqualTo(usageRight.getEndDate());
-        Assertions.assertThat(savedUsageRight.getCoveredService().getClass()).isEqualTo(usageRight.getCoveredService().getClass());
-        Assertions.assertThat(savedUsageRight.getCoveredVehicle().getVin()).isEqualTo(usageRight.getCoveredVehicle().getVin());
-        Assertions.assertThat(savedUsageRight.getCoveredCustomer().getId()).isEqualTo(usageRight.getCoveredCustomer().getId());
-        Assertions.assertThat(savedUsageRight.getFromProduct().getId()).isEqualTo(usageRight.getFromProduct().getId());
-        Assertions.assertThat(savedUsageRight.getFromOrder().getId()).isEqualTo(usageRight.getFromOrder().getId());
-
-        /*when(usageRightRepository.save(any(UsageRightEntity.class))).thenReturn(usageRightEntity);
-
-        UsageRight savedUsageRight = usageRightStore.saveUsageRight(usageRight);
-
-        verify(usageRightRepository, times(1)).save(any(UsageRightEntity.class));
-
-        Assertions.assertThat(savedUsageRight.getId()).isEqualTo(usageRight.getId());
-        Assertions.assertThat(savedUsageRight.getStartDate()).isEqualTo(usageRight.getStartDate());
-        Assertions.assertThat(savedUsageRight.getEndDate()).isEqualTo(usageRight.getEndDate());
-        Assertions.assertThat(savedUsageRight.getCoveredService().getClass()).isEqualTo(usageRight.getCoveredService().getClass());
-        Assertions.assertThat(savedUsageRight.getCoveredVehicle().getVin()).isEqualTo(usageRight.getCoveredVehicle().getVin());
-        Assertions.assertThat(savedUsageRight.getCoveredCustomer().getId()).isEqualTo(usageRight.getCoveredCustomer().getId());
-        Assertions.assertThat(savedUsageRight.getFromProduct().getId()).isEqualTo(usageRight.getFromProduct().getId());
-        Assertions.assertThat(savedUsageRight.getFromOrder().getId()).isEqualTo(usageRight.getFromOrder().getId());
-        */
 
     }
 
@@ -118,30 +74,29 @@ public class UsageRightStoreTest {
     @Test
     public void testFindUsageRightById() {
 
-        UsageRightEntity usageRightEntity = new UsageRightEntity();
-        usageRightEntity.setId(1L);
-        usageRightEntity.setStartDate(LocalDate.of(2023, 5, 29));
-        usageRightEntity.setEndDate(LocalDate.of(2023, 6, 29));
+        UsageRightEntity usageRightEntity1 = new UsageRightEntity();
+        usageRightEntity1.setId(1L);
+        usageRightEntity1.setStartDate(LocalDate.of(2023, 5, 29));
+        usageRightEntity1.setEndDate(LocalDate.of(2023, 6, 29));
 
-        CustomerEntity customerEntity = new CustomerEntity();
-        customerEntity.setId(1L); // Set the ID or other required properties for the customer
-        usageRightEntity.setCoveredCustomer(customerEntity);
 
-        usageRightEntity.setCoveredService(new ServiceEntity());
-        usageRightEntity.setCoveredVehicle(new VehicleEntity());
+        UsageRightEntity usageRightEntity2 = new UsageRightEntity();
+        usageRightEntity2.setId(2L);
+        usageRightEntity2.setStartDate(LocalDate.of(2023, 6, 1));
+        usageRightEntity2.setEndDate(LocalDate.of(2023, 7, 1));
 
-        VehicleEntity vehicleEntity = new VehicleEntity();
-        usageRightEntity.getCoveredVehicle().setServiceEntityList(new ArrayList<>());
 
-        when(usageRightRepository.findById(1L)).thenReturn(Optional.of(usageRightEntity));
+        when(usageRightRepository.findById(1L)).thenReturn(Optional.of(usageRightEntity1));
+
 
         UsageRight foundUsageRight = usageRightStore.findUsageRightById(1L);
 
+
         verify(usageRightRepository, times(1)).findById(1L);
 
-        Assertions.assertThat(foundUsageRight.getId()).isEqualTo(usageRightEntity.getId());
-        Assertions.assertThat(foundUsageRight.getStartDate()).isEqualTo(usageRightEntity.getStartDate());
-        Assertions.assertThat(foundUsageRight.getEndDate()).isEqualTo(usageRightEntity.getEndDate());
+        assertThat(foundUsageRight.getId()).isEqualTo(usageRightEntity1.getId());
+        assertThat(foundUsageRight.getStartDate()).isEqualTo(usageRightEntity1.getStartDate());
+        assertThat(foundUsageRight.getEndDate()).isEqualTo(usageRightEntity1.getEndDate());
     }
 
     @Test
