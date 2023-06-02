@@ -12,10 +12,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
@@ -24,11 +22,8 @@ public class VehicleEntityRepositoryTest {
 
     @Autowired
     private VehicleRepository vr;
-
     @Autowired
     private CustomerStore cs;
-    @Autowired
-    private OrderStore os;
     @Autowired
     private ProductStore ps;
     @Autowired
@@ -39,7 +34,6 @@ public class VehicleEntityRepositoryTest {
     private List<ProductConfiguration> articleNumberDurationList;
     private Vehicle v;
     private VehicleEntity safedVehicleEntity;
-
     private CustomerEntity safedCustomerEntitity;
     private Service safedService1;
     private Service safedService2;
@@ -58,7 +52,6 @@ public class VehicleEntityRepositoryTest {
         safedService1 = ss.safeService(s1);
         safedService2 = ss.safeService(s2);
         safedService3 = ss.safeService(s3);
-
 
         List<Service> serviceList1 = new ArrayList<>();
         List<Service> serviceList2 = new ArrayList<>();
@@ -105,16 +98,6 @@ public class VehicleEntityRepositoryTest {
     @Test
     public void storeCustomerVehicle() {
 
-        /*ServiceEntity se1 = new ServiceEntity();
-        ServiceEntity se2 = new ServiceEntity();
-
-        List<ServiceEntity> serviceList = new ArrayList<>();
-        serviceList.add(se1);
-        serviceList.add(se2);
-
-        CustomerEntity c1 = new CustomerEntity();
-        c1.setPaymentInfo("Paypal");*/
-
         VehicleEntity v1 = new VehicleEntity();
         v1.setVin("Vin123");
         v1.setOwner(safedCustomerEntitity);
@@ -131,12 +114,6 @@ public class VehicleEntityRepositoryTest {
         List<VehicleEntity> savedVehicle = vr.findAll();
 
         assertThat(savedVehicle).isNotNull();
-
-
-
-
-
-
 
     }
 }

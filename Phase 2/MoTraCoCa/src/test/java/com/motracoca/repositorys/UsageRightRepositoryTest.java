@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +17,9 @@ import java.util.List;
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class UsageRightRepositoryTest {
+
     @Autowired
     private UsageRightRepository usageRightRepository;
-
     @Autowired
     private CustomerStore cs;
     @Autowired
@@ -35,7 +34,6 @@ public class UsageRightRepositoryTest {
     private List<ProductConfiguration> articleNumberDurationList;
     private Vehicle v;
     private VehicleEntity safedVehicleEntity;
-
     private CustomerEntity safedCustomerEntitity;
     private Service safedService1;
     private Service safedService2;
@@ -54,7 +52,6 @@ public class UsageRightRepositoryTest {
         safedService1 = ss.safeService(s1);
         safedService2 = ss.safeService(s2);
         safedService3 = ss.safeService(s3);
-
 
         List<Service> serviceList1 = new ArrayList<>();
         List<Service> serviceList2 = new ArrayList<>();
@@ -100,38 +97,6 @@ public class UsageRightRepositoryTest {
     @Test
     public void storeUsageRightTest() {
 
-       /* ServiceEntity se1 = new ServiceEntity();
-        ServiceEntity se2 = new ServiceEntity();
-        ServiceEntity se3 = new ServiceEntity();
-        ServiceEntity se4 = new ServiceEntity();
-
-        List<ServiceEntity> offeredServices = new ArrayList<>();
-        offeredServices.add(se1);
-        offeredServices.add(se2);
-        offeredServices.add(se3);
-        offeredServices.add(se4);
-
-        List<ServiceEntity> includedServices = new ArrayList<>();
-        includedServices.add(se1);
-        includedServices.add(se2);
-        includedServices.add(se4);
-
-        ProductEntity pe1 = new ProductEntity();
-        pe1.setIncludedServices(includedServices);
-        pe1.setPrice(13.20);
-
-        CustomerEntity c1 = new CustomerEntity();
-
-        VehicleEntity v1 = new VehicleEntity();
-        v1.setOwner(c1);
-        v1.setServiceEntityList(offeredServices);
-
-        ProductConfigurationEntity pce1 = new ProductConfigurationEntity();
-        pce1.setProductEntity(pe1);
-        pce1.setDuration(6);
-        List<ProductConfigurationEntity> pceList = new ArrayList<>();
-        pceList.add(pce1);*/
-
         OrderEntity o1 = new OrderEntity();
         o1.setVehicleEntity(safedVehicleEntity);
         o1.setCustomerEntity(safedCustomerEntitity);
@@ -147,7 +112,6 @@ public class UsageRightRepositoryTest {
         OrderEntity safedOrder = os.saveOrder(OrderStore.convertToOrder(o1));
 
         ServiceEntity coveredService = ServiceStore.convertToServiceEntity(safedService1);
-
 
         UsageRightEntity ure = new UsageRightEntity();
         ure.setCoveredService(coveredService);
