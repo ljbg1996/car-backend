@@ -1,11 +1,8 @@
 package com.motracoca.store;
 
 import com.motracoca.entities.ServiceEntity;
-
 import com.motracoca.entities.VehicleEntity;
-
 import com.motracoca.model.Service;
-
 import com.motracoca.model.Vehicle;
 import com.motracoca.model.Vin;
 import com.motracoca.repositorys.VehicleRepository;
@@ -13,13 +10,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-
 import java.util.List;
-
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 import static com.motracoca.store.CustomerStore.convertToCustomer;
 import static com.motracoca.store.CustomerStore.convertToCustomerEntity;
 
@@ -35,7 +28,6 @@ public class VehicleStore {
         List<Service> serviceList = vehicleEntity.getServiceEntityList().stream()
                 .map(ServiceStore::convertToService)
                 .collect(Collectors.toList());
-
 
         return new Vehicle(vehicleEntity.getId(), new Vin(vehicleEntity.getVin()), convertToCustomer(vehicleEntity.getOwner()), serviceList);
     }
@@ -79,25 +71,14 @@ public class VehicleStore {
         VehicleEntity ve = vr.findByVin(vin);
         com.motracoca.model.Vehicle v = convertToVehicle(ve);
         return v;}
-       /* Optional<VehicleEntity> vehicleEntityOptional = vr.findByVin(vin);
-        if (vehicleEntityOptional.isPresent()) {
-            VehicleEntity vehicleEntity = vehicleEntityOptional.get();
-            return convertToVehicle(vehicleEntity);
-        }else {
-            throw new IllegalArgumentException("No Vehicle found " + vin);
-        }
-    }*/
 
-    //TODO hier wäre auch ein Methodenaufruf möglich, damit kein doppelter Code existiert
+
     public List<Service> getServicesByVin(String vin) {
         VehicleEntity vehicleEntity = vr.findByVin(vin);
-        /*if (vehicleEntityOptional.isPresent()) {
-            VehicleEntity vehicleEntity = vehicleEntityOptional.get();*/
+
             return vehicleEntity.getServiceEntityList().stream()
                     .map(ServiceStore::convertToService)
                     .collect(Collectors.toList());
-        /*} else {
-            throw new IllegalArgumentException("No Service found " + vin);
-        }*/
+
     }
 }

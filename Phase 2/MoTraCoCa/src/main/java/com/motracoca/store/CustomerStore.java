@@ -7,8 +7,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
-
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -63,7 +61,6 @@ public class CustomerStore {
         if (existingCustomerOptional.isPresent()) {
             CustomerEntity existingCustomer = existingCustomerOptional.get();
 
-            // Update other properties as needed
             existingCustomer.setPaymentInfo(customer.getPaymentInfo());
 
             CustomerEntity updatedEntity = customerRepository.save(existingCustomer);
