@@ -38,16 +38,14 @@ public class UsageRightStoreTest {
     @Mock
     private UsageRightRepository usageRightRepository;
 
-    @Autowired
+
     private UsageRightStore usageRightStore;
 
     @BeforeEach
     void init(){usageRightStore = new UsageRightStore(usageRightRepository);}
 
-    @AfterEach
-    void cleanUp(){
-        usageRightRepository.deleteAll();
-    }
+
+
 
 
     @Test
@@ -120,8 +118,7 @@ public class UsageRightStoreTest {
         usageRightEntity2.setCoveredVehicle(new VehicleEntity());
 
 
-        when(usageRightRepository.findAll()).thenReturn(Arrays.asList(usageRightEntity1));
-        when(usageRightRepository.findByCoveredVehicle(Mockito.any(VehicleEntity.class))).thenReturn(Arrays.asList(usageRightEntity1));
+
         List<UsageRightEntity> foundUsageRights = usageRightStore.findByCoveredVehicle(new VehicleEntity());
         
         verify(usageRightRepository, times(1));
