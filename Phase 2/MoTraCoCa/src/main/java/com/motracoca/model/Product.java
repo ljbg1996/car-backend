@@ -1,10 +1,7 @@
 package com.motracoca.model;
 
-
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-
-
 import java.util.List;
 
 @RequiredArgsConstructor
