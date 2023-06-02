@@ -53,7 +53,7 @@ public class UsageRightStoreTest {
         Product product = new Product(1234L,new ArticleNumber(123456L), new Price(99.99), new ArrayList<>());
         Order order = new Order(12345, true, LocalDate.now(), new Vehicle(123456L, new Vin("Vehicle2"),
                 new Customer(1235L, "paid"),new ArrayList<>()), new Customer(12346L, "paid"),
-                new Price(88.88), LocalDate.now(), new ArrayList<>(), true);
+                new Price(88.88), LocalDate.now(), new ArrayList<>(), true, null);
         UsageRight usageRight = new UsageRight(1, LocalDate.now(), LocalDate.now().plusDays(7),
                 service, vehicle, customer, product, order);
 

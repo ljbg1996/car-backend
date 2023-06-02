@@ -29,7 +29,7 @@ public class Order {
 
     private final boolean isCanceled;
 
-    private LocalDate cancellationDate;
+    private final LocalDate cancellationDate;
 
 }
 

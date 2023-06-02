@@ -61,7 +61,8 @@ public class FinaliseOrderServiceTest {
                 new Price(42.0),
                 LocalDate.of(1, 2, 2023),
                 List.of(productConfiguration),
-                false
+                false,
+                null
         );
     }
 
