@@ -4,16 +4,12 @@ import com.motracoca.entities.OrderEntity;
 import com.motracoca.entities.UsageRightEntity;
 import com.motracoca.model.*;
 import com.motracoca.repositorys.UsageRightRepository;
-import com.motracoca.store.CustomerStore;
 import com.motracoca.store.OrderStore;
-import com.motracoca.store.ProductStore;
 import com.motracoca.store.VehicleStore;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -32,11 +28,8 @@ public class OrderService {
 
     public OrderEntity buy(List<ProductConfiguration> articleNumberDurationList, String vin) {
 
-
         Vehicle v = vs.getVehicleByVin(vin);
         Customer c = v.getOwner();
-
-
         double sum = 0;
 
         for (ProductConfiguration pc : articleNumberDurationList) {
@@ -51,9 +44,7 @@ public class OrderService {
         LocalDate date = LocalDate.now();
         LocalDate paymentDate = null;
 
-
-        Order actualOrder = new Order(0L,false, paymentDate, v, c, totalPrice, date, articleNumberDurationList, false);
-
+        Order actualOrder = new Order(0L,false, paymentDate, v, c, totalPrice, date, articleNumberDurationList, false, null);
 
         OrderEntity savedOrder = os.saveOrder(actualOrder);
 
@@ -71,9 +62,8 @@ public class OrderService {
 
 
 
-    public boolean cancelOrder(OrderEntity orderEntity){
+    public Order cancelOrder(OrderEntity orderEntity){
 
-        //OrderEntity orderFromDb = os.getOrderEntityById(orderEntity.getId());
         orderEntity.setCanceled(true);
         orderEntity.setCancellationDate(LocalDate.now());
 
@@ -84,17 +74,9 @@ public class OrderService {
 
         }
 
-        boolean isUpdated = os.updateOrderEntity(orderEntity);
-
-        if (isUpdated){
-            return true;
-        } else {
-            return false;
-        }
-
+        Order updatedOrder = os.updateOrderEntity(orderEntity);
+        return updatedOrder;
 
     }
-
-
 
 }

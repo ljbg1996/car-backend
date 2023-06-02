@@ -45,7 +45,7 @@ public class OrderStoreTest {
 
         productConfigurationList.add(productConfiguration);
         Price totalPrice = new Price(32.97);
-        order = new Order(0L, false, null, vehicle, customer, totalPrice, LocalDate.now(), productConfigurationList, false);
+        order = new Order(0L, false, null, vehicle, customer, totalPrice, LocalDate.now(), productConfigurationList, false, null);
         orderEntity = OrderStore.convertToOrderEntity(order);
 
     }

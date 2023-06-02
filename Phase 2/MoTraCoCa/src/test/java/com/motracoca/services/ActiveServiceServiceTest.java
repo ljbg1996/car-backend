@@ -26,7 +26,7 @@ public class ActiveServiceServiceTest {
     @Autowired
     private UsageRightRepository urr;
     @Autowired
-    private UsageRightStore urs = new UsageRightStore();
+    private UsageRightStore urs;
     @Autowired
     private CustomerStore cs;
     @Autowired

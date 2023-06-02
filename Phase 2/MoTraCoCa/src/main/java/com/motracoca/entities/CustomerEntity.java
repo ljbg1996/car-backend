@@ -3,12 +3,9 @@ package com.motracoca.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import lombok.Setter;
 
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
@@ -18,7 +15,7 @@ public class CustomerEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
+    @Column(nullable = false)
     private long id;
 
     @Column(name = "Payment information")

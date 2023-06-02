@@ -4,14 +4,12 @@ import com.motracoca.entities.ServiceEntity;
 import com.motracoca.entities.UsageRightEntity;
 import com.motracoca.entities.VehicleEntity;
 import com.motracoca.model.Vin;
-import com.motracoca.repositorys.CustomerRepository;
 import com.motracoca.store.ServiceStore;
 import com.motracoca.store.UsageRightStore;
 import com.motracoca.store.VehicleStore;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 

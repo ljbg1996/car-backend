@@ -1,6 +1,5 @@
 package com.motracoca.model;
 
-
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import java.time.LocalDate;
@@ -29,7 +28,7 @@ public class Order {
 
     private final boolean isCanceled;
 
-    private LocalDate cancellationDate;
+    private final LocalDate cancellationDate;
 
 }
 

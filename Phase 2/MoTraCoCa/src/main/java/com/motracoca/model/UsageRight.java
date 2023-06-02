@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import java.time.LocalDate;
 
 
-
 @RequiredArgsConstructor
 @Getter
 public class UsageRight {

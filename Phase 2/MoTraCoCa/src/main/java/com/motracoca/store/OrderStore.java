@@ -53,7 +53,8 @@ public class OrderStore {
                 new Price(orderEntity.getTotalPrice()),
                 orderEntity.getDate(),
                 productConfigurations,
-                orderEntity.isCanceled()
+                orderEntity.isCanceled(),
+                orderEntity.getCancellationDate()
         );
     }
 
@@ -100,7 +101,7 @@ public class OrderStore {
 
     public Order getOrderById(long id) {
 
-        Optional<OrderEntity> orderEntity= or.findById(id);
+        Optional<OrderEntity> orderEntity = or.findById(id);
         Order order = convertToOrder(orderEntity.get());
 
         if (orderEntity != null) {
@@ -114,7 +115,7 @@ public class OrderStore {
 
     public OrderEntity getOrderEntityById(long id) {
 
-        OrderEntity orderEntity= or.getReferenceById(id);
+        OrderEntity orderEntity = or.getReferenceById(id);
 
         if (orderEntity != null) {
             log.info("Retrieved order with ID{}", orderEntity.getId());
@@ -125,7 +126,7 @@ public class OrderStore {
         }
     }
 
-    public boolean updateOrder(Order order){
+    public boolean updateOrder(Order order) {
 
         OrderEntity orderFromDB = or.getReferenceById(order.getId());
         OrderEntity orderUpdate = convertToOrderEntity(order);
@@ -154,17 +155,13 @@ public class OrderStore {
         }
 
 
-
-
-
-
     }
 
-    public boolean updateOrderEntity(OrderEntity orderEntity){
+    public Order updateOrderEntity(OrderEntity orderEntity) {
 
         Optional<OrderEntity> orderEntityOptional = or.findById(orderEntity.getId());
         OrderEntity orderFromDB = orderEntityOptional.get();
-
+        Order updatedOrder;
 
         if (orderFromDB != null) {
             log.info("Order will be updated with ID{}", orderEntity.getId());
@@ -180,20 +177,23 @@ public class OrderStore {
             orderFromDB.setProducts(orderEntity.getProducts());
             orderFromDB.setDate(orderEntity.getDate());
 
-            or.save(orderFromDB);
-            return true;
 
-        } else {
-            log.warn("No order found to be updated with ID {}", orderEntity.getId());
+        }
+        updatedOrder = OrderStore.convertToOrder(or.save(orderFromDB));
+        return updatedOrder;
 
-            return false;
+//        } else {
+//            log.warn("No order found to be updated with ID {}", orderEntity.getId());
+//
+//            return false;
         }
 
 
-
-
-
-
-    }
-
 }
+
+
+
+
+
+
+

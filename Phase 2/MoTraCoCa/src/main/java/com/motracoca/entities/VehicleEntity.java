@@ -1,12 +1,9 @@
 package com.motracoca.entities;
 
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import jakarta.persistence.*;
 import lombok.Setter;
-
 import java.util.List;
 
 
@@ -19,10 +16,9 @@ public class VehicleEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
+    @Column(nullable = false)
     private long id;
 
-    //@Column(unique=true)
     private String vin;
 
     @OneToMany(fetch = FetchType.EAGER)
@@ -32,13 +28,6 @@ public class VehicleEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     private CustomerEntity owner;
 
-    public List<ServiceEntity> getServiceEntityList() {
-        return serviceEntityList;
-    }
-
-    public void setServiceEntityList(List<ServiceEntity> serviceEntityList) {
-        this.serviceEntityList = serviceEntityList;
-    }
 }
 
 

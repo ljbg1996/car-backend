@@ -169,8 +169,8 @@ public class OrderServiceTest {
 
         OrderEntity savedOrder = orderService.buy(articleNumberDurationList, safedVehicleEntity.getVin());
 
-        orderService.cancelOrder(savedOrder);
-        Order canceledOrder = os.getOrderById(savedOrder.getId());
+        Order canceledOrder = orderService.cancelOrder(savedOrder);
+        //Order canceledOrder = os.getOrderById(savedOrder.getId());
 
         assertThat(canceledOrder.isCanceled()).isTrue();
         assertThat(canceledOrder.getCancellationDate()).isNotNull();
