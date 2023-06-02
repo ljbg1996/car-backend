@@ -1,13 +1,18 @@
 package com.motracoca.controller;
 
 import com.motracoca.entities.CustomerEntity;
+import com.motracoca.entities.ServiceEntity;
 import com.motracoca.entities.VehicleEntity;
 import com.motracoca.model.Customer;
 import com.motracoca.model.Vehicle;
 
 import com.motracoca.model.Service;
 import com.motracoca.model.Vin;
+import com.motracoca.repositorys.CustomerRepository;
+import com.motracoca.repositorys.ServiceRepository;
 import com.motracoca.repositorys.VehicleRepository;
+import com.motracoca.store.CustomerStore;
+import com.motracoca.store.ServiceStore;
 import com.motracoca.store.VehicleStore;
 import io.swagger.v3.oas.annotations.Operation;
 import org.assertj.core.api.Assertions;
@@ -16,6 +21,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -33,6 +39,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class ActiveServiceRESTControllerTest {
@@ -44,7 +51,11 @@ public class ActiveServiceRESTControllerTest {
 
     @Autowired
     private VehicleRepository vehicleRepository;
+    @Autowired
+    private CustomerRepository customerRepository;
 
+    @Autowired
+    private ServiceRepository serviceRepository;
 
     private String url;
     private String customer;
@@ -52,17 +63,26 @@ public class ActiveServiceRESTControllerTest {
 
     @BeforeEach
     void init() {
-        customer = "1337";
+        customer = "132222237";
         vin = "XYZ420";
         url = "http://localhost:" + port + "/" + vin + "/" + customer + "/";
 
-        Customer customerModel = new Customer(132222237L, "Paypal");
+        Customer customerModel = new Customer(0L, "Paypal");
+        CustomerEntity customerEntity = CustomerStore.convertToCustomerEntity(customerModel);
+
+        Customer customerDB = CustomerStore.convertToCustomer(customerRepository.save(customerEntity));
+
+        Service serviceModel = new Service(0L,"Test-Service");
+        ServiceEntity serviceEntity = ServiceStore.convertToServiceEntity(serviceModel);
+
+        Service serviceDB = ServiceStore.convertToService(serviceRepository.save(serviceEntity));
+
 
         Vehicle vehicleModel = new Vehicle(
                 0L,
                 new Vin(vin),
-                customerModel,
-                List.of(new Service(0L, "TestService")));
+                customerDB,
+                List.of(serviceDB));
 
         vehicleRepository.save(VehicleStore.convertToVehicleEntity(vehicleModel));
     }
