@@ -17,6 +17,11 @@ public class ServiceStore {
     private ServiceRepository sr;
 
     public static Service convertToService(ServiceEntity serviceEntity) {
+
+        if (serviceEntity == null) {
+            return null;
+        }
+
         return new Service(serviceEntity.getId(), serviceEntity.getName());
     }
 
