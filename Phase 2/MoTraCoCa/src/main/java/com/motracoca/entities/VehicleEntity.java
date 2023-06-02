@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import jakarta.persistence.*;
 import lombok.Setter;
+
 import java.util.List;
 
 
@@ -24,9 +25,12 @@ public class VehicleEntity {
     //@Column(unique=true)
     private String vin;
 
-    @OneToMany(fetch = FetchType.EAGER )
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "vehicle_id", referencedColumnName = "id")
     private List<ServiceEntity> serviceEntityList;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private CustomerEntity owner;
 
     public List<ServiceEntity> getServiceEntityList() {
         return serviceEntityList;
@@ -35,11 +39,6 @@ public class VehicleEntity {
     public void setServiceEntityList(List<ServiceEntity> serviceEntityList) {
         this.serviceEntityList = serviceEntityList;
     }
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    private CustomerEntity owner;
-
-
 }
 
 

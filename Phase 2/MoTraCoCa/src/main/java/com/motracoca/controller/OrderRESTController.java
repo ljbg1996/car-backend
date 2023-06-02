@@ -42,35 +42,35 @@ public class OrderRESTController {
         return ResponseEntity.ok(savedOrder);
     }
     
-    @GetMapping("/{orderId}")
-    public ResponseEntity<OrderEntity> getOrder(@PathVariable String orderId) {
+//    @GetMapping("/{orderId}")
+//    public ResponseEntity<OrderEntity> getOrder(@PathVariable String orderId) {
+//
+//        long orderId1 = Long.parseLong(orderId);
+//
+//        try {
+////            OrderEntity order = orderService.getOrder(orderId);
+//            return ResponseEntity.ok(order);
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+//        }
+//    }
 
-        long orderId1 = Long.parseLong(orderId);
-
-        try {
-            OrderEntity order = orderService.getOrder(orderId);
-            return ResponseEntity.ok(order);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
-    }
-
-    @DeleteMapping("/cancel/{orderId}")
-    public ResponseEntity<String> cancelOrder(@PathVariable("orderId") Long orderId) {
-        OrderEntity orderEntity = orderService.getOrderEntityById(orderId);
-
-        if (orderEntity == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        boolean isCancelled = orderService.cancelOrder(orderEntity);
-
-        if (isCancelled) {
-            return ResponseEntity.ok("Order cancelled successfully");
-        } else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to cancel order");
-        }
-    }
+//    @DeleteMapping("/cancel/{orderId}")
+//    public ResponseEntity<String> cancelOrder(@PathVariable("orderId") Long orderId) {
+//        OrderEntity orderEntity = orderService.getOrderEntityById(orderId);
+//
+//        if (orderEntity == null) {
+//            return ResponseEntity.notFound().build();
+//        }
+//
+//        boolean isCancelled = orderService.cancelOrder(orderEntity);
+//
+//        if (isCancelled) {
+//            return ResponseEntity.ok("Order cancelled successfully");
+//        } else {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to cancel order");
+//        }
+//    }
 
 
 
