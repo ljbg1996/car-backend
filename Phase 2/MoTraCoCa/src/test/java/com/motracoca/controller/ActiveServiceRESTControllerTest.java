@@ -94,14 +94,13 @@ public class ActiveServiceRESTControllerTest {
 
     @Test
     void getActiveServicesTest() {
-        ResponseEntity<List<Service>> response = restTemplate.exchange(
+        ResponseEntity<ServiceList> response = restTemplate.exchange(
                 url,
                 HttpMethod.GET,
                 new HttpEntity<>(new HttpHeaders()),
-                new ParameterizedTypeReference<List<Service>>() {
-                });
+                ServiceList.class);
 
-        List<Service> services = response.getBody();
+        List<Service> services = response.getBody().getServiceList();
 
         Assertions.assertThat(services.get(0).name()).isEqualTo("TestService");
     }

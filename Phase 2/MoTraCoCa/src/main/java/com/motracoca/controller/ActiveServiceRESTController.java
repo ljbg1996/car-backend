@@ -33,20 +33,21 @@ public class ActiveServiceRESTController {
     }
 
     @Operation(summary = "Get service list by vin and customerId")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Found the service",
-                    content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Service.class))}),
-            @ApiResponse(responseCode = "404", description = "Service not found",
-                    content = @Content)})
+    @ApiResponses(value = {@ApiResponse(responseCode = "200",
+            description = "Found the service",
+            content = {@Content(mediaType = "application/json",
+                    schema = @Schema(implementation = Service.class))}),
+            @ApiResponse(responseCode = "404",
+                    description = "Service not found", content = @Content)})
 
     @GetMapping("/{vin}/{customerId}")
-    public List<Service> getActiveServices(@PathVariable String vin, @PathVariable String customerId) {
+    public ServiceList getActiveServices(@PathVariable String vin, @PathVariable String customerId) {
         Vin vin1 = new Vin(vin);
         long customerId1 = Long.parseLong(customerId);
 
         // Call ActiveServiceService to retrieve active services
-        List<Service> activeServices = activeServiceService.getActiveServices(vin1);
+
+        ServiceList activeServices = new ServiceList(activeServiceService.getActiveServices(vin1));
 
         return activeServices;
     }
