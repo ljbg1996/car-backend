@@ -48,17 +48,23 @@ public class UsageRightStoreTest {
     public void testSaveUsageRight() {
 
         Service service = new Service(1234L, "Service1");
-        Vehicle vehicle = new Vehicle(12345L, new Vin("Vehicle1"),new Customer(1234L, "paid"),new ArrayList<>());
         Customer customer = new Customer(12345L, "paid");
-        Product product = new Product(1234L,new ArticleNumber(123456L), new Price(99.99), new ArrayList<>());
-        Order order = new Order(12345, true, LocalDate.now(), new Vehicle(123456L, new Vin("Vehicle2"),
-                new Customer(1235L, "paid"),new ArrayList<>()), new Customer(12346L, "paid"),
-                new Price(88.88), LocalDate.now(), new ArrayList<>(), true);
-        UsageRight usageRight = new UsageRight(1, LocalDate.now(), LocalDate.now().plusDays(7),
+        List<Service> serviceList = new ArrayList<>();
+        serviceList.add(service);
+        Vehicle vehicle = new Vehicle(12345L, new Vin("Vehicle1"),customer,serviceList);
+
+        Product product = new Product(1234L,new ArticleNumber(123456L), new Price(99.99), serviceList);
+
+        ProductConfiguration productConfiguration = new ProductConfiguration(1234L, product, 6);
+        List<ProductConfiguration> productConfigurationList = new ArrayList<>();
+        productConfigurationList.add(productConfiguration);
+
+        Order order = new Order(12345, true, LocalDate.now(), vehicle,
+                                customer, new Price(88.88), LocalDate.now(), productConfigurationList, true);
+        UsageRight usageRight = new UsageRight(1L, LocalDate.now(), LocalDate.now().plusDays(7),
                 service, vehicle, customer, product, order);
 
-        UsageRightEntity usageRightEntity = new UsageRightEntity();
-        usageRightEntity.setId(1L);
+        UsageRightEntity usageRightEntity = usageRightStore.convertToUsageRightEntity(usageRight);
 
         when(usageRightRepository.save(any(UsageRightEntity.class))).thenReturn(usageRightEntity);
 
