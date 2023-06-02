@@ -33,7 +33,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class ActiveServiceRESTControllerTest {
     @LocalServerPort
@@ -56,7 +56,7 @@ public class ActiveServiceRESTControllerTest {
         vin = "XYZ420";
         url = "http://localhost:" + port + "/" + vin + "/" + customer + "/";
 
-        Customer customerModel = new Customer(1337L, "Paypal");
+        Customer customerModel = new Customer(132222237L, "Paypal");
 
         Vehicle vehicleModel = new Vehicle(
                 0L,
