@@ -125,7 +125,7 @@ public class UsageRightStoreTest {
 
         CustomerEntity customerEntity = new CustomerEntity();
         customerEntity.setId(1L); // Set the ID or other required properties for the customer
-        usageRightEntity.setCustomerEntity(customerEntity);
+        usageRightEntity.setCoveredCustomer(customerEntity);
 
         usageRightEntity.setCoveredService(new ServiceEntity());
         usageRightEntity.setCoveredVehicle(new VehicleEntity());
