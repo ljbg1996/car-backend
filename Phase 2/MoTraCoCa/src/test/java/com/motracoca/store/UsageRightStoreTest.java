@@ -23,10 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -105,29 +102,33 @@ public class UsageRightStoreTest {
     @Test
     public void testFindUsageRightsByVin() {
 
-        UsageRightEntity usageRightEntity1 = new UsageRightEntity();
-        usageRightEntity1.setId(1L);
-        usageRightEntity1.setStartDate(LocalDate.of(2023, 5, 29));
-        usageRightEntity1.setEndDate(LocalDate.of(2023, 6, 29));
-        usageRightEntity1.setCoveredVehicle(new VehicleEntity());
+        // Test setup
+        VehicleEntity vehicleEntity = new VehicleEntity();
+        // Prepare the vehicleEntity with necessary data for the test
 
-        UsageRightEntity usageRightEntity2 = new UsageRightEntity();
-        usageRightEntity2.setId(2L);
-        usageRightEntity2.setStartDate(LocalDate.of(2023, 6, 1));
-        usageRightEntity2.setEndDate(LocalDate.of(2023, 7, 1));
-        usageRightEntity2.setCoveredVehicle(new VehicleEntity());
+        // Create the expected usageRightEntity
+        UsageRightEntity expectedUsageRight = new UsageRightEntity();
+        expectedUsageRight.setId(1L);
+        expectedUsageRight.setStartDate(LocalDate.of(2023, 5, 29));
+        expectedUsageRight.setEndDate(LocalDate.of(2023, 6, 29));
+        expectedUsageRight.setCoveredVehicle(vehicleEntity);
 
+        // Set up the mock behavior
+        when(usageRightRepository.findByCoveredVehicle(Mockito.eq(vehicleEntity)))
+                .thenReturn(Collections.singletonList(expectedUsageRight));
 
+        // Invoke the method under test
+        List<UsageRightEntity> foundUsageRights = usageRightStore.findByCoveredVehicle(vehicleEntity);
 
-        List<UsageRightEntity> foundUsageRights = usageRightStore.findByCoveredVehicle(new VehicleEntity());
-        
-        verify(usageRightRepository, times(1));
-
+        // Assertions
         Assertions.assertThat(foundUsageRights.size()).isEqualTo(1);
         UsageRightEntity foundUsageRight = foundUsageRights.get(0);
-        Assertions.assertThat(foundUsageRight.getId()).isEqualTo(usageRightEntity1.getId());
-        Assertions.assertThat(foundUsageRight.getStartDate()).isEqualTo(usageRightEntity1.getStartDate());
-        Assertions.assertThat(foundUsageRight.getEndDate()).isEqualTo(usageRightEntity1.getEndDate());
+        Assertions.assertThat(foundUsageRight.getId()).isEqualTo(expectedUsageRight.getId());
+        Assertions.assertThat(foundUsageRight.getStartDate()).isEqualTo(expectedUsageRight.getStartDate());
+        Assertions.assertThat(foundUsageRight.getEndDate()).isEqualTo(expectedUsageRight.getEndDate());
+
+        // Verify the method was called with the expected parameter exactly once
+        verify(usageRightRepository, times(1)).findByCoveredVehicle(Mockito.eq(vehicleEntity));
     }
 
 }

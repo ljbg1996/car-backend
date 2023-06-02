@@ -47,6 +47,7 @@ public class UsageRightStore {
                 convertToCustomer(usageRightEntity.getCoveredCustomer()),
                 convertToProduct(usageRightEntity.getFromProduct()),
                 convertToOrder(usageRightEntity.getFromOrder())
+
         );
     }
     public static UsageRightEntity convertToUsageRightEntity(UsageRight usageRight) {
@@ -63,16 +64,12 @@ public class UsageRightStore {
         return usageRightEntity;
     }
 
-    public List<UsageRightEntity> findByCoveredVehicle(VehicleEntity vehicleEntity){
+    public List<UsageRightEntity> findByCoveredVehicle(VehicleEntity vehicle){
 
-        List<UsageRightEntity> usageRightEntitiesWithVin = usageRightRepository.findByCoveredVehicle(vehicleEntity);
-
-
-        return usageRightEntitiesWithVin;
-
-
+        return usageRightRepository.findByCoveredVehicle(vehicle);
 
     }
+
 
     public UsageRight saveUsageRight(UsageRight usageRight) {
         UsageRightEntity entity = convertToUsageRightEntity(usageRight);
@@ -84,8 +81,6 @@ public class UsageRightStore {
         Optional<UsageRightEntity> usageRightEntityOptional = usageRightRepository.findById(id);
         return usageRightEntityOptional.map(this::convertToUsageRight).orElse(null);
     }
-
-
 
 
 }
