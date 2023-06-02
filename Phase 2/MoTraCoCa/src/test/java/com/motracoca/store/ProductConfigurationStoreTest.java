@@ -7,9 +7,7 @@ import com.motracoca.model.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
-
 import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 
@@ -40,7 +38,6 @@ public class ProductConfigurationStoreTest {
         productConfigurationEntity.setId(2L);
         productConfigurationEntity.setProductEntity(productEntity);
         productConfigurationEntity.setDuration(10);
-
 
         // Act
         ProductConfiguration productConfiguration = ProductConfigurationStore.convertToProductConfiguration(productConfigurationEntity);

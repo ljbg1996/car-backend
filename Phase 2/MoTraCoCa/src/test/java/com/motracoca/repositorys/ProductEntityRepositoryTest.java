@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ProductEntityRepositoryTest {
 
     @Autowired
-    ProductRepository productRepository;
+    private ProductRepository productRepository;
 
     @Autowired
     private ProductStore ps;

@@ -7,26 +7,20 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class OrderStoreTest {
 
-    @Autowired
-    OrderStore os = new OrderStore();
-
     Order order;
     OrderEntity orderEntity;
 
     @BeforeEach
     public void init() {
-
 
         Service service= new Service(0L, "Service1");
 
@@ -69,13 +63,6 @@ public class OrderStoreTest {
 
         assertThat(orderFromTest.getTotalPrice().price()).isEqualTo(orderEntity.getTotalPrice());
     }
-
-
-
-
-
-
-
 
 
 }
