@@ -35,7 +35,7 @@ public class UsageRightStore {
 
 
     @Autowired
-    private UsageRightRepository usageRightRepository;
+    private final UsageRightRepository usageRightRepository;
 
     public UsageRight convertToUsageRight(UsageRightEntity usageRightEntity) {
         return new UsageRight(

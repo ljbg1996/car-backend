@@ -6,15 +6,18 @@ import com.motracoca.repositorys.UsageRightRepository;
 
 import org.assertj.core.api.Assertions;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
 
@@ -28,19 +31,21 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class UsageRightStoreTest {
-
-    @InjectMocks
-    private UsageRightStore usageRightStore;
 
     @Mock
     private UsageRightRepository usageRightRepository;
 
+    private UsageRightStore usageRightStore;
+
     @BeforeEach
-    public void setup() {
-        MockitoAnnotations.initMocks(this);
+    void init(){usageRightStore = new UsageRightStore(usageRightRepository);}
+    @AfterEach
+    void cleanUp(){
+        usageRightRepository.deleteAll();
     }
+
 
 
 
