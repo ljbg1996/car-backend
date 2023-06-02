@@ -6,41 +6,40 @@ import com.motracoca.repositorys.UsageRightRepository;
 
 import org.assertj.core.api.Assertions;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+
 
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class UsageRightStoreTest {
-
-    @InjectMocks
-    private UsageRightStore usageRightStore;
 
     @Mock
     private UsageRightRepository usageRightRepository;
 
+
+    private UsageRightStore usageRightStore;
+
     @BeforeEach
-    public void setup() {
-        MockitoAnnotations.initMocks(this);
-    }
+    void init(){usageRightStore = new UsageRightStore(usageRightRepository);}
 
 
 
@@ -102,31 +101,33 @@ public class UsageRightStoreTest {
     @Test
     public void testFindUsageRightsByVin() {
 
-        UsageRightEntity usageRightEntity1 = new UsageRightEntity();
-        usageRightEntity1.setId(1L);
-        usageRightEntity1.setStartDate(LocalDate.of(2023, 5, 29));
-        usageRightEntity1.setEndDate(LocalDate.of(2023, 6, 29));
-        usageRightEntity1.setCoveredVehicle(new VehicleEntity());
 
-        UsageRightEntity usageRightEntity2 = new UsageRightEntity();
-        usageRightEntity2.setId(2L);
-        usageRightEntity2.setStartDate(LocalDate.of(2023, 6, 1));
-        usageRightEntity2.setEndDate(LocalDate.of(2023, 7, 1));
-        usageRightEntity2.setCoveredVehicle(new VehicleEntity());
+        VehicleEntity vehicleEntity = new VehicleEntity();
 
 
-        when(usageRightRepository.findAll()).thenReturn(Arrays.asList(usageRightEntity1));
-        final var listOngoingStubbing = when(usageRightRepository.findByCoveredVehicle(Mockito.any(VehicleEntity.class)))
-                .thenReturn(Arrays.asList(usageRightEntity1));
-        List<UsageRightEntity> foundUsageRights = usageRightStore.findByCoveredVehicle(new VehicleEntity());
-        
-        verify(usageRightRepository, times(1));
+
+        UsageRightEntity expectedUsageRight = new UsageRightEntity();
+        expectedUsageRight.setId(1L);
+        expectedUsageRight.setStartDate(LocalDate.of(2023, 5, 29));
+        expectedUsageRight.setEndDate(LocalDate.of(2023, 6, 29));
+        expectedUsageRight.setCoveredVehicle(vehicleEntity);
+
+
+        when(usageRightRepository.findByCoveredVehicle(Mockito.eq(vehicleEntity)))
+                .thenReturn(Collections.singletonList(expectedUsageRight));
+
+
+        List<UsageRightEntity> foundUsageRights = usageRightStore.findByCoveredVehicle(vehicleEntity);
+
 
         Assertions.assertThat(foundUsageRights.size()).isEqualTo(1);
         UsageRightEntity foundUsageRight = foundUsageRights.get(0);
-        Assertions.assertThat(foundUsageRight.getId()).isEqualTo(usageRightEntity1.getId());
-        Assertions.assertThat(foundUsageRight.getStartDate()).isEqualTo(usageRightEntity1.getStartDate());
-        Assertions.assertThat(foundUsageRight.getEndDate()).isEqualTo(usageRightEntity1.getEndDate());
+        Assertions.assertThat(foundUsageRight.getId()).isEqualTo(expectedUsageRight.getId());
+        Assertions.assertThat(foundUsageRight.getStartDate()).isEqualTo(expectedUsageRight.getStartDate());
+        Assertions.assertThat(foundUsageRight.getEndDate()).isEqualTo(expectedUsageRight.getEndDate());
+
+
+        verify(usageRightRepository, times(1)).findByCoveredVehicle(Mockito.eq(vehicleEntity));
     }
 
 }
