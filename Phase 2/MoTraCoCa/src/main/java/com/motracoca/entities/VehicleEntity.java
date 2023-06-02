@@ -28,6 +28,14 @@ public class VehicleEntity {
     @JoinColumn(name = "vehicle_id", referencedColumnName = "id")
     private List<ServiceEntity> serviceEntityList;
 
+    public List<ServiceEntity> getServiceEntityList() {
+        return serviceEntityList;
+    }
+
+    public void setServiceEntityList(List<ServiceEntity> serviceEntityList) {
+        this.serviceEntityList = serviceEntityList;
+    }
+
     @ManyToOne(fetch = FetchType.EAGER)
     private CustomerEntity owner;
 
